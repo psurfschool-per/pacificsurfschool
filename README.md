@@ -45,6 +45,6 @@ Luego abre: http://localhost:3000
 
 1. **Optimizar imágenes**: Comprime las fotos JPEG (usa TinyPNG o similar)
 2. **Hosting**: Sube a Netlify, Vercel o GitHub Pages (gratis)
-3. **Dominio**: Registra pacificsurfschool.pe
+3. **Dominio**: pacificsurfschool.com.pe
 4. **Analytics**: Agrega Google Analytics para medir visitas
 5. **WhatsApp Business**: Configura mensajes automáticos de bienvenida
