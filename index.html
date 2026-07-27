@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pacific Surf School – Playa Barranquito, Lima</title>
+  <meta name="description" content="Aprende a surfear en Lima con Pacific Surf School en Playa Barranquito. Clases de surf individuales, grupales y trips con instructores certificados ISA. ¡Equipo completo incluido!" />
+  <meta property="og:title" content="Pacific Surf School – Clases de Surf en Playa Barranquito, Lima" />
+  <meta property="og:description" content="Aprende a surfear en Lima con instructores certificados. Clases individuales, grupales y surf trips. Todo el equipo incluido." />
+  <meta property="og:image" content="img/hero.jpg" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/jpeg" href="img/logo.jpeg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- WHATSAPP FLOTANTE -->
+<a href="https://wa.me/message/Z3HDXG2KB5VZL1"
+   class="whatsapp-float" target="_blank" aria-label="Contactar por WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#inicio" class="nav-logo">
+      <img src="img/logo.jpeg" alt="Pacific Surf School Logo" class="nav-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="logo-placeholder" style="display:none">
+        <span>PSS</span>
+      </div>
+      <span class="logo-text">Pacific Surf School</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#clases">Clases</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#galeria">Galería</a></li>
+      <li><a href="#ubicacion">Ubicación</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <button class="btn-reservar-nav" onclick="openModal()">Reservar Clase</button>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-image-bg">
+    <img src="img/hero.jpg" alt="Pacific Surf School en Playa Barranquito" class="hero-img"/>
+    <div class="hero-overlay-clean"></div>
+  </div>
+  <div class="hero-content-clean">
+    <div class="hero-text-box">
+      <h1>Clases de Surf<br/>en <span class="highlight-yellow">Lima</span></h1>
+      <p class="hero-desc">Aprende a surfear con instructores capacitados en Playa Barranquito. Todos los niveles, equipo incluido.</p>
+      <div class="hero-actions-clean">
+        <button class="btn-primary-clean" onclick="openModal()">Reservar Clase</button>
+        <a href="https://wa.me/51915168620" target="_blank" class="btn-secondary-clean">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><strong>+800</strong><span>Alumnos formados</span></div>
+    <div class="stat-item"><strong>5★</strong><span>Calificación Google</span></div>
+    <div class="stat-item"><strong>10+</strong><span>Años de experiencia</span></div>
+    <div class="stat-item"><strong>6</strong><span>Instructores cert.</span></div>
+  </div>
+</section>
+
+<!-- CLASES -->
+<section class="clases" id="clases">
+  <div class="section-head">
+    <span class="tag">Nuestras clases</span>
+    <h2>Elige tu experiencia</h2>
+    <p>Desde tu primera ola hasta maniobras avanzadas. Equipamiento completo incluido en todas las clases.</p>
+  </div>
+  <div class="clases-grid">
+
+    <div class="clase-card" data-clase="individual">
+      <div class="clase-img">
+        <img src="img/galeria9.jpg" alt="Clase Individual de Surf" loading="lazy" />
+      </div>
+      <div class="clase-body">
+        <span class="clase-badge">Individual</span>
+        <h3>Clase Individual</h3>
+        <p>Atención 100% personalizada. Ideal para avanzar rápido o corregir técnica.</p>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> 1.5 horas con instructor</li>
+          <li><i class="fas fa-check-circle"></i> Tabla + traje de neopreno</li>
+          <li><i class="fas fa-check-circle"></i> Fotos y video incluidos</li>
+          <li><i class="fas fa-check-circle"></i> Todos los niveles</li>
+        </ul>
+        <div class="clase-footer">
+          <div class="clase-precio"><span class="precio">S/ 120</span><span class="por">/ persona</span></div>
+          <button class="btn-reservar-card" onclick="openModal('individual')">Reservar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="clase-card featured" data-clase="grupal">
+      <div class="popular-ribbon">⭐ Más popular</div>
+      <div class="clase-img">
+        <img src="img/galeria10.jpg" alt="Clase Grupal de Surf" loading="lazy" />
+      </div>
+      <div class="clase-body">
+        <span class="clase-badge">Grupal</span>
+        <h3>Clase Grupal</h3>
+        <p>Aprende en un ambiente divertido. Grupos de máximo 5 personas.</p>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> 2 horas de clase</li>
+          <li><i class="fas fa-check-circle"></i> Tabla + traje de neopreno</li>
+          <li><i class="fas fa-check-circle"></i> Fotos grupales incluidas</li>
+          <li><i class="fas fa-check-circle"></i> Máx. 5 personas</li>
+        </ul>
+        <div class="clase-footer">
+          <div class="clase-precio"><span class="precio">S/ 70</span><span class="por">/ persona</span></div>
+          <button class="btn-reservar-card" onclick="openModal('grupal')">Reservar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="clase-card" data-clase="paquete">
+      <div class="clase-img">
+        <img src="img/galeria12.jpg" alt="Pack Progreso Surf" loading="lazy" />
+      </div>
+      <div class="clase-body">
+        <span class="clase-badge paquete">Paquete x5</span>
+        <h3>Pack Progreso</h3>
+        <p>5 clases para una mejora real y sostenida. El mejor precio por clase.</p>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> 5 clases grupales</li>
+          <li><i class="fas fa-check-circle"></i> Tabla + neopreno siempre</li>
+          <li><i class="fas fa-check-circle"></i> Seguimiento personalizado</li>
+          <li><i class="fas fa-check-circle"></i> Válido 2 meses</li>
+        </ul>
+        <div class="clase-footer">
+          <div class="clase-precio"><span class="precio">S/ 300</span><span class="por">/ pack</span></div>
+          <button class="btn-reservar-card" onclick="openModal('paquete')">Reservar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="clase-card" data-clase="trip">
+      <div class="clase-img">
+        <img src="img/galeria13.jpg" alt="Surf Trip Entrenamiento" loading="lazy" />
+      </div>
+      <div class="clase-body">
+        <span class="clase-badge trip">Surf Trip</span>
+        <h3>Surf Trip / Entrenamiento</h3>
+        <p>Salidas a las mejores olas de Lima y alrededores con guía experto.</p>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> Transporte incluido</li>
+          <li><i class="fas fa-check-circle"></i> Guía + instructor</li>
+          <li><i class="fas fa-check-circle"></i> Todo el día en el agua</li>
+          <li><i class="fas fa-check-circle"></i> Intermedio / Avanzado</li>
+        </ul>
+        <div class="clase-footer">
+          <div class="clase-precio"><span class="precio">S/ 180</span><span class="por">/ persona</span></div>
+          <button class="btn-reservar-card" onclick="openModal('trip')">Reservar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- POR QUÉ ELEGIRNOS -->
+<section class="nosotros" id="nosotros">
+  <div class="nosotros-inner">
+    <div class="nosotros-img">
+      <img src="img/galeria2.jpg" alt="Equipo Pacific Surf School en la playa" class="nosotros-photo"/>
+    </div>
+    <div class="nosotros-texto">
+      <span class="tag">¿Por qué elegirnos?</span>
+      <h2>Surf seguro, divertido y profesional</h2>
+      <p>En Pacific Surf School combinamos seguridad, técnica y pasión por el océano. Cada clase está diseñada para que salgas del agua con una sonrisa y ganas de volver.</p>
+      <div class="reasons-grid">
+        <div class="reason"><i class="fas fa-user-shield"></i><div><strong>Instructores certificados</strong><p>Capacitados en ISA y Cruz Roja. Tu seguridad es lo primero.</p></div></div>
+        <div class="reason"><i class="fas fa-users"></i><div><strong>Grupos reducidos</strong><p>Máximo 5 alumnos por instructor para atención real.</p></div></div>
+        <div class="reason"><i class="fas fa-water"></i><div><strong>Equipo de primera</strong><p>Tablas de foam, neoprenos de calidad y leashes certificados.</p></div></div>
+        <div class="reason"><i class="fas fa-camera"></i><div><strong>Fotos y video</strong><p>Capturamos tus mejores olas para que las recuerdes siempre.</p></div></div>
+        <div class="reason"><i class="fas fa-map-marker-alt"></i><div><strong>Playa Barranquito</strong><p>La playa ideal para aprender: olas perfectas para todos los niveles.</p></div></div>
+        <div class="reason"><i class="fas fa-heart"></i><div><strong>Comunidad surf</strong><p>Únete a cientos de alumnos que ya forman parte de la familia PSS.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA -->
+<section class="galeria" id="galeria">
+  <div class="section-head">
+    <span class="tag">Galería</span>
+    <h2>La experiencia en imágenes</h2>
+    <p>¿Listo para tu primera ola? Síguenos en <a href="https://www.instagram.com/pacific_surfschool/" target="_blank">@pacific_surfschool</a></p>
+  </div>
+  <div class="galeria-grid">
+    <div class="gal-item big">
+      <img src="img/galeria1.jpeg" alt="Clase grupal de surf en Lima" loading="lazy"/>
+    </div>
+    <div class="gal-item">
+      <img src="img/galeria8.jpeg" alt="Alumno aprendiendo surf" loading="lazy"/>
+    </div>
+    <div class="gal-item">
+      <img src="img/galeria3.jpeg" alt="Alumna celebrando su primera ola" loading="lazy"/>
+    </div>
+    <div class="gal-item">
+      <img src="img/galeria4.jpeg" alt="Niña surfeando en Barranquito" loading="lazy"/>
+    </div>
+    <div class="gal-item">
+      <img src="img/galeria5.jpeg" alt="Instructor mirando el mar" loading="lazy"/>
+    </div>
+    <div class="gal-item">
+      <img src="img/galeria6.jpeg" alt="Instructor y alumna con tabla" loading="lazy"/>
+    </div>
+    <div class="gal-item">
+      <img src="img/galeria7.jpeg" alt="Alumnos Pacific Surf School" loading="lazy"/>
+    </div>
+  </div>
+  <div class="galeria-cta">
+    <a href="https://www.instagram.com/pacific_surfschool/" target="_blank" class="btn-ig">
+      <i class="fab fa-instagram"></i> Ver más en Instagram
+    </a>
+  </div>
+</section>
+
+<!-- UBICACIÓN + FAQ -->
+<section class="ubicacion-faq" id="ubicacion">
+  <div class="ubicacion-faq-inner">
+    <div class="ubicacion">
+      <span class="tag">¿Dónde encontrarnos?</span>
+      <h2>Playa Barranquito, Lima</h2>
+      <p><i class="fas fa-map-marker-alt"></i> Costa Verde, Barranco – Lima, Perú</p>
+      <p><i class="fas fa-clock"></i> Lunes a Domingo · 7:00 am – 6:00 pm</p>
+      <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/message/Z3HDXG2KB5VZL1" target="_blank">+51 915 168 620</a></p>
+      <div class="mapa-wrap">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.0!2d-77.0428!3d-12.1464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDA4JzQ3LjAiUyA3N8KwMDInMzQuMSJX!5e0!3m2!1ses!2spe!4v1234567890"
+          width="100%" height="280" style="border:0; border-radius:16px;" allowfullscreen
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación Pacific Surf School">
+        </iframe>
+      </div>
+    </div>
+    <div class="faq" id="faq">
+      <span class="tag">Preguntas frecuentes</span>
+      <h2>FAQ</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">¿Necesito saber nadar para tomar clases? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-a"><p>No es obligatorio ser nadador experto. Nuestros instructores te enseñan técnicas de seguridad y siempre estamos contigo en el agua. Eso sí, debes sentirte cómodo/a en el mar.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">¿Qué debo llevar a la clase? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-a"><p>Traje de baño, bloqueador solar resistente al agua, agua para hidratarte y muchas ganas. Todo el equipo de surf (tabla, neopreno, leash) está incluido en el precio.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">¿Cuáles son los horarios disponibles? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-a"><p>Ofrecemos turnos de mañana (7am, 9am, 11am) y tarde (2pm, 4pm) de lunes a domingo. Los horarios exactos se confirman al reservar según disponibilidad y condición del mar.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">¿Puedo cancelar o reprogramar mi clase? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-a"><p>Sí. Puedes cancelar o reprogramar sin costo hasta 48 horas antes de tu clase. Después de ese plazo se aplica una penalidad del 50%.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">¿Qué pasa si el mar está muy picado? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-a"><p>La seguridad es lo primero. Si las condiciones del mar no son aptas, reprogramamos tu clase sin ningún costo adicional.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">¿Hay clases para niños? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-a"><p>¡Sí! Tenemos clases para niños desde los 7 años con instructores especializados en surf infantil y medidas de seguridad adicionales.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo-placeholder small" style="overflow:hidden">
+        <img src="img/logo.jpeg" alt="PSS" style="width:100%;height:100%;object-fit:cover" />
+      </div>
+      <span>Pacific Surf School</span>
+      <p>Playa Barranquito, Lima, Perú</p>
+    </div>
+    <div class="footer-links">
+      <strong>Navegación</strong>
+      <a href="#inicio">Inicio</a>
+      <a href="#clases">Clases</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#galeria">Galería</a>
+      <a href="#ubicacion">Ubicación</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="footer-links">
+      <strong>Clases</strong>
+      <a href="#" onclick="openModal('individual')">Clase Individual</a>
+      <a href="#" onclick="openModal('grupal')">Clase Grupal</a>
+      <a href="#" onclick="openModal('paquete')">Pack x5</a>
+      <a href="#" onclick="openModal('trip')">Surf Trip</a>
+    </div>
+    <div class="footer-contact">
+      <strong>Contacto</strong>
+      <a href="https://wa.me/message/Z3HDXG2KB5VZL1" target="_blank"><i class="fab fa-whatsapp"></i> +51 915 168 620</a>
+      <a href="mailto:info@pacificsurfschool.pe"><i class="fas fa-envelope"></i> info@pacificsurfschool.pe</a>
+      <a href="https://www.instagram.com/pacific_surfschool/" target="_blank"><i class="fab fa-instagram"></i> @pacific_surfschool</a>
+      <a href="https://www.facebook.com/Pacificsurfs/" target="_blank"><i class="fab fa-facebook"></i> Pacific Surf School</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Pacific Surf School · Todos los derechos reservados</p>
+    <p><a href="#">Términos y condiciones</a> · <a href="#">Política de privacidad</a></p>
+  </div>
+</footer>
+
+<!-- MODAL RESERVAS (4 pasos) -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Cerrar">&times;</button>
+    <div class="modal-header">
+      <h2 id="modalTitle">Reservar Clase</h2>
+      <div class="stepper">
+        <div class="step active" id="step-dot-1"><span>1</span><small>Clase</small></div>
+        <div class="step-line"></div>
+        <div class="step" id="step-dot-2"><span>2</span><small>Fecha</small></div>
+        <div class="step-line"></div>
+        <div class="step" id="step-dot-3"><span>3</span><small>Datos</small></div>
+        <div class="step-line"></div>
+        <div class="step" id="step-dot-4"><span>4</span><small>Confirmar</small></div>
+      </div>
+    </div>
+    <div class="modal-body">
+
+      <!-- PASO 1 -->
+      <div class="modal-step" id="paso1">
+        <h3>¿Qué tipo de clase quieres?</h3>
+        <div class="clase-options">
+          <label class="clase-opt"><input type="radio" name="tipoClase" value="individual"/><div class="opt-card"><span class="opt-icon">🏄</span><strong>Individual</strong><small>S/ 120</small></div></label>
+          <label class="clase-opt"><input type="radio" name="tipoClase" value="grupal"/><div class="opt-card"><span class="opt-icon">🌊</span><strong>Grupal</strong><small>S/ 70</small></div></label>
+          <label class="clase-opt"><input type="radio" name="tipoClase" value="paquete"/><div class="opt-card"><span class="opt-icon">🏆</span><strong>Pack x5</strong><small>S/ 300</small></div></label>
+          <label class="clase-opt"><input type="radio" name="tipoClase" value="trip"/><div class="opt-card"><span class="opt-icon">🚐</span><strong>Surf Trip</strong><small>S/ 180</small></div></label>
+        </div>
+        <button class="btn-next" onclick="nextStep(2)">Siguiente <i class="fas fa-arrow-right"></i></button>
+      </div>
+
+      <!-- PASO 2 -->
+      <div class="modal-step hidden" id="paso2">
+        <h3>¿Cuándo quieres surfear?</h3>
+        <div class="form-field">
+          <label for="res-fecha">Fecha</label>
+          <input type="date" id="res-fecha" />
+        </div>
+        <div class="turno-options">
+          <label class="turno-opt"><input type="radio" name="turno" value="mañana"/><div class="opt-card"><span class="opt-icon">🌅</span><strong>Mañana</strong><small>7am · 9am · 11am</small></div></label>
+          <label class="turno-opt"><input type="radio" name="turno" value="tarde"/><div class="opt-card"><span class="opt-icon">🌤️</span><strong>Tarde</strong><small>2pm · 4pm</small></div></label>
+        </div>
+        <div class="form-field" id="horario-select-wrap">
+          <label for="res-horario">Horario exacto</label>
+          <select id="res-horario"><option value="">Seleccionar turno primero</option></select>
+        </div>
+        <div class="modal-nav">
+          <button class="btn-back" onclick="nextStep(1)"><i class="fas fa-arrow-left"></i> Atrás</button>
+          <button class="btn-next" onclick="nextStep(3)">Siguiente <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- PASO 3 -->
+      <div class="modal-step hidden" id="paso3">
+        <h3>Tus datos</h3>
+        <div class="form-field"><label for="res-nombre">Nombre completo *</label><input type="text" id="res-nombre" placeholder="Tu nombre completo" required /></div>
+        <div class="form-field"><label for="res-wsp">WhatsApp *</label><input type="tel" id="res-wsp" placeholder="+51 999 999 999" required /></div>
+        <div class="form-field">
+          <label for="res-nivel">Nivel de surf *</label>
+          <select id="res-nivel" required>
+            <option value="">Seleccionar</option>
+            <option value="principiante">Principiante – Nunca he surfeado</option>
+            <option value="basico">Básico – Me paro en la tabla</option>
+            <option value="intermedio">Intermedio – Hago maniobras</option>
+            <option value="avanzado">Avanzado – Surf competitivo</option>
+          </select>
+        </div>
+        <div class="form-field"><label for="res-personas">N° de personas</label><select id="res-personas"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5+">5+</option></select></div>
+        <div class="modal-nav">
+          <button class="btn-back" onclick="nextStep(2)"><i class="fas fa-arrow-left"></i> Atrás</button>
+          <button class="btn-next" onclick="nextStep(4)">Ver resumen <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- PASO 4 -->
+      <div class="modal-step hidden" id="paso4">
+        <h3>Confirma tu reserva</h3>
+        <div class="resumen-box" id="resumenBox"></div>
+        <p class="resumen-nota">Al confirmar serás redirigido a WhatsApp para completar tu reserva con uno de nuestros instructores.</p>
+        <div class="modal-nav">
+          <button class="btn-back" onclick="nextStep(3)"><i class="fas fa-arrow-left"></i> Atrás</button>
+          <button class="btn-whatsapp" id="btnWhatsapp" onclick="confirmarReserva()">
+            <i class="fab fa-whatsapp"></i> Confirmar por WhatsApp
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
