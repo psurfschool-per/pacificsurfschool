@@ -16,12 +16,61 @@ window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 60);
 });
 
+/* ===== SCROLL PROGRESS BAR ===== */
+const scrollProgress = document.createElement('div');
+scrollProgress.className = 'scroll-progress';
+document.body.prepend(scrollProgress);
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  scrollProgress.style.width = pct + '%';
+});
+
 const hamburger = document.getElementById('hamburger');
 const navInner = document.querySelector('.nav-inner');
-hamburger.addEventListener('click', () => navInner.classList.toggle('open'));
-document.querySelectorAll('.nav-links a').forEach(a => {
-  a.addEventListener('click', () => navInner.classList.remove('open'));
+hamburger.addEventListener('click', () => {
+  navInner.classList.toggle('open');
+  hamburger.classList.toggle('active');
 });
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => {
+    navInner.classList.remove('open');
+    hamburger.classList.remove('active');
+  });
+});
+
+/* ===== COUNTER ANIMATION ===== */
+function animateCounter(el, target, duration = 1500) {
+  let start = 0;
+  const step = (timestamp) => {
+    if (!start) start = timestamp;
+    const progress = Math.min((timestamp - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target);
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const strong = e.target.querySelector('strong');
+      if (strong && !strong.dataset.animated) {
+        strong.dataset.animated = '1';
+        const text = strong.textContent;
+        const num = parseInt(text.replace(/\D/g, ''), 10);
+        const suffix = text.replace(/[\d]/g, '');
+        if (!isNaN(num)) {
+          animateCounter(strong, num);
+          setTimeout(() => { strong.textContent = text; }, 1600);
+        }
+      }
+      statObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-item').forEach(el => statObserver.observe(el));
 
 /* ===== FADE-UP ON SCROLL ===== */
 const fadeEls = document.querySelectorAll(
