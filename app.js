@@ -57,8 +57,8 @@ document.querySelectorAll('.faq-q').forEach(btn => {
 const overlay = document.getElementById('modalOverlay');
 let currentStep = 1;
 
-const precios = { individual: 'S/ 120', grupal: 'S/ 70', paquete: 'S/ 300', trip: 'S/ 180' };
-const nombres = { individual: 'Clase Individual', grupal: 'Clase Grupal', paquete: 'Pack x5 Clases', trip: 'Surf Trip' };
+const precios = { individual: 'S/ 150', grupal: 'S/ 110', paquete: 'S/ 400' };
+const nombres = { individual: 'Clase Individual', grupal: 'Clase Grupal', paquete: 'Pack x4 Clases' };
 
 function openModal(tipo) {
   overlay.classList.add('open');
