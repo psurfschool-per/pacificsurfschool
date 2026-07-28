@@ -887,3 +887,92 @@ button{cursor:pointer;font-family:inherit}
 /* Selection color */
 ::selection { background: rgba(232,0,90,0.2); color: var(--dark); }
 
+/* ===== MODAL FORM VALIDATION ===== */
+.input-error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239,68,68,0.15) !important;
+}
+.field-error {
+  color: #ef4444; font-size: 0.75rem; font-weight: 500;
+  margin-top: 4px; display: block;
+  animation: slideInUp 0.2s ease-out;
+}
+
+/* Opt card selected state */
+.opt-card.selected {
+  border-color: var(--ocean) !important;
+  background: #e0f2fe !important;
+  box-shadow: 0 0 0 3px rgba(0,180,216,0.2);
+}
+
+/* Shake animation for validation */
+@keyframes shakeCard {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+.shake { animation: shakeCard 0.4s ease; }
+
+/* Success button */
+.btn-success {
+  background: #10b981 !important;
+  pointer-events: none;
+}
+
+/* Resumen total */
+.resumen-total {
+  border-top: 2px solid var(--ocean) !important;
+  padding-top: 12px !important;
+  font-size: 1rem !important;
+}
+.resumen-total strong {
+  color: var(--ocean-d) !important;
+  font-size: 1.1rem;
+}
+
+/* ===== MODAL MOBILE IMPROVEMENTS ===== */
+@media (max-width: 480px) {
+  .modal { max-height: 95vh; border-radius: 20px 20px 0 0; }
+  .modal-header { padding: 16px 16px 12px; }
+  .modal-header h2 { font-size: 1.05rem; margin-bottom: 12px; }
+  .modal-body { padding: 14px 16px 20px; }
+  .modal-step h3 { font-size: 0.92rem; margin-bottom: 14px; }
+
+  /* Stepper compact */
+  .stepper { justify-content: center; }
+  .step span { width: 26px; height: 26px; font-size: 0.7rem; }
+  .step small { font-size: 0.6rem; }
+  .step-line { width: 20px; }
+
+  /* Options stacked */
+  .clase-options { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .turno-options { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .opt-card { padding: 10px 8px; gap: 2px; }
+  .opt-card strong { font-size: 0.78rem; }
+  .opt-card small { font-size: 0.68rem; }
+  .opt-icon { font-size: 1.2rem; }
+
+  /* Form fields */
+  .form-field input,
+  .form-field select {
+    padding: 12px 14px; font-size: 0.88rem;
+  }
+  .form-field label { font-size: 0.78rem; }
+
+  /* Nav buttons */
+  .modal-nav { flex-direction: column-reverse; gap: 8px; }
+  .btn-back { width: 100%; justify-content: center; }
+  .btn-next { width: 100%; justify-content: center; margin-left: 0; }
+  .btn-whatsapp { width: 100%; justify-content: center; margin-left: 0; }
+
+  /* Resumen */
+  .resumen-box { padding: 14px; font-size: 0.82rem; }
+  .resumen-box p { flex-direction: column; gap: 2px; padding: 5px 0; }
+  .resumen-nota { font-size: 0.72rem; }
+}
+
+@media (max-width: 360px) {
+  .clase-options { grid-template-columns: 1fr; }
+  .modal-body { padding: 12px 14px 16px; }
+}
+
