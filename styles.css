@@ -810,7 +810,7 @@ button{cursor:pointer;font-family:inherit}
 .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s ease, opacity 0.3s ease; opacity: 0; padding: 0 20px; }
 .faq-a.open { max-height: 300px; opacity: 1; padding: 0 20px 16px; }
 .faq-q { transition: all 0.3s ease; }
-.fask-q:hover { background: var(--off); transform: translateX(4px); }
+.faq-q:hover { background: var(--off); transform: translateX(4px); }
 
 /* Input focus micro-interaction */
 .form-field input:focus,
