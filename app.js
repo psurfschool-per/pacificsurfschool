@@ -222,8 +222,8 @@ function nextStep(n) {
 document.querySelectorAll('input[name="turno"]').forEach(radio => {
   radio.addEventListener('change', () => {
     const sel = document.getElementById('res-horario');
-    const horariosMañana = ['7:00 am', '9:00 am', '11:00 am'];
-    const horariosTarde = ['2:00 pm', '4:00 pm'];
+    const horariosMañana = ['6:00 am', '8:00 am', '10:00 am'];
+    const horariosTarde = ['4:00 pm', '6:00 pm'];
     const lista = radio.value === 'mañana' ? horariosMañana : horariosTarde;
     sel.innerHTML = '<option value="">Seleccionar horario</option>' +
       lista.map(h => `<option value="${h}">${h}</option>`).join('');
