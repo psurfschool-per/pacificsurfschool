@@ -315,7 +315,6 @@ button{cursor:pointer;font-family:inherit}
   font-size: 0.72rem; font-weight: 700; padding: 3px 12px; border-radius: 20px; width: fit-content;
 }
 .clase-badge.paquete { background: #fef9c3; color: #854d0e; }
-.clase-badge.trip { background: #fce7f3; color: #9d174d; }
 .clase-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--dark); }
 .clase-card > .clase-body > p { color: var(--gray); font-size: 0.85rem; line-height: 1.5; }
 .clase-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
