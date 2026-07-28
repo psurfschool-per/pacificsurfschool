@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /dist/
+Disallow: /node_modules/
+Disallow: /.git/
+
+Sitemap: https://pacificsurfschool.com.pe/sitemap.xml

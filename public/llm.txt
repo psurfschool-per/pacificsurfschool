@@ -1,0 +1,37 @@
+# Pacific Surf School
+
+> Escuela de surf en Playa Barranquito, Lima, Perú. Clases con instructores certificados ISA, equipo completo incluido.
+
+## Sobre nosotros
+Pacific Surf School ofrece clases de surf en Playa Barranquito, Lima. Instructores certificados por la International Surfing Association (ISA) y la Cruz Roja. Equipo incluido (tabla de foam, neopreno, leash).
+
+## Ubicación
+- Playa Barranquito, Costa Verde, Barranco, Lima, Perú
+- Coordenadas: -12.1444, -77.0284
+- Horario: Lunes a Domingo, 7:00 am – 6:00 pm
+
+## Servicios y precios
+| Clase | Precio | Descripción |
+|-------|--------|-------------|
+| Clase Individual | S/ 150 | 1.5 horas, atención personalizada |
+| Clase Grupal | S/ 110 | 2 horas, máx. 5 personas |
+| Pack x4 | S/ 400 | 4 clases grupales, válido 1 mes |
+| Pack x8 | S/ 720 | 8 clases grupales, válido 1 mes |
+| Pack x12 | S/ 1020 | 12 clases grupales, válido 1 mes |
+
+## Incluido en todas las clases
+- Tabla de surf de foam
+- Traje de neopreno
+- Fotos y video (clase individual)
+- Fotos grupales (clase grupal)
+
+## Contacto
+- WhatsApp: +51 915 168 620
+- Email: info@pacificsurfschool.com.pe
+- Instagram: @pacific_surfschool
+- Facebook: Pacific Surf School
+- Web: https://pacificsurfschool.com.pe
+
+## Certificaciones
+- Instructores certificados ISA (International Surfing Association)
+- Capacitación en Cruz Roja
