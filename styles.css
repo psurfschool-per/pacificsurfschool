@@ -976,3 +976,55 @@ button{cursor:pointer;font-family:inherit}
   .modal-body { padding: 12px 14px 16px; }
 }
 
+/* ===== HORARIO BUTTONS ===== */
+.horarios-label {
+  font-size: 0.82rem; font-weight: 600; color: var(--gray);
+  margin: 16px 0 10px;
+}
+.horarios-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.horario-btn {
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--dark);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  font-family: inherit;
+}
+.horario-btn:hover {
+  border-color: var(--ocean-l);
+  background: #f0f9ff;
+}
+.horario-btn.selected {
+  border-color: var(--ocean);
+  background: #e0f2fe;
+  color: var(--ocean-d);
+  box-shadow: 0 0 0 3px rgba(0,180,216,0.15);
+}
+
+/* Form row 2 columns */
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 480px) {
+  .horarios-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .horario-btn { padding: 8px 4px; font-size: 0.76rem; }
+  .form-row-2 { grid-template-columns: 1fr 1fr; gap: 8px; }
+}
+
+@media (max-width: 360px) {
+  .horarios-grid { grid-template-columns: repeat(2, 1fr); }
+}
+

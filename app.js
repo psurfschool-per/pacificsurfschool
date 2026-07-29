@@ -106,8 +106,12 @@ const modal = overlay.querySelector('.modal');
 let currentStep = 1;
 
 const precios = { individual: 150, grupal: 110, paquete: 400, paquete8: 720, paquete12: 1020 };
-const preciosFmt = { individual: 'S/ 150', grupal: 'S/ 110', paquete: 'S/ 400', paquete8: 'S/ 720', paquete12: 'S/ 1020' };
 const nombres = { individual: 'Clase Individual', grupal: 'Clase Grupal', paquete: 'Pack x4 Clases', paquete8: 'Pack x8 Clases', paquete12: 'Pack x12 Clases' };
+
+/* ===== HORARIOS POR DÍA ===== */
+const horariosLunesASabado = ['6:00 am', '8:00 am', '10:00 am', '11:30 am', '2:00 pm', '4:00 pm'];
+const horariosDomingo = ['8:00 am', '10:00 am'];
+const dias = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
 
 function openModal(tipo) {
   overlay.classList.add('open');
@@ -133,10 +137,11 @@ function resetModal() {
     r.checked = false;
     r.closest('.opt-card')?.classList.remove('selected');
   });
-  overlay.querySelectorAll('input[type="text"], input[type="tel"], input[type="date"]').forEach(i => i.value = '');
+  overlay.querySelectorAll('input[type="text"], input[type="tel"], input[type="date"], input[type="number"]').forEach(i => i.value = '');
   overlay.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
-  const horario = document.getElementById('res-horario');
-  if (horario) horario.innerHTML = '<option value="">Seleccionar turno primero</option>';
+  const horariosWrap = document.getElementById('horarios-wrap');
+  if (horariosWrap) horariosWrap.style.display = 'none';
+  window._horarioSeleccionado = null;
   clearErrors();
   window._reservaData = null;
 }
@@ -183,54 +188,45 @@ function nextStep(n) {
     const tipo = document.querySelector('input[name="tipoClase"]:checked');
     if (!tipo) {
       const firstCard = overlay.querySelector('.clase-options .opt-card');
-      if (firstCard) firstCard.classList.add('shake');
-      setTimeout(() => firstCard?.classList.remove('shake'), 500);
+      if (firstCard) { firstCard.classList.add('shake'); setTimeout(() => firstCard.classList.remove('shake'), 500); }
       return;
     }
   }
 
   if (n === 3) {
     const fecha = document.getElementById('res-fecha');
-    const turno = document.querySelector('input[name="turno"]:checked');
     if (!fecha.value) { showError(fecha, 'Selecciona una fecha'); return; }
-    if (!turno) {
-      overlay.querySelectorAll('.turno-options .opt-card').forEach(c => {
-        c.classList.add('shake');
-        setTimeout(() => c.classList.remove('shake'), 500);
-      });
+    if (!window._horarioSeleccionado) {
+      const grid = document.getElementById('horarios-grid');
+      if (grid) { grid.classList.add('shake'); setTimeout(() => grid.classList.remove('shake'), 500); }
       return;
     }
-    const horario = document.getElementById('res-horario');
-    if (!horario.value) { showError(horario, 'Selecciona un horario'); return; }
   }
 
   if (n === 4) {
     const nombre = document.getElementById('res-nombre');
     const wsp = document.getElementById('res-wsp');
+    const peso = document.getElementById('res-peso');
+    const altura = document.getElementById('res-altura');
+    const experiencia = document.getElementById('res-experiencia');
     const nivel = document.getElementById('res-nivel');
+    const pago = document.getElementById('res-pago');
+
     if (!nombre.value.trim()) { showError(nombre, 'Ingresa tu nombre'); return; }
     if (!wsp.value.trim()) { showError(wsp, 'Ingresa tu WhatsApp'); return; }
-    if (!wsp.value.match(/^[\d\s\+\-]{7,15}$/)) { showError(wsp, 'Formato de WhatsApp inválido'); return; }
+    if (!wsp.value.match(/^[\d\s\+\-]{7,15}$/)) { showError(wsp, 'Formato inválido'); return; }
+    if (!peso.value) { showError(peso, 'Ingresa tu peso'); return; }
+    if (!altura.value) { showError(altura, 'Ingresa tu altura'); return; }
+    if (!experiencia.value) { showError(experiencia, 'Selecciona tu experiencia'); return; }
     if (!nivel.value) { showError(nivel, 'Selecciona tu nivel'); return; }
+    if (!pago.value) { showError(pago, 'Selecciona medio de pago'); return; }
     buildResumen();
   }
 
   goToStep(n);
 }
 
-/* ===== TURNO → HORARIOS ===== */
-document.querySelectorAll('input[name="turno"]').forEach(radio => {
-  radio.addEventListener('change', () => {
-    const sel = document.getElementById('res-horario');
-    const horariosMañana = ['6:00 am', '8:00 am', '10:00 am'];
-    const horariosTarde = ['4:00 pm', '6:00 pm'];
-    const lista = radio.value === 'mañana' ? horariosMañana : horariosTarde;
-    sel.innerHTML = '<option value="">Seleccionar horario</option>' +
-      lista.map(h => `<option value="${h}">${h}</option>`).join('');
-  });
-});
-
-/* ===== MIN DATE ===== */
+/* ===== FECHA → HORARIOS DINÁMICOS ===== */
 const fechaInput = document.getElementById('res-fecha');
 if (fechaInput) {
   const today = new Date();
@@ -239,12 +235,44 @@ if (fechaInput) {
   const dd = String(today.getDate()).padStart(2, '0');
   fechaInput.min = `${yyyy}-${mm}-${dd}`;
   fechaInput.max = `${yyyy + 1}-${mm}-${dd}`;
+
+  fechaInput.addEventListener('change', () => {
+    const val = fechaInput.value;
+    if (!val) return;
+    const date = new Date(val + 'T12:00:00');
+    const dayOfWeek = date.getDay();
+    const esDomingo = dayOfWeek === 0;
+    const horarios = esDomingo ? horariosDomingo : horariosLunesASabado;
+    const nombreDia = dias[dayOfWeek];
+
+    const horariosWrap = document.getElementById('horarios-wrap');
+    const horariosLabel = document.getElementById('horarios-label');
+    const horariosGrid = document.getElementById('horarios-grid');
+
+    horariosLabel.textContent = esDomingo
+      ? `Horarios disponibles — ${nombreDia.charAt(0).toUpperCase() + nombreDia.slice(1)}`
+      : `Horarios disponibles — ${nombreDia.charAt(0).toUpperCase() + nombreDia.slice(1)}`;
+    horariosGrid.innerHTML = horarios.map(h =>
+      `<button type="button" class="horario-btn" data-hora="${h}">${h}</button>`
+    ).join('');
+
+    horariosWrap.style.display = 'block';
+    window._horarioSeleccionado = null;
+
+    horariosGrid.querySelectorAll('.horario-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        horariosGrid.querySelectorAll('.horario-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        window._horarioSeleccionado = btn.dataset.hora;
+      });
+    });
+  });
 }
 
 /* ===== RADIO SELECTION VISUAL ===== */
-overlay.querySelectorAll('.clase-opt input, .turno-opt input').forEach(radio => {
+overlay.querySelectorAll('.clase-opt input').forEach(radio => {
   radio.addEventListener('change', () => {
-    const group = radio.closest('.clase-options, .turno-options');
+    const group = radio.closest('.clase-options');
     group.querySelectorAll('.opt-card').forEach(c => c.classList.remove('selected'));
     radio.closest('.opt-card').classList.add('selected');
   });
@@ -254,12 +282,15 @@ overlay.querySelectorAll('.clase-opt input, .turno-opt input').forEach(radio => 
 function buildResumen() {
   const tipo = document.querySelector('input[name="tipoClase"]:checked')?.value;
   const fecha = document.getElementById('res-fecha').value;
-  const turno = document.querySelector('input[name="turno"]:checked')?.value;
-  const horario = document.getElementById('res-horario').value;
+  const horario = window._horarioSeleccionado;
   const nombre = document.getElementById('res-nombre').value.trim();
   const wsp = document.getElementById('res-wsp').value.trim();
+  const peso = document.getElementById('res-peso').value;
+  const altura = document.getElementById('res-altura').value;
+  const experiencia = document.getElementById('res-experiencia').value;
   const nivel = document.getElementById('res-nivel').value;
   const personas = document.getElementById('res-personas').value;
+  const pago = document.getElementById('res-pago').value;
 
   const fechaFmt = fecha ? new Date(fecha + 'T12:00:00').toLocaleDateString('es-PE', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
@@ -269,27 +300,29 @@ function buildResumen() {
   const numPersonas = parseInt(personas) || 1;
   const total = precioUnit * numPersonas;
 
-  const nivelFmt = {
-    principiante: 'Principiante',
-    basico: 'Básico',
-    intermedio: 'Intermedio',
-    avanzado: 'Avanzado'
-  }[nivel] || nivel;
+  const experienciaFmt = { nunca: 'Nunca', pocas: '1-3 veces', algunas: '4-10 veces', frecuente: 'Frecuente' }[experiencia] || experiencia;
+  const nivelFmt = { principiante: 'Principiante', basico: 'Básico', intermedio: 'Intermedio', avanzado: 'Avanzado' }[nivel] || nivel;
+  const pagoFmt = { efectivo: 'Efectivo', yape: 'Yape', plin: 'Plin', transferencia: 'Transferencia', tarjeta: 'Tarjeta' }[pago] || pago;
 
   document.getElementById('resumenBox').innerHTML = `
     <p><span>Clase:</span> <strong>${nombres[tipo] || tipo}</strong></p>
     <p><span>Fecha:</span> ${fechaFmt}</p>
-    <p><span>Turno:</span> ${turno === 'mañana' ? 'Mañana' : 'Tarde'} · ${horario}</p>
+    <p><span>Horario:</span> ${horario}</p>
     <p><span>Personas:</span> ${personas}</p>
-    <p><span>Nivel:</span> ${nivelFmt}</p>
     <p><span>Nombre:</span> ${nombre}</p>
     <p><span>WhatsApp:</span> ${wsp}</p>
+    <p><span>Peso:</span> ${peso} kg</p>
+    <p><span>Altura:</span> ${altura} cm</p>
+    <p><span>Experiencia:</span> ${experienciaFmt}</p>
+    <p><span>Nivel:</span> ${nivelFmt}</p>
+    <p><span>Medio de pago:</span> ${pagoFmt}</p>
     <p class="resumen-total"><span>Total estimado:</span> <strong>S/ ${total}</strong></p>
   `;
 
   window._reservaData = {
-    tipo, fecha: fechaFmt, turno, horario, nombre, wsp, nivel: nivelFmt,
-    personas, precioUnit, total
+    tipo, fecha: fechaFmt, horario, nombre, wsp, peso, altura,
+    experiencia: experienciaFmt, nivel: nivelFmt, personas, pago: pagoFmt,
+    precioUnit, total
   };
 }
 
@@ -300,18 +333,20 @@ function confirmarReserva() {
 
   const msg = encodeURIComponent(
     `Hola! Quiero reservar en Pacific Surf School\n\n` +
-    `Clase: ${nombres[d.tipo]}\n` +
-    `Fecha: ${d.fecha}\n` +
-    `Turno: ${d.turno === 'mañana' ? 'Mañana' : 'Tarde'} - ${d.horario}\n` +
-    `Personas: ${d.personas}\n` +
-    `Nivel: ${d.nivel}\n` +
-    `Precio unitario: S/ ${d.precioUnit}\n` +
-    `Total: S/ ${d.total}\n\n` +
-    `Nombre: ${d.nombre}\n` +
-    `WhatsApp: ${d.wsp}`
+    `*Clase:* ${nombres[d.tipo]}\n` +
+    `*Fecha:* ${d.fecha}\n` +
+    `*Horario:* ${d.horario}\n` +
+    `*Personas:* ${d.personas}\n` +
+    `*Nombre:* ${d.nombre}\n` +
+    `*WhatsApp:* ${d.wsp}\n` +
+    `*Peso:* ${d.peso} kg\n` +
+    `*Altura:* ${d.altura} cm\n` +
+    `*Experiencia:* ${d.experiencia}\n` +
+    `*Nivel:* ${d.nivel}\n` +
+    `*Medio de pago:* ${d.pago}\n` +
+    `*Total:* S/ ${d.total}`
   );
 
-  /* success animation */
   const btn = document.getElementById('btnWhatsapp');
   btn.innerHTML = '<i class="fas fa-check"></i> ¡Redirigiendo...';
   btn.classList.add('btn-success');

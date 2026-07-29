@@ -478,7 +478,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="stepper">
         <div class="step active" id="step-dot-1"><span>1</span><small>Clase</small></div>
         <div class="step-line"></div>
-        <div class="step" id="step-dot-2"><span>2</span><small>Fecha</small></div>
+        <div class="step" id="step-dot-2"><span>2</span><small>Horario</small></div>
         <div class="step-line"></div>
         <div class="step" id="step-dot-3"><span>3</span><small>Datos</small></div>
         <div class="step-line"></div>
@@ -487,7 +487,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div class="modal-body">
 
-      <!-- PASO 1 -->
+      <!-- PASO 1: TIPO DE CLASE -->
       <div class="modal-step" id="paso1">
         <h3>¿Qué tipo de clase quieres?</h3>
         <div class="clase-options">
@@ -500,20 +500,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="btn-next" onclick="nextStep(2)">Siguiente <i class="fas fa-arrow-right"></i></button>
       </div>
 
-      <!-- PASO 2 -->
+      <!-- PASO 2: FECHA Y HORARIO -->
       <div class="modal-step hidden" id="paso2">
         <h3>¿Cuándo quieres surfear?</h3>
         <div class="form-field">
           <label for="res-fecha">Fecha</label>
           <input type="date" id="res-fecha" />
         </div>
-        <div class="turno-options">
-          <label class="turno-opt"><input type="radio" name="turno" value="mañana"/><div class="opt-card"><span class="opt-icon">🌅</span><strong>Mañana</strong><small>6am · 8am · 10am</small></div></label>
-          <label class="turno-opt"><input type="radio" name="turno" value="tarde"/><div class="opt-card"><span class="opt-icon">🌤️</span><strong>Tarde</strong><small>4pm · 6pm</small></div></label>
-        </div>
-        <div class="form-field" id="horario-select-wrap">
-          <label for="res-horario">Horario exacto</label>
-          <select id="res-horario"><option value="">Seleccionar turno primero</option></select>
+        <div id="horarios-wrap" style="display:none;">
+          <p class="horarios-label" id="horarios-label"></p>
+          <div class="horarios-grid" id="horarios-grid"></div>
         </div>
         <div class="modal-nav">
           <button class="btn-back" onclick="nextStep(1)"><i class="fas fa-arrow-left"></i> Atrás</button>
@@ -521,33 +517,58 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
-      <!-- PASO 3 -->
+      <!-- PASO 3: DATOS PERSONALES -->
       <div class="modal-step hidden" id="paso3">
         <h3>Tus datos</h3>
-        <div class="form-field"><label for="res-nombre">Nombre completo *</label><input type="text" id="res-nombre" placeholder="Tu nombre completo" required /></div>
-        <div class="form-field"><label for="res-wsp">WhatsApp *</label><input type="tel" id="res-wsp" placeholder="+51 999 999 999" required /></div>
+        <div class="form-field"><label for="res-nombre">Nombre completo *</label><input type="text" id="res-nombre" placeholder="Tu nombre completo" /></div>
+        <div class="form-field"><label for="res-wsp">WhatsApp *</label><input type="tel" id="res-wsp" placeholder="+51 999 999 999" /></div>
+        <div class="form-row-2">
+          <div class="form-field"><label for="res-peso">Peso (kg) *</label><input type="number" id="res-peso" placeholder="Ej: 70" min="30" max="200" /></div>
+          <div class="form-field"><label for="res-altura">Altura (cm) *</label><input type="number" id="res-altura" placeholder="Ej: 170" min="100" max="220" /></div>
+        </div>
+        <div class="form-field">
+          <label for="res-experiencia">¿Has hecho surf antes? *</label>
+          <select id="res-experiencia">
+            <option value="">Seleccionar</option>
+            <option value="nunca">Nunca he surfeado</option>
+            <option value="pocas">Pocas veces (1-3)</option>
+            <option value="algunas">Algunas veces (4-10)</option>
+            <option value="frecuente">Surfeo frecuentemente</option>
+          </select>
+        </div>
         <div class="form-field">
           <label for="res-nivel">Nivel de surf *</label>
-          <select id="res-nivel" required>
+          <select id="res-nivel">
             <option value="">Seleccionar</option>
-            <option value="principiante">Principiante – Nunca he surfeado</option>
-            <option value="basico">Básico – Me paro en la tabla</option>
-            <option value="intermedio">Intermedio – Hago maniobras</option>
-            <option value="avanzado">Avanzado – Surf competitivo</option>
+            <option value="principiante">Principiante</option>
+            <option value="basico">Básico</option>
+            <option value="intermedio">Intermedio</option>
+            <option value="avanzado">Avanzado</option>
           </select>
         </div>
         <div class="form-field"><label for="res-personas">N° de personas</label><select id="res-personas"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5+">5+</option></select></div>
+        <div class="form-field">
+          <label for="res-pago">Medio de pago *</label>
+          <select id="res-pago">
+            <option value="">Seleccionar</option>
+            <option value="efectivo">Efectivo</option>
+            <option value="yape">Yape</option>
+            <option value="plin">Plin</option>
+            <option value="transferencia">Transferencia bancaria</option>
+            <option value="tarjeta">Tarjeta de crédito/débito</option>
+          </select>
+        </div>
         <div class="modal-nav">
           <button class="btn-back" onclick="nextStep(2)"><i class="fas fa-arrow-left"></i> Atrás</button>
           <button class="btn-next" onclick="nextStep(4)">Ver resumen <i class="fas fa-arrow-right"></i></button>
         </div>
       </div>
 
-      <!-- PASO 4 -->
+      <!-- PASO 4: CONFIRMAR -->
       <div class="modal-step hidden" id="paso4">
         <h3>Confirma tu reserva</h3>
         <div class="resumen-box" id="resumenBox"></div>
-        <p class="resumen-nota">Al confirmar serás redirigido a WhatsApp para completar tu reserva con uno de nuestros instructores.</p>
+        <p class="resumen-nota">Al confirmar serás redirigido a WhatsApp para coordinar el pago y confirmar tu reserva.</p>
         <div class="modal-nav">
           <button class="btn-back" onclick="nextStep(3)"><i class="fas fa-arrow-left"></i> Atrás</button>
           <button class="btn-whatsapp" id="btnWhatsapp" onclick="confirmarReserva()">
