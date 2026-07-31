@@ -215,8 +215,6 @@ function nextStep(n) {
     if (!nombre.value.trim()) { showError(nombre, 'Ingresa tu nombre'); return; }
     if (!wsp.value.trim()) { showError(wsp, 'Ingresa tu WhatsApp'); return; }
     if (!wsp.value.match(/^[\d\s\+\-]{7,15}$/)) { showError(wsp, 'Formato inválido'); return; }
-    if (!peso.value) { showError(peso, 'Ingresa tu peso'); return; }
-    if (!altura.value) { showError(altura, 'Ingresa tu altura'); return; }
     if (!experiencia.value) { showError(experiencia, 'Selecciona tu experiencia'); return; }
     if (!nivel.value) { showError(nivel, 'Selecciona tu nivel'); return; }
     if (!pago.value) { showError(pago, 'Selecciona medio de pago'); return; }
@@ -311,8 +309,8 @@ function buildResumen() {
     <p><span>Personas:</span> ${personas}</p>
     <p><span>Nombre:</span> ${nombre}</p>
     <p><span>WhatsApp:</span> ${wsp}</p>
-    <p><span>Peso:</span> ${peso} kg</p>
-    <p><span>Altura:</span> ${altura} cm</p>
+    ${peso ? `<p><span>Peso:</span> ${peso} kg</p>` : ''}
+    ${altura ? `<p><span>Altura:</span> ${altura} cm</p>` : ''}
     <p><span>Experiencia:</span> ${experienciaFmt}</p>
     <p><span>Nivel:</span> ${nivelFmt}</p>
     <p><span>Medio de pago:</span> ${pagoFmt}</p>
@@ -339,8 +337,8 @@ function confirmarReserva() {
     `*Personas:* ${d.personas}\n` +
     `*Nombre:* ${d.nombre}\n` +
     `*WhatsApp:* ${d.wsp}\n` +
-    `*Peso:* ${d.peso} kg\n` +
-    `*Altura:* ${d.altura} cm\n` +
+    (d.peso ? `*Peso:* ${d.peso} kg\n` : '') +
+    (d.altura ? `*Altura:* ${d.altura} cm\n` : '') +
     `*Experiencia:* ${d.experiencia}\n` +
     `*Nivel:* ${d.nivel}\n` +
     `*Medio de pago:* ${d.pago}\n` +
