@@ -359,8 +359,39 @@ function confirmarReserva() {
   }, 600);
 }
 
+/* ===== AGREGAR A GOOGLE CALENDAR ===== */
+function addToCalendar() {
+  const d = window._reservaData;
+  if (!d) return;
+
+  const dateStr = d.fecha.replace(/(\d+).*?(\d+).*?(\d+)/, (_, y, m, day) => {
+    const months = { enero:'01', febrero:'02', marzo:'03', abril:'04', mayo:'05', junio:'06',
+      julio:'07', agosto:'08', septiembre:'09', octubre:'10', noviembre:'11', diciembre:'12' };
+    return `${y}-${months[m] || '01'}-${day.padStart(2,'0')}`;
+  });
+
+  const timeMap = { '6:00 am':'0600', '8:00 am':'0800', '10:00 am':'1000', '11:30 am':'1130',
+    '2:00 pm':'1400', '4:00 pm':'1600' };
+  const timeClean = d.horario.replace(/\./g, '');
+  const start_time = timeMap[timeClean] || '0800';
+  const end_time = String(parseInt(start_time) + 200).padStart(4, '0');
+
+  const dates = `${dateStr.replace(/-/g,'')}T${start_time}00/${dateStr.replace(/-/g,'')}T${end_time}00`;
+
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: `Clase de Surf - ${nombres[d.tipo]}`,
+    dates,
+    location: 'Playa Barranquito, Lima, Peru',
+    details: `Reserva en Pacific Surf School\nClase: ${nombres[d.tipo]}\nHorario: ${d.horario}\nPersonas: ${d.personas}\nNombre: ${d.nombre}`
+  });
+
+  window.open(`https://calendar.google.com/calendar/render?${params.toString()}`, '_blank');
+}
+
 /* ===== EXPOSE TO WINDOW (module scope) ===== */
 window.openModal = openModal;
 window.closeModal = closeModal;
 window.nextStep = nextStep;
 window.confirmarReserva = confirmarReserva;
+window.addToCalendar = addToCalendar;
