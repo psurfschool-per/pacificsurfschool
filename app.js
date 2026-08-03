@@ -389,9 +389,168 @@ function addToCalendar() {
   window.open(`https://calendar.google.com/calendar/render?${params.toString()}`, '_blank');
 }
 
-/* ===== EXPOSE TO WINDOW (module scope) ===== */
 window.openModal = openModal;
 window.closeModal = closeModal;
 window.nextStep = nextStep;
 window.confirmarReserva = confirmarReserva;
 window.addToCalendar = addToCalendar;
+
+/* ===== SURF FORECAST — OPEN-METEO MARINE API ===== */
+const BARRANQUITO_LAT = -12.1444;
+const BARRANQUITO_LON = -77.0284;
+const MARINE_API = `https://marine-api.open-meteo.com/v1/marine?latitude=${BARRANQUITO_LAT}&longitude=${BARRANQUITO_LON}&hourly=wave_height,wave_period,wave_direction,swell_wave_height,swell_wave_period,swell_wave_direction,wind_wave_height,wind_wave_period,sea_level_height_msl&timezone=America%2FLima&forecast_days=3`;
+const WEATHER_API = `https://api.open-meteo.com/v1/forecast?latitude=${BARRANQUITO_LAT}&longitude=${BARRANQUITO_LON}&hourly=wind_speed_10m,wind_direction_10m&timezone=America%2FLima&forecast_days=1`;
+
+function degToCardinal(deg) {
+  if (deg == null || isNaN(deg)) return '--';
+  const dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  return dirs[Math.round(deg / 22.5) % 16];
+}
+
+function evalSurfQuality(waveH, wavePeriod, windSpeed) {
+  if (waveH == null || wavePeriod == null) return { level: 'fair', label: 'Sin datos suficientes', desc: 'No se puede evaluar', emoji: '❓', css: 'q-fair' };
+
+  let score = 0;
+  // Wave height scoring (best 0.8 - 2.0m for beginners/intermediates)
+  if (waveH >= 0.5 && waveH <= 1.0) score += 3;
+  else if (waveH > 1.0 && waveH <= 1.8) score += 4;
+  else if (waveH > 1.8 && waveH <= 2.5) score += 3;
+  else if (waveH > 2.5) score += 1;
+  else score += 1;
+
+  // Wave period scoring (longer = better quality waves)
+  if (wavePeriod >= 14) score += 4;
+  else if (wavePeriod >= 11) score += 3;
+  else if (wavePeriod >= 8) score += 2;
+  else score += 1;
+
+  // Wind scoring (less wind = cleaner waves)
+  const ws = windSpeed || 0;
+  if (ws < 10) score += 4;
+  else if (ws < 18) score += 3;
+  else if (ws < 28) score += 2;
+  else score += 0;
+
+  if (score >= 10) return { level: 'excellent', label: '¡Excelente para surfear!', desc: 'Olas limpias con buen período. Ideal para todos los niveles.', emoji: '🤙', css: 'q-excellent' };
+  if (score >= 7) return { level: 'good', label: 'Buenas condiciones', desc: 'Buen día para surfear. Condiciones favorables.', emoji: '🏄', css: 'q-good' };
+  if (score >= 4) return { level: 'fair', label: 'Condiciones regulares', desc: 'Mar con algo de desorden. Mejor para surfers con experiencia.', emoji: '🌊', css: 'q-fair' };
+  return { level: 'poor', label: 'Condiciones difíciles', desc: 'Mar revuelto o sin olas. No recomendado para principiantes.', emoji: '⚠️', css: 'q-poor' };
+}
+
+function evalQualitySimple(waveH, wavePeriod, windSpeed) {
+  const q = evalSurfQuality(waveH, wavePeriod, windSpeed);
+  const labels = { excellent: 'Excelente', good: 'Bueno', fair: 'Regular', poor: 'Difícil' };
+  return { css: q.css, label: labels[q.level] || 'Regular' };
+}
+
+async function loadSurfForecast() {
+  const loadingEl = document.getElementById('forecastLoading');
+  const dataEl = document.getElementById('forecastData');
+  const errorEl = document.getElementById('forecastError');
+  const tableBody = document.getElementById('forecastTableBody');
+
+  if (!loadingEl) return; // Section not in DOM
+
+  loadingEl.style.display = 'flex';
+  dataEl.style.display = 'none';
+  errorEl.style.display = 'none';
+
+  try {
+    const [marineRes, weatherRes] = await Promise.all([
+      fetch(MARINE_API),
+      fetch(WEATHER_API)
+    ]);
+
+    if (!marineRes.ok) throw new Error('Marine API error');
+    const marine = await marineRes.json();
+    const weather = weatherRes.ok ? await weatherRes.json() : null;
+
+    const h = marine.hourly;
+    const now = new Date();
+    const currentHour = now.getHours();
+
+    // Find current hour index
+    const times = h.time.map(t => new Date(t).getHours());
+    const currentIdx = times.indexOf(currentHour);
+    const idx = currentIdx >= 0 ? currentIdx : 0;
+
+    // Wind data
+    const windSpeeds = weather?.hourly?.wind_speed_10m || [];
+    const windDirs = weather?.hourly?.wind_direction_10m || [];
+
+    // Update current conditions
+    const wH = h.wave_height[idx];
+    const wP = h.wave_period[idx];
+    const wD = h.wave_direction[idx];
+    const sH = h.swell_wave_height[idx];
+    const sP = h.swell_wave_period[idx];
+    const sD = h.swell_wave_direction[idx];
+    const wS = windSpeeds[idx] || null;
+
+    document.getElementById('waveHeight').textContent = wH != null ? wH.toFixed(1) : '--';
+    document.getElementById('wavePeriod').textContent = wP != null ? wP.toFixed(1) : '--';
+    document.getElementById('waveDirection').textContent = wD != null ? `${Math.round(wD)}°` : '--';
+    document.getElementById('waveDirectionText').textContent = degToCardinal(wD);
+    document.getElementById('windSpeed').textContent = wS != null ? Math.round(wS) : '--';
+    const tideH = h.sea_level_height_msl[idx];
+    document.getElementById('tideHeight').textContent = tideH != null ? tideH.toFixed(2) : '--';
+    document.getElementById('swellHeight').textContent = sH != null ? `${sH.toFixed(1)} m` : '--';
+    document.getElementById('swellPeriod').textContent = sP != null ? `${sP.toFixed(1)} s` : '--';
+    document.getElementById('swellDirection').textContent = sD != null ? `${Math.round(sD)}° ${degToCardinal(sD)}` : '--';
+
+    // Quality
+    const quality = evalSurfQuality(wH, wP, wS);
+    const qualityEl = document.getElementById('forecastQuality');
+    qualityEl.className = `forecast-quality quality-${quality.level}`;
+    document.getElementById('qualityEmoji').textContent = quality.emoji;
+    document.getElementById('qualityLabel').textContent = quality.label;
+    document.getElementById('qualityDesc').textContent = quality.desc;
+
+    // Updated time
+    document.getElementById('lastUpdated').textContent = now.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
+
+    // Hourly table
+    let rows = '';
+    for (let i = 0; i < h.time.length; i++) {
+      const hour = new Date(h.time[i]).getHours();
+      const hourStr = `${String(hour).padStart(2, '0')}:00`;
+      const wh = h.wave_height[i];
+      const wp = h.wave_period[i];
+      const wd = h.wave_direction[i];
+      const ws = windSpeeds[i] || null;
+      const tide = h.sea_level_height_msl[i];
+      const isCurrentHour = hour === currentHour;
+      const q = evalQualitySimple(wh, wp, ws);
+
+      const tideStr = tide != null ? tide.toFixed(2) + ' m' : '--';
+      const tideClass = tide != null && tide > 1 ? 'tide-high' : tide != null && tide < 0 ? 'tide-low' : '';
+
+      rows += `<tr class="${isCurrentHour ? 'current-hour' : ''}">
+        <td class="hour-cell">${hourStr}${isCurrentHour ? ' ◀' : ''}</td>
+        <td class="wave-cell">${wh != null ? wh.toFixed(1) + ' m' : '--'}</td>
+        <td>${wp != null ? wp.toFixed(1) + ' s' : '--'}</td>
+        <td>${wd != null ? Math.round(wd) + '° ' + degToCardinal(wd) : '--'}</td>
+        <td class="tide-cell ${tideClass}"><i class="fas fa-water"></i> ${tideStr}</td>
+        <td>${ws != null ? Math.round(ws) + ' km/h' : '--'}</td>
+        <td><span class="quality-dot ${q.css}">${q.label}</span></td>
+      </tr>`;
+    }
+    tableBody.innerHTML = rows;
+
+    // Show data
+    loadingEl.style.display = 'none';
+    dataEl.style.display = 'block';
+
+  } catch (err) {
+    console.error('Surf forecast error:', err);
+    loadingEl.style.display = 'none';
+    errorEl.style.display = 'block';
+  }
+}
+
+// Load on page load and refresh every 15 minutes
+loadSurfForecast();
+setInterval(loadSurfForecast, 15 * 60 * 1000);
+
+/* ===== EXPOSE FORECAST TO WINDOW ===== */
+window.loadSurfForecast = loadSurfForecast;

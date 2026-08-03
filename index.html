@@ -163,6 +163,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li><a href="#clases">Clases</a></li>
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#galeria">Galería</a></li>
+      <li><a href="#oleaje">Oleaje</a></li>
       <li><a href="#ubicacion">Ubicación</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
@@ -420,6 +421,130 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="https://www.instagram.com/pacific_surfschool/" target="_blank" class="btn-ig">
       <i class="fab fa-instagram"></i> Ver más en Instagram
     </a>
+  </div>
+</section>
+
+<!-- TABLA DE OLEAJE EN TIEMPO REAL -->
+<section class="surf-forecast" id="oleaje">
+  <div class="section-head">
+    <span class="tag">Condiciones del mar</span>
+    <h2>Oleaje en Tiempo Real</h2>
+    <p>Datos actualizados de olas y viento en Playa Barranquito, Costa Verde. Información del servicio meteorológico Open-Meteo.</p>
+  </div>
+
+  <div class="forecast-container">
+    <!-- Current Conditions Card -->
+    <div class="forecast-current" id="forecastCurrent">
+      <div class="forecast-loading" id="forecastLoading">
+        <div class="forecast-spinner"></div>
+        <p>Cargando datos del océano...</p>
+      </div>
+      <div class="forecast-data" id="forecastData" style="display:none;">
+        <div class="forecast-header-bar">
+          <div class="forecast-location">
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+              <strong>Playa Barranquito</strong>
+              <small>Costa Verde, Lima</small>
+            </div>
+          </div>
+          <div class="forecast-updated" id="forecastUpdated">
+            <i class="fas fa-sync-alt"></i>
+            <span id="lastUpdated">--</span>
+          </div>
+        </div>
+
+        <div class="forecast-quality" id="forecastQuality">
+          <div class="quality-circle" id="qualityCircle">
+            <span class="quality-emoji" id="qualityEmoji">🌊</span>
+          </div>
+          <div class="quality-text">
+            <strong id="qualityLabel">--</strong>
+            <p id="qualityDesc">Evaluando condiciones...</p>
+          </div>
+        </div>
+
+        <div class="forecast-metrics">
+          <div class="metric-card">
+            <div class="metric-icon"><i class="fas fa-water"></i></div>
+            <div class="metric-value" id="waveHeight">--</div>
+            <div class="metric-label">Altura de ola</div>
+            <div class="metric-unit">metros</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon"><i class="fas fa-clock"></i></div>
+            <div class="metric-value" id="wavePeriod">--</div>
+            <div class="metric-label">Período</div>
+            <div class="metric-unit">segundos</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon"><i class="fas fa-compass"></i></div>
+            <div class="metric-value" id="waveDirection">--</div>
+            <div class="metric-label">Dirección ola</div>
+            <div class="metric-unit" id="waveDirectionText">--</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon"><i class="fas fa-wind"></i></div>
+            <div class="metric-value" id="windSpeed">--</div>
+            <div class="metric-label">Viento</div>
+            <div class="metric-unit">km/h</div>
+          </div>
+          <div class="metric-card tide-card">
+            <div class="metric-icon"><i class="fas fa-moon"></i></div>
+            <div class="metric-value" id="tideHeight">--</div>
+            <div class="metric-label">Marea</div>
+            <div class="metric-unit">metros</div>
+          </div>
+        </div>
+
+        <div class="forecast-swell-info">
+          <div class="swell-item">
+            <span class="swell-label"><i class="fas fa-wave-square"></i> Swell</span>
+            <span class="swell-value" id="swellHeight">--</span>
+          </div>
+          <div class="swell-item">
+            <span class="swell-label"><i class="fas fa-stopwatch"></i> Período swell</span>
+            <span class="swell-value" id="swellPeriod">--</span>
+          </div>
+          <div class="swell-item">
+            <span class="swell-label"><i class="fas fa-location-arrow"></i> Dir. swell</span>
+            <span class="swell-value" id="swellDirection">--</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="forecast-error" id="forecastError" style="display:none;">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>No se pudieron cargar los datos. Intenta de nuevo más tarde.</p>
+        <button class="btn-retry" onclick="loadSurfForecast()"><i class="fas fa-redo"></i> Reintentar</button>
+      </div>
+    </div>
+
+    <!-- Hourly Forecast Table -->
+    <div class="forecast-table-wrap">
+      <h3><i class="fas fa-table"></i> Pronóstico por hora — Hoy</h3>
+      <div class="forecast-table-scroll">
+        <table class="forecast-table" id="forecastTable">
+          <thead>
+            <tr>
+              <th>Hora</th>
+              <th><i class="fas fa-water"></i> Ola</th>
+              <th><i class="fas fa-clock"></i> Período</th>
+              <th><i class="fas fa-compass"></i> Dir.</th>
+              <th><i class="fas fa-moon"></i> Marea</th>
+              <th><i class="fas fa-wind"></i> Viento</th>
+              <th>Calidad</th>
+            </tr>
+          </thead>
+          <tbody id="forecastTableBody">
+            <tr><td colspan="7" class="table-loading">Cargando pronóstico...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="forecast-disclaimer">
+        <i class="fas fa-info-circle"></i> Datos proporcionados por <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>. Son estimaciones y no reemplazan el criterio de instructores certificados.
+      </p>
+    </div>
   </div>
 </section>
 
