@@ -402,6 +402,11 @@ const BEACHES = [
   { id: 'herradura', name: 'La Herradura', zone: 'Chorrillos', lat: -12.1749, lon: -77.0340 }
 ];
 
+// Shoaling correction factor: deep water → nearshore breaking
+// Open-Meteo gives significant wave height (deep water)
+// Multiply by ~0.65 to estimate breaking wave height at shore
+const SHOALING_FACTOR = 0.65;
+
 function degToCardinal(deg) {
   if (deg == null || isNaN(deg)) return '--';
   const dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
@@ -439,10 +444,12 @@ function buildBeachCard(beach, marine, weather) {
   const idx = times.indexOf(currentHour);
   const i = idx >= 0 ? idx : 0;
 
-  const wH = h.wave_height[i];
+  const wH_raw = h.wave_height[i];
+  const wH = wH_raw != null ? +(wH_raw * SHOALING_FACTOR).toFixed(1) : null;
   const wP = h.wave_period[i];
   const wD = h.wave_direction[i];
-  const sH = h.swell_wave_height[i];
+  const sH_raw = h.swell_wave_height[i];
+  const sH = sH_raw != null ? +(sH_raw * SHOALING_FACTOR).toFixed(1) : null;
   const sP = h.swell_wave_period[i];
   const tide = h.sea_level_height_msl[i];
   const wS = weather?.hourly?.wind_speed_10m?.[i] || null;
