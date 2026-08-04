@@ -397,8 +397,8 @@ window.addToCalendar = addToCalendar;
 
 /* ===== SURF FORECAST — 3 BEACHES — OPEN-METEO ===== */
 const BEACHES = [
-  { id: 'barranquito', name: 'Playa Barranquito', zone: 'Barranco', lat: -12.1444, lon: -77.0284 },
-  { id: 'roquitas', name: 'Punta Roquitas', zone: 'Miraflores', lat: -12.1220, lon: -77.0451 },
+  { id: 'barranquito', name: 'Playa Barranquito', zone: 'Barranco', lat: -12.14, lon: -77.03 },
+  { id: 'roquitas', name: 'Punta Roquitas', zone: 'Miraflores', lat: -12.11, lon: -77.05 },
   { id: 'herradura', name: 'La Herradura', zone: 'Chorrillos', lat: -12.1749, lon: -77.0340 }
 ];
 
