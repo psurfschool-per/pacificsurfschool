@@ -535,8 +535,8 @@ async function loadBeachData() {
 
   try {
     const results = await Promise.all(BEACHES.map(async (beach) => {
-      const marineUrl = `https://marine-api.open-meteo.com/v1/marine?latitude=${beach.lat}&longitude=${beach.lon}&hourly=wave_height,wave_period,wave_direction,swell_wave_height,swell_wave_period,swell_wave_direction,sea_level_height_msl&timezone=America%2FLima&forecast_days=1`;
-      const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${beach.lat}&longitude=${beach.lon}&hourly=wind_speed_10m,wind_direction_10m&timezone=America%2FLima&forecast_days=1`;
+      const marineUrl = `https://marine-api.open-meteo.com/v1/marine?latitude=${beach.lat}&longitude=${beach.lon}&hourly=wave_height,wave_period,wave_direction,swell_wave_height,swell_wave_period,swell_wave_direction,sea_level_height_msl&timezone=America%2FLima&forecast_days=3`;
+      const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${beach.lat}&longitude=${beach.lon}&hourly=wind_speed_10m,wind_direction_10m&timezone=America%2FLima&forecast_days=3`;
       const [mRes, wRes] = await Promise.all([fetch(marineUrl), fetch(weatherUrl)]);
       const marine = await mRes.json();
       const weather = wRes.ok ? await wRes.json() : null;
