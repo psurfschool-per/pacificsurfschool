@@ -435,7 +435,7 @@ button{cursor:pointer;font-family:inherit}
 }
 .btn-ig:hover { opacity: 0.88; transform: translateY(-2px); }
 
-/* ===== SURF FORECAST SECTION ===== */
+/* ===== SURF FORECAST — 3 BEACH CARDS ===== */
 .surf-forecast {
   padding: 100px 24px;
   background: linear-gradient(175deg, #0a1628 0%, #0c2340 40%, #0d3b66 100%);
@@ -461,37 +461,210 @@ button{cursor:pointer;font-family:inherit}
 }
 .surf-forecast .section-head h2 { color: var(--white); }
 .surf-forecast .section-head p { color: rgba(255,255,255,0.6); }
+.last-update-text { font-size: var(--text-2xs) !important; margin-top: 8px; }
+.last-update-text span { color: var(--ocean-l); font-weight: 600; }
 
-.forecast-container {
-  max-width: 1100px;
-  margin: 0 auto;
+/* Beaches grid */
+.beaches-grid {
+  max-width: 1200px;
+  margin: 0 auto 32px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-  align-items: start;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+  z-index: 1;
 }
 
-/* Current conditions card */
-.forecast-current {
+/* Beach card */
+.beach-card {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: var(--radius-2xl);
-  padding: 28px;
+  padding: 24px;
   backdrop-filter: blur(16px);
-  position: relative;
-  overflow: hidden;
+  transition: all 0.3s ease;
 }
-.forecast-current::before {
-  content: '';
-  position: absolute;
-  top: -50%; right: -50%;
-  width: 200px; height: 200px;
-  background: radial-gradient(circle, rgba(0,180,216,0.12), transparent 60%);
-  pointer-events: none;
+.beach-card:hover {
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(0,180,216,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
 }
 
-/* Loading state */
-.forecast-loading {
+.beach-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.beach-card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--white);
+}
+.beach-card-title i {
+  color: var(--ocean-l);
+  font-size: 1.1rem;
+}
+.beach-card-title strong {
+  font-size: var(--text-base);
+  display: block;
+}
+.beach-card-title small {
+  color: rgba(255,255,255,0.5);
+  font-size: var(--text-2xs);
+}
+
+/* Quality dot */
+.quality-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.quality-dot::before {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.quality-dot.q-excellent { color: #34d399; background: rgba(16,185,129,0.12); }
+.quality-dot.q-excellent::before { background: #10b981; box-shadow: 0 0 6px rgba(16,185,129,0.5); }
+.quality-dot.q-good { color: #60a5fa; background: rgba(59,130,246,0.12); }
+.quality-dot.q-good::before { background: #3b82f6; box-shadow: 0 0 6px rgba(59,130,246,0.5); }
+.quality-dot.q-fair { color: #fbbf24; background: rgba(245,158,11,0.12); }
+.quality-dot.q-fair::before { background: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,0.5); }
+.quality-dot.q-poor { color: #f87171; background: rgba(239,68,68,0.12); }
+.quality-dot.q-poor::before { background: #ef4444; box-shadow: 0 0 6px rgba(239,68,68,0.5); }
+
+/* Beach card metrics */
+.beach-card-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.bpm {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius-lg);
+  padding: 14px 12px;
+  text-align: center;
+}
+.bpm:hover {
+  background: rgba(255,255,255,0.08);
+}
+.bpm i {
+  font-size: 0.85rem;
+  color: var(--ocean-l);
+  margin-bottom: 6px;
+  display: block;
+}
+.bpm strong {
+  font-size: 1.3rem;
+  color: var(--white);
+  display: block;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.bpm small {
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* BCM metric card */
+.beach-card-metrics .bcm {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius-lg);
+  padding: 14px 12px;
+  text-align: center;
+}
+.beach-card-metrics .bcm:hover {
+  background: rgba(255,255,255,0.08);
+}
+.beach-card-metrics .bcm-icon {
+  margin-bottom: 6px;
+}
+.beach-card-metrics .bcm-icon i {
+  font-size: 0.85rem;
+  color: var(--ocean-l);
+}
+.beach-card-metrics .bcm-val {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.beach-card-metrics .bcm-lbl {
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Tide bar */
+.beach-card-tide {
+  margin-bottom: 14px;
+}
+.bct-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: var(--text-2xs);
+  color: rgba(255,255,255,0.55);
+}
+.bct-header i {
+  color: #818cf8;
+  margin-right: 5px;
+}
+.bct-val {
+  color: var(--white);
+  font-weight: 700;
+  font-size: var(--text-xs);
+}
+.bct-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.bct-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #60a5fa, #818cf8, #a78bfa);
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+/* Swell info */
+.beach-card-swell {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.5);
+}
+.beach-card-swell i {
+  color: var(--ocean-l);
+  margin-right: 4px;
+}
+
+/* Loading */
+.beach-loading {
+  grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -508,7 +681,7 @@ button{cursor:pointer;font-family:inherit}
   animation: spin 0.8s linear infinite;
 }
 
-/* Error state */
+/* Error */
 .forecast-error {
   text-align: center;
   padding: 48px 20px;
@@ -538,295 +711,6 @@ button{cursor:pointer;font-family:inherit}
   transform: translateY(-1px);
 }
 
-/* Header bar */
-.forecast-header-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
-}
-.forecast-location {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--white);
-}
-.forecast-location i {
-  color: var(--ocean-l);
-  font-size: 1.1rem;
-}
-.forecast-location strong {
-  font-size: var(--text-base);
-  display: block;
-}
-.forecast-location small {
-  color: rgba(255,255,255,0.5);
-  font-size: var(--text-2xs);
-}
-.forecast-updated {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: rgba(255,255,255,0.45);
-  font-size: var(--text-2xs);
-}
-.forecast-updated i {
-  font-size: 0.65rem;
-  animation: spin 3s linear infinite;
-}
-
-/* Quality indicator */
-.forecast-quality {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 18px 20px;
-  border-radius: var(--radius-xl);
-  margin-bottom: 24px;
-  transition: background 0.4s;
-}
-.quality-circle {
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  background: rgba(255,255,255,0.08);
-  border: 2px solid rgba(255,255,255,0.15);
-  transition: all 0.4s;
-}
-.quality-emoji { font-size: 1.6rem; }
-.quality-text strong {
-  font-size: var(--text-lg);
-  color: var(--white);
-  display: block;
-}
-.quality-text p {
-  font-size: var(--text-xs);
-  color: rgba(255,255,255,0.6);
-  margin: 2px 0 0;
-}
-/* Quality colors */
-.forecast-quality.quality-excellent { background: rgba(16,185,129,0.15); }
-.forecast-quality.quality-excellent .quality-circle { border-color: rgba(16,185,129,0.5); background: rgba(16,185,129,0.12); }
-.forecast-quality.quality-good { background: rgba(59,130,246,0.15); }
-.forecast-quality.quality-good .quality-circle { border-color: rgba(59,130,246,0.5); background: rgba(59,130,246,0.12); }
-.forecast-quality.quality-fair { background: rgba(245,158,11,0.15); }
-.forecast-quality.quality-fair .quality-circle { border-color: rgba(245,158,11,0.5); background: rgba(245,158,11,0.12); }
-.forecast-quality.quality-poor { background: rgba(239,68,68,0.15); }
-.forecast-quality.quality-poor .quality-circle { border-color: rgba(239,68,68,0.5); background: rgba(239,68,68,0.12); }
-
-/* Metrics */
-.forecast-metrics {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
-}
-.metric-card {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: var(--radius-lg);
-  padding: 16px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-.metric-card:hover {
-  background: rgba(255,255,255,0.09);
-  transform: translateY(-3px);
-  border-color: rgba(0,180,216,0.3);
-}
-.metric-icon {
-  margin-bottom: 8px;
-}
-.metric-icon i {
-  font-size: 1.1rem;
-  color: var(--ocean-l);
-}
-.metric-value {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--white);
-  line-height: 1;
-  margin-bottom: 4px;
-}
-.metric-label {
-  font-size: var(--text-2xs);
-  color: rgba(255,255,255,0.5);
-  font-weight: 500;
-}
-.metric-unit {
-  font-size: 0.65rem;
-  color: rgba(255,255,255,0.35);
-  margin-top: 2px;
-}
-
-/* Swell info bar */
-.forecast-swell-info {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.swell-item {
-  flex: 1;
-  min-width: 120px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px;
-  background: rgba(255,255,255,0.04);
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255,255,255,0.06);
-}
-.swell-label {
-  font-size: 0.68rem;
-  color: rgba(255,255,255,0.4);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.swell-label i {
-  font-size: 0.6rem;
-  color: var(--ocean-l);
-}
-.swell-value {
-  font-size: var(--text-base);
-  color: var(--white);
-  font-weight: 700;
-}
-
-/* Tide card */
-.tide-card {
-  border-color: rgba(99,102,241,0.3) !important;
-}
-.tide-card .metric-icon {
-  background: rgba(99,102,241,0.15);
-  color: #818cf8;
-}
-
-/* Tide cell in table */
-.tide-cell {
-  white-space: nowrap;
-  font-weight: 600;
-}
-.tide-cell i {
-  font-size: 0.7rem;
-  margin-right: 3px;
-}
-.tide-high {
-  color: #f59e0b;
-}
-.tide-low {
-  color: #60a5fa;
-}
-
-/* Hourly table */
-.forecast-table-wrap {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: var(--radius-2xl);
-  padding: 28px;
-  backdrop-filter: blur(16px);
-}
-.forecast-table-wrap h3 {
-  color: var(--white);
-  font-size: var(--text-lg);
-  font-weight: 700;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.forecast-table-wrap h3 i {
-  color: var(--ocean-l);
-  font-size: 0.9rem;
-}
-.forecast-table-scroll {
-  overflow-x: auto;
-  border-radius: var(--radius-lg);
-  margin-bottom: 16px;
-}
-.forecast-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--text-sm);
-}
-.forecast-table thead th {
-  background: rgba(0,180,216,0.12);
-  color: rgba(255,255,255,0.8);
-  font-weight: 600;
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 12px 14px;
-  text-align: left;
-  white-space: nowrap;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-.forecast-table thead th i {
-  color: var(--ocean-l);
-  margin-right: 4px;
-  font-size: 0.65rem;
-}
-.forecast-table tbody tr {
-  transition: background 0.2s;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-.forecast-table tbody tr:hover {
-  background: rgba(255,255,255,0.06);
-}
-.forecast-table tbody tr.current-hour {
-  background: rgba(0,180,216,0.12);
-  border-left: 3px solid var(--ocean-l);
-}
-.forecast-table tbody td {
-  padding: 10px 14px;
-  color: rgba(255,255,255,0.85);
-  font-size: var(--text-xs);
-  white-space: nowrap;
-}
-.forecast-table .hour-cell {
-  font-weight: 700;
-  color: var(--white);
-}
-.forecast-table .wave-cell {
-  font-weight: 700;
-  color: var(--ocean-l);
-}
-.table-loading {
-  text-align: center;
-  padding: 32px;
-  color: rgba(255,255,255,0.4);
-  font-style: italic;
-}
-
-/* Quality dots in table */
-.quality-dot {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: var(--text-2xs);
-  font-weight: 600;
-}
-.quality-dot::before {
-  content: '';
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.quality-dot.q-excellent { color: #34d399; }
-.quality-dot.q-excellent::before { background: #10b981; box-shadow: 0 0 6px rgba(16,185,129,0.5); }
-.quality-dot.q-good { color: #60a5fa; }
-.quality-dot.q-good::before { background: #3b82f6; box-shadow: 0 0 6px rgba(59,130,246,0.5); }
-.quality-dot.q-fair { color: #fbbf24; }
-.quality-dot.q-fair::before { background: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,0.5); }
-.quality-dot.q-poor { color: #f87171; }
-.quality-dot.q-poor::before { background: #ef4444; box-shadow: 0 0 6px rgba(239,68,68,0.5); }
-
 /* Disclaimer */
 .forecast-disclaimer {
   color: rgba(255,255,255,0.35);
@@ -835,6 +719,10 @@ button{cursor:pointer;font-family:inherit}
   display: flex;
   align-items: flex-start;
   gap: 6px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 .forecast-disclaimer i {
   color: var(--ocean-l);
@@ -1132,13 +1020,7 @@ button{cursor:pointer;font-family:inherit}
   .section-head { margin-bottom: var(--sp-9); }
 
   /* Surf Forecast */
-  .forecast-container { grid-template-columns: 1fr; gap: 24px; }
-  .forecast-current { padding: 20px; }
-  .forecast-table-wrap { padding: 20px; }
-  .forecast-metrics { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .metric-value { font-size: 1.4rem; }
-  .forecast-swell-info { flex-direction: column; }
-  .swell-item { min-width: unset; flex-direction: row; justify-content: space-between; align-items: center; }
+  .beaches-grid { grid-template-columns: 1fr; gap: 20px; }
 
   /* Nosotros */
   .nosotros-inner { grid-template-columns: 1fr; gap: 36px; }
