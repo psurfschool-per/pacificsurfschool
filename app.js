@@ -398,12 +398,10 @@ window.addToCalendar = addToCalendar;
 /* ===== SURF FORECAST — 4 DAY CARDS — OPEN-METEO ===== */
 const BARRANQUITO = { lat: -12.14, lon: -77.03 };
 
-// Shoaling correction factor: deep water → nearshore breaking
-const SHOALING_FACTOR = 0.65;
-// Period correction: Open-Meteo underestimates swell period for Lima
-const PERIOD_FACTOR = 1.5;
-// Energy formula calibrated to surf-forecast.com data
-const ENERGY_K = 25.5;
+// Calibrated correction factors to match surf-forecast.com data
+const SHOALING_FACTOR = 0.50;  // 1.84m → 0.92m (matches surf-forecast)
+const PERIOD_FACTOR = 1.4;     // 8.6s → 12s (matches surf-forecast)
+const ENERGY_K = 26;           // E = 26 × H² × T (kJ)
 
 const DAYS_ES = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 const DAYS_SHORT = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
