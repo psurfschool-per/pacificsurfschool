@@ -407,6 +407,14 @@ const BEACHES = [
 // Multiply by ~0.65 to estimate breaking wave height at shore
 const SHOALING_FACTOR = 0.65;
 
+// Period correction: Open-Meteo underestimates swell period for Lima
+// Surf-forecast shows 12-17s, Open-Meteo shows 8-9s → factor ~1.5
+const PERIOD_FACTOR = 1.5;
+
+// Energy formula calibrated to surf-forecast.com data
+// E ≈ 25.5 × H² × T (kJ)
+const ENERGY_K = 25.5;
+
 function degToCardinal(deg) {
   if (deg == null || isNaN(deg)) return '--';
   const dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
@@ -446,18 +454,20 @@ function buildBeachCard(beach, marine, weather) {
 
   const wH_raw = h.wave_height[i];
   const wH = wH_raw != null ? +(wH_raw * SHOALING_FACTOR).toFixed(1) : null;
-  // Use swell_wave_period for more accurate surf period
-  const wP = h.swell_wave_period[i] || h.wave_period[i];
+  // Use wave_period with correction factor (more representative than swell_wave_period)
+  const wP_raw = h.wave_period[i];
+  const wP = wP_raw != null ? +(wP_raw * PERIOD_FACTOR).toFixed(0) : null;
   const wD = h.wave_direction[i];
   const sH_raw = h.swell_wave_height[i];
   const sH = sH_raw != null ? +(sH_raw * SHOALING_FACTOR).toFixed(1) : null;
-  const sP = h.swell_wave_period[i];
+  const sP_raw = h.swell_wave_period[i];
+  const sP = sP_raw != null ? +(sP_raw * PERIOD_FACTOR).toFixed(0) : null;
   const tide = h.sea_level_height_msl[i];
   const wS = weather?.hourly?.wind_speed_10m?.[i] || null;
   const q = evalSurfQuality(wH, wP, wS);
 
-  // Wave energy: E ≈ H² × T (kJ approximation)
-  const energy = (wH != null && wP != null) ? +(wH * wH * wP).toFixed(1) : null;
+  // Wave energy calibrated to surf-forecast: E ≈ 25.5 × H² × T (kJ)
+  const energy = (wH != null && wP != null) ? +(ENERGY_K * wH * wH * wP).toFixed(0) : null;
 
   const tideStr = tide != null ? tide.toFixed(2) : '--';
   const tidePct = tide != null ? Math.max(0, Math.min(100, ((tide + 0.5) / 2.5) * 100)) : 50;
