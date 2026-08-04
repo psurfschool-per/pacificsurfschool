@@ -962,6 +962,10 @@ button{cursor:pointer;font-family:inherit}
 
   /* Surf Forecast */
   .days-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .day-card { padding: 18px; }
+  .day-card-metrics { gap: 8px; }
+  .day-card-metrics .bcm { padding: 10px 8px; }
+  .day-card-metrics .bcm-val { font-size: 1.1rem; }
 
   /* Nosotros */
   .nosotros-inner { grid-template-columns: 1fr; gap: 36px; }
@@ -1006,6 +1010,16 @@ button{cursor:pointer;font-family:inherit}
 
   .clase-card { border-radius: var(--sp-3-5); }
   .clase-img { aspect-ratio: 16 / 9; }
+
+  /* Surf Forecast - Mobile */
+  .days-grid { grid-template-columns: 1fr; gap: 14px; }
+  .day-card { padding: 16px; }
+  .day-card-header { margin-bottom: 14px; padding-bottom: 12px; }
+  .day-name { font-size: var(--text-base); }
+  .day-card-metrics { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .day-card-metrics .bcm { padding: 10px 8px; }
+  .day-card-metrics .bcm-val { font-size: 1rem; }
+  .day-card-metrics .bcm-lbl { font-size: 0.5rem; }
 
   .galeria-grid {
     grid-template-columns: repeat(2, 1fr);
