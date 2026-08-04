@@ -446,7 +446,8 @@ function buildBeachCard(beach, marine, weather) {
 
   const wH_raw = h.wave_height[i];
   const wH = wH_raw != null ? +(wH_raw * SHOALING_FACTOR).toFixed(1) : null;
-  const wP = h.wave_period[i];
+  // Use swell_wave_period for more accurate surf period
+  const wP = h.swell_wave_period[i] || h.wave_period[i];
   const wD = h.wave_direction[i];
   const sH_raw = h.swell_wave_height[i];
   const sH = sH_raw != null ? +(sH_raw * SHOALING_FACTOR).toFixed(1) : null;
@@ -454,6 +455,9 @@ function buildBeachCard(beach, marine, weather) {
   const tide = h.sea_level_height_msl[i];
   const wS = weather?.hourly?.wind_speed_10m?.[i] || null;
   const q = evalSurfQuality(wH, wP, wS);
+
+  // Wave energy: E ≈ H² × T (kJ approximation)
+  const energy = (wH != null && wP != null) ? +(wH * wH * wP).toFixed(1) : null;
 
   const tideStr = tide != null ? tide.toFixed(2) : '--';
   const tidePct = tide != null ? Math.max(0, Math.min(100, ((tide + 0.5) / 2.5) * 100)) : 50;
@@ -488,9 +492,9 @@ function buildBeachCard(beach, marine, weather) {
           <div class="bcm-lbl">Dirección</div>
         </div>
         <div class="bcm">
-          <div class="bcm-icon"><i class="fas fa-wind"></i></div>
-          <div class="bcm-val">${wS != null ? Math.round(wS) : '--'}</div>
-          <div class="bcm-lbl">Viento (km/h)</div>
+          <div class="bcm-icon"><i class="fas fa-bolt"></i></div>
+          <div class="bcm-val">${energy != null ? energy.toFixed(0) : '--'}</div>
+          <div class="bcm-lbl">Energía (kJ)</div>
         </div>
       </div>
 
