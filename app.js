@@ -395,25 +395,19 @@ window.nextStep = nextStep;
 window.confirmarReserva = confirmarReserva;
 window.addToCalendar = addToCalendar;
 
-/* ===== SURF FORECAST — 3 BEACHES — OPEN-METEO ===== */
-const BEACHES = [
-  { id: 'barranquito', name: 'Playa Barranquito', zone: 'Barranco', lat: -12.14, lon: -77.03 },
-  { id: 'roquitas', name: 'Punta Roquitas', zone: 'Miraflores', lat: -12.11, lon: -77.05 },
-  { id: 'herradura', name: 'La Herradura', zone: 'Chorrillos', lat: -12.1749, lon: -77.0340 }
-];
+/* ===== SURF FORECAST — 4 DAY CARDS — OPEN-METEO ===== */
+const BARRANQUITO = { lat: -12.14, lon: -77.03 };
 
 // Shoaling correction factor: deep water → nearshore breaking
-// Open-Meteo gives significant wave height (deep water)
-// Multiply by ~0.65 to estimate breaking wave height at shore
 const SHOALING_FACTOR = 0.65;
-
 // Period correction: Open-Meteo underestimates swell period for Lima
-// Surf-forecast shows 12-17s, Open-Meteo shows 8-9s → factor ~1.5
 const PERIOD_FACTOR = 1.5;
-
 // Energy formula calibrated to surf-forecast.com data
-// E ≈ 25.5 × H² × T (kJ)
 const ENERGY_K = 25.5;
+
+const DAYS_ES = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+const DAYS_SHORT = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+const MONTHS_ES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
 function degToCardinal(deg) {
   if (deg == null || isNaN(deg)) return '--';
@@ -421,8 +415,8 @@ function degToCardinal(deg) {
   return dirs[Math.round(deg / 22.5) % 16];
 }
 
-function evalSurfQuality(waveH, wavePeriod, windSpeed) {
-  if (waveH == null || wavePeriod == null) return { level: 'fair', label: 'Sin datos', desc: 'No se puede evaluar', emoji: '❓', css: 'q-fair' };
+function evalSurfQuality(waveH, wavePeriod) {
+  if (waveH == null || wavePeriod == null) return { level: 'fair', label: 'Sin datos', emoji: '❓', css: 'q-fair' };
   let score = 0;
   if (waveH >= 0.5 && waveH <= 1.0) score += 3;
   else if (waveH > 1.0 && waveH <= 1.8) score += 4;
@@ -433,100 +427,112 @@ function evalSurfQuality(waveH, wavePeriod, windSpeed) {
   else if (wavePeriod >= 11) score += 3;
   else if (wavePeriod >= 8) score += 2;
   else score += 1;
-  const ws = windSpeed || 0;
-  if (ws < 10) score += 4;
-  else if (ws < 18) score += 3;
-  else if (ws < 28) score += 2;
-  else score += 0;
-  if (score >= 10) return { level: 'excellent', label: 'Excelente', desc: 'Olas limpias, buen período.', emoji: '🤙', css: 'q-excellent' };
-  if (score >= 7) return { level: 'good', label: 'Buenas', desc: 'Condiciones favorables.', emoji: '🏄', css: 'q-good' };
-  if (score >= 4) return { level: 'fair', label: 'Regular', desc: 'Algo de desorden.', emoji: '🌊', css: 'q-fair' };
-  return { level: 'poor', label: 'Difícil', desc: 'Mar revuelto.', emoji: '⚠️', css: 'q-poor' };
+  if (score >= 10) return { level: 'excellent', label: 'Excelente', emoji: '🤙', css: 'q-excellent' };
+  if (score >= 7) return { level: 'good', label: 'Buenas', emoji: '🏄', css: 'q-good' };
+  if (score >= 4) return { level: 'fair', label: 'Regular', emoji: '🌊', css: 'q-fair' };
+  return { level: 'poor', label: 'Difícil', emoji: '⚠️', css: 'q-poor' };
 }
 
-function buildBeachCard(beach, marine, weather) {
+function getDailySummary(marine, weather, dayIndex) {
   const h = marine.hourly;
-  const now = new Date();
-  const currentHour = now.getHours();
-  const times = h.time.map(t => new Date(t).getHours());
-  const idx = times.indexOf(currentHour);
-  const i = idx >= 0 ? idx : 0;
+  const wS = weather?.hourly?.wind_speed_10m || [];
 
-  const wH_raw = h.wave_height[i];
-  const wH = wH_raw != null ? +(wH_raw * SHOALING_FACTOR).toFixed(1) : null;
-  // Use wave_period with correction factor (more representative than swell_wave_period)
-  const wP_raw = h.wave_period[i];
-  const wP = wP_raw != null ? +(wP_raw * PERIOD_FACTOR).toFixed(0) : null;
-  const wD = h.wave_direction[i];
-  const sH_raw = h.swell_wave_height[i];
-  const sH = sH_raw != null ? +(sH_raw * SHOALING_FACTOR).toFixed(1) : null;
-  const sP_raw = h.swell_wave_period[i];
-  const sP = sP_raw != null ? +(sP_raw * PERIOD_FACTOR).toFixed(0) : null;
-  const tide = h.sea_level_height_msl[i];
-  const wS = weather?.hourly?.wind_speed_10m?.[i] || null;
-  const q = evalSurfQuality(wH, wP, wS);
+  // Get hours for this day (0-23 = day 0, 24-47 = day 1, etc.)
+  const startIdx = dayIndex * 24;
+  const endIdx = startIdx + 24;
 
-  // Wave energy calibrated to surf-forecast: E ≈ 25.5 × H² × T (kJ)
-  const energy = (wH != null && wP != null) ? +(ENERGY_K * wH * wH * wP).toFixed(0) : null;
+  let maxWave = 0, avgPeriod = 0, avgDir = 0, count = 0;
+  let maxEnergy = 0, bestPeriod = 0, bestDir = 0;
+  let minTide = 999, maxTide = -999;
 
-  const tideStr = tide != null ? tide.toFixed(2) : '--';
-  const tidePct = tide != null ? Math.max(0, Math.min(100, ((tide + 0.5) / 2.5) * 100)) : 50;
+  for (let i = startIdx; i < endIdx && i < h.time.length; i++) {
+    const wh = h.wave_height[i];
+    const wp = h.wave_period[i];
+    const wd = h.wave_direction[i];
+    const tide = h.sea_level_height_msl[i];
+
+    if (wh != null) {
+      const whBr = wh * SHOALING_FACTOR;
+      const wpCorr = wp != null ? wp * PERIOD_FACTOR : 0;
+      if (whBr > maxWave) maxWave = whBr;
+      if (wpCorr > bestPeriod) { bestPeriod = wpCorr; bestDir = wd; }
+      const energy = wpCorr > 0 ? ENERGY_K * whBr * whBr * wpCorr : 0;
+      if (energy > maxEnergy) maxEnergy = energy;
+      avgPeriod += wpCorr;
+      avgDir += wd || 0;
+      count++;
+    }
+    if (tide != null) {
+      if (tide < minTide) minTide = tide;
+      if (tide > maxTide) maxTide = tide;
+    }
+  }
+
+  const avgP = count > 0 ? avgPeriod / count : 0;
+  const avgD = count > 0 ? avgDir / count : 0;
+  const q = evalSurfQuality(maxWave, bestPeriod);
+
+  return {
+    maxWave: +maxWave.toFixed(1),
+    bestPeriod: Math.round(bestPeriod),
+    avgPeriod: Math.round(avgP),
+    avgDir: Math.round(avgD),
+    maxEnergy: Math.round(maxEnergy),
+    minTide: minTide < 999 ? +minTide.toFixed(2) : null,
+    maxTide: maxTide > -999 ? +maxTide.toFixed(2) : null,
+    quality: q
+  };
+}
+
+function buildDayCard(date, summary, isToday) {
+  const dayName = isToday ? 'Hoy' : DAYS_SHORT[date.getDay()];
+  const dayNum = date.getDate();
+  const month = MONTHS_ES[date.getMonth()];
 
   return `
-    <div class="beach-card">
-      <div class="beach-card-header">
-        <div class="beach-card-title">
-          <i class="fas fa-map-marker-alt"></i>
-          <div>
-            <strong>${beach.name}</strong>
-            <small>${beach.zone}, Lima</small>
-          </div>
+    <div class="day-card ${isToday ? 'day-card--today' : ''}">
+      <div class="day-card-header">
+        <div class="day-card-date">
+          <span class="day-name">${dayName}</span>
+          <span class="day-num">${dayNum} ${month}</span>
         </div>
-        <span class="quality-dot ${q.css}">${q.emoji} ${q.label}</span>
+        <span class="quality-dot ${summary.quality.css}">${summary.quality.emoji} ${summary.quality.label}</span>
       </div>
 
-      <div class="beach-card-metrics">
+      <div class="day-card-metrics">
         <div class="bcm">
           <div class="bcm-icon"><i class="fas fa-water"></i></div>
-          <div class="bcm-val">${wH != null ? wH.toFixed(1) : '--'}</div>
-          <div class="bcm-lbl">Ola (m)</div>
+          <div class="bcm-val">${summary.maxWave > 0 ? summary.maxWave.toFixed(1) : '--'}</div>
+          <div class="bcm-lbl">Ola máx (m)</div>
         </div>
         <div class="bcm">
           <div class="bcm-icon"><i class="fas fa-clock"></i></div>
-          <div class="bcm-val">${wP != null ? wP.toFixed(0) : '--'}</div>
+          <div class="bcm-val">${summary.bestPeriod > 0 ? summary.bestPeriod : '--'}</div>
           <div class="bcm-lbl">Período (s)</div>
         </div>
         <div class="bcm">
           <div class="bcm-icon"><i class="fas fa-compass"></i></div>
-          <div class="bcm-val">${wD != null ? degToCardinal(wD) : '--'}</div>
+          <div class="bcm-val">${summary.avgDir > 0 ? degToCardinal(summary.avgDir) : '--'}</div>
           <div class="bcm-lbl">Dirección</div>
         </div>
         <div class="bcm">
           <div class="bcm-icon"><i class="fas fa-bolt"></i></div>
-          <div class="bcm-val">${energy != null ? energy.toFixed(0) : '--'}</div>
+          <div class="bcm-val">${summary.maxEnergy > 0 ? summary.maxEnergy : '--'}</div>
           <div class="bcm-lbl">Energía (kJ)</div>
         </div>
       </div>
 
-      <div class="beach-card-tide">
-        <div class="bct-header">
-          <span><i class="fas fa-moon"></i> Marea</span>
-          <span class="bct-val">${tideStr} m</span>
+      <div class="day-card-tide">
+        <div class="bct-row">
+          <span class="bct-high"><i class="fas fa-arrow-up"></i> ${summary.maxTide != null ? summary.maxTide + ' m' : '--'}</span>
+          <span class="bct-low"><i class="fas fa-arrow-down"></i> ${summary.minTide != null ? summary.minTide + ' m' : '--'}</span>
         </div>
-        <div class="bct-bar">
-          <div class="bct-fill" style="width:${tidePct}%"></div>
-        </div>
-      </div>
-
-      <div class="beach-card-swell">
-        <span><i class="fas fa-wave-square"></i> Swell: ${sH != null ? sH.toFixed(1) + ' m' : '--'}</span>
-        <span><i class="fas fa-stopwatch"></i> Período: ${sP != null ? sP.toFixed(0) + ' s' : '--'}</span>
       </div>
     </div>`;
 }
 
 async function loadBeachData() {
-  const grid = document.getElementById('beachesGrid');
+  const grid = document.getElementById('daysGrid');
   const errorEl = document.getElementById('forecastError');
   if (!grid) return;
 
@@ -534,21 +540,31 @@ async function loadBeachData() {
   errorEl.style.display = 'none';
 
   try {
-    const results = await Promise.all(BEACHES.map(async (beach) => {
-      const marineUrl = `https://marine-api.open-meteo.com/v1/marine?latitude=${beach.lat}&longitude=${beach.lon}&hourly=wave_height,wave_period,wave_direction,swell_wave_height,swell_wave_period,swell_wave_direction,sea_level_height_msl&timezone=America%2FLima&forecast_days=3`;
-      const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${beach.lat}&longitude=${beach.lon}&hourly=wind_speed_10m,wind_direction_10m&timezone=America%2FLima&forecast_days=3`;
-      const [mRes, wRes] = await Promise.all([fetch(marineUrl), fetch(weatherUrl)]);
-      const marine = await mRes.json();
-      const weather = wRes.ok ? await wRes.json() : null;
-      return { beach, marine, weather };
-    }));
+    const marineUrl = `https://marine-api.open-meteo.com/v1/marine?latitude=${BARRANQUITO.lat}&longitude=${BARRANQUITO.lon}&hourly=wave_height,wave_period,wave_direction,swell_wave_height,swell_wave_period,swell_wave_direction,sea_level_height_msl&timezone=America%2FLima&forecast_days=4`;
+    const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${BARRANQUITO.lat}&longitude=${BARRANQUITO.lon}&hourly=wind_speed_10m,wind_direction_10m&timezone=America%2FLima&forecast_days=4`;
 
-    grid.innerHTML = results.map(r => buildBeachCard(r.beach, r.marine, r.weather)).join('');
+    const [mRes, wRes] = await Promise.all([fetch(marineUrl), fetch(weatherUrl)]);
+    const marine = await mRes.json();
+    const weather = wRes.ok ? await wRes.json() : null;
 
-    document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
+    const now = new Date();
+    const todayIdx = now.getDate();
+
+    // Build 4 day cards
+    let cards = '';
+    for (let d = 0; d < 4; d++) {
+      const dayDate = new Date(now);
+      dayDate.setDate(now.getDate() + d);
+      const isToday = d === 0;
+      const summary = getDailySummary(marine, weather, d);
+      cards += buildDayCard(dayDate, summary, isToday);
+    }
+
+    grid.innerHTML = cards;
+    document.getElementById('lastUpdated').textContent = now.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
 
   } catch (err) {
-    console.error('Beach data error:', err);
+    console.error('Forecast error:', err);
     grid.innerHTML = '';
     errorEl.style.display = 'block';
   }

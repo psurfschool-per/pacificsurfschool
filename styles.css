@@ -435,7 +435,7 @@ button{cursor:pointer;font-family:inherit}
 }
 .btn-ig:hover { opacity: 0.88; transform: translateY(-2px); }
 
-/* ===== SURF FORECAST — 3 BEACH CARDS ===== */
+/* ===== SURF FORECAST — 4 DAY CARDS ===== */
 .surf-forecast {
   padding: 100px 24px;
   background: linear-gradient(175deg, #0a1628 0%, #0c2340 40%, #0d3b66 100%);
@@ -464,58 +464,61 @@ button{cursor:pointer;font-family:inherit}
 .last-update-text { font-size: var(--text-2xs) !important; margin-top: 8px; }
 .last-update-text span { color: var(--ocean-l); font-weight: 600; }
 
-/* Beaches grid */
-.beaches-grid {
+/* Days grid */
+.days-grid {
   max-width: 1200px;
   margin: 0 auto 32px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
   position: relative;
   z-index: 1;
 }
 
-/* Beach card */
-.beach-card {
+/* Day card */
+.day-card {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: var(--radius-2xl);
-  padding: 24px;
+  padding: 22px;
   backdrop-filter: blur(16px);
   transition: all 0.3s ease;
 }
-.beach-card:hover {
+.day-card:hover {
   background: rgba(255,255,255,0.09);
   border-color: rgba(0,180,216,0.3);
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0,0,0,0.3);
 }
+.day-card--today {
+  border-color: rgba(0,180,216,0.4);
+  background: rgba(0,180,216,0.08);
+}
+.day-card--today .day-name {
+  color: var(--ocean-l);
+}
 
-.beach-card-header {
+.day-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
-  padding-bottom: 16px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-.beach-card-title {
+.day-card-date {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  gap: 2px;
+}
+.day-name {
+  font-size: var(--text-base);
+  font-weight: 700;
   color: var(--white);
 }
-.beach-card-title i {
-  color: var(--ocean-l);
-  font-size: 1.1rem;
-}
-.beach-card-title strong {
-  font-size: var(--text-base);
-  display: block;
-}
-.beach-card-title small {
-  color: rgba(255,255,255,0.5);
+.day-num {
   font-size: var(--text-2xs);
+  color: rgba(255,255,255,0.5);
 }
 
 /* Quality dot */
@@ -544,122 +547,60 @@ button{cursor:pointer;font-family:inherit}
 .quality-dot.q-poor { color: #f87171; background: rgba(239,68,68,0.12); }
 .quality-dot.q-poor::before { background: #ef4444; box-shadow: 0 0 6px rgba(239,68,68,0.5); }
 
-/* Beach card metrics */
-.beach-card-metrics {
+/* Day card metrics */
+.day-card-metrics {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
-.bpm {
+.day-card-metrics .bcm {
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.07);
   border-radius: var(--radius-lg);
-  padding: 14px 12px;
+  padding: 12px 10px;
   text-align: center;
 }
-.bpm:hover {
+.day-card-metrics .bcm:hover {
   background: rgba(255,255,255,0.08);
 }
-.bpm i {
-  font-size: 0.85rem;
-  color: var(--ocean-l);
-  margin-bottom: 6px;
-  display: block;
+.day-card-metrics .bcm-icon {
+  margin-bottom: 5px;
 }
-.bpm strong {
-  font-size: 1.3rem;
-  color: var(--white);
-  display: block;
-  line-height: 1;
-  margin-bottom: 3px;
-}
-.bpm small {
-  font-size: 0.6rem;
-  color: rgba(255,255,255,0.45);
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-/* BCM metric card */
-.beach-card-metrics .bcm {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: var(--radius-lg);
-  padding: 14px 12px;
-  text-align: center;
-}
-.beach-card-metrics .bcm:hover {
-  background: rgba(255,255,255,0.08);
-}
-.beach-card-metrics .bcm-icon {
-  margin-bottom: 6px;
-}
-.beach-card-metrics .bcm-icon i {
-  font-size: 0.85rem;
+.day-card-metrics .bcm-icon i {
+  font-size: 0.8rem;
   color: var(--ocean-l);
 }
-.beach-card-metrics .bcm-val {
-  font-size: 1.3rem;
+.day-card-metrics .bcm-val {
+  font-size: 1.2rem;
   font-weight: 800;
   color: var(--white);
   line-height: 1;
   margin-bottom: 3px;
 }
-.beach-card-metrics .bcm-lbl {
-  font-size: 0.6rem;
+.day-card-metrics .bcm-lbl {
+  font-size: 0.55rem;
   color: rgba(255,255,255,0.45);
   text-transform: uppercase;
   letter-spacing: 0.3px;
 }
 
-/* Tide bar */
-.beach-card-tide {
-  margin-bottom: 14px;
-}
-.bct-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  font-size: var(--text-2xs);
-  color: rgba(255,255,255,0.55);
-}
-.bct-header i {
-  color: #818cf8;
-  margin-right: 5px;
-}
-.bct-val {
-  color: var(--white);
-  font-weight: 700;
-  font-size: var(--text-xs);
-}
-.bct-bar {
-  height: 6px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 3px;
-  overflow: hidden;
-}
-.bct-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #60a5fa, #818cf8, #a78bfa);
-  border-radius: 3px;
-  transition: width 0.6s ease;
-}
-
-/* Swell info */
-.beach-card-swell {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding-top: 14px;
+/* Tide row */
+.day-card-tide {
+  padding-top: 12px;
   border-top: 1px solid rgba(255,255,255,0.06);
+}
+.bct-row {
+  display: flex;
+  justify-content: space-between;
   font-size: 0.7rem;
   color: rgba(255,255,255,0.5);
 }
-.beach-card-swell i {
-  color: var(--ocean-l);
-  margin-right: 4px;
+.bct-high { color: #fbbf24; }
+.bct-low { color: #60a5fa; }
+.bct-row i {
+  font-size: 0.6rem;
+  margin-right: 3px;
 }
 
 /* Loading */
@@ -1020,7 +961,7 @@ button{cursor:pointer;font-family:inherit}
   .section-head { margin-bottom: var(--sp-9); }
 
   /* Surf Forecast */
-  .beaches-grid { grid-template-columns: 1fr; gap: 20px; }
+  .days-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 
   /* Nosotros */
   .nosotros-inner { grid-template-columns: 1fr; gap: 36px; }
