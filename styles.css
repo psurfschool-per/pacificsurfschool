@@ -976,6 +976,27 @@ button{cursor:pointer;font-family:inherit}
 .resumen-box p span { color: var(--gray); }
 .resumen-nota { font-size: var(--text-xs); color: var(--gray); margin-bottom: var(--sp-4); line-height: 1.5; }
 
+/* MercadoPago */
+.mp-info {
+  background: linear-gradient(135deg, #e6f7ff, #f0f9ff);
+  border: 1px solid #bae6fd; border-radius: var(--sp-3-5);
+  padding: var(--sp-3) var(--sp-4); margin-top: var(--sp-3); font-size: var(--text-sm);
+  color: #0369a1; display: flex; align-items: center; gap: var(--sp-2);
+}
+.mp-pago-nota { font-size: var(--text-sm); color: var(--dark); margin-bottom: var(--sp-3); font-weight: 600; text-align: center; }
+.btn-mp-pay {
+  display: flex; align-items: center; justify-content: center; gap: var(--sp-3);
+  width: 100%; padding: var(--sp-4) var(--sp-6);
+  background: #009ee3; color: #fff; border: none; border-radius: var(--radius-pill);
+  font-size: var(--text-lg); font-weight: 700; cursor: pointer;
+  transition: all var(--transition-base) ease;
+  box-shadow: 0 4px 20px rgba(0,158,227,0.35); text-decoration: none;
+}
+.btn-mp-pay:hover { background: #0084d1; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,158,227,0.5); }
+.btn-mp-pay .mp-logo { width: 28px; height: 20px; }
+.mp-seguro { font-size: var(--text-xs); color: var(--gray); text-align: center; margin-top: var(--sp-2-5); display: flex; align-items: center; justify-content: center; gap: var(--sp-1-5); }
+.mp-seguro i { color: #10b981; }
+
 /* logo img en navbar */
 .nav-logo-img { height: 36px; width: auto; object-fit: contain; }
 
@@ -1409,6 +1430,7 @@ button{cursor:pointer;font-family:inherit}
   .resumen-box { padding: var(--sp-3-5); font-size: var(--text-xs); }
   .resumen-box p { flex-direction: column; gap: 2px; padding: 5px 0; }
   .resumen-nota { font-size: var(--text-2xs); }
+  .btn-mp-pay { padding: var(--sp-3-5); font-size: var(--text-base); }
 }
 
 @media (max-width: 360px) {

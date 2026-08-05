@@ -165,6 +165,11 @@ function goToStep(n) {
   });
   currentStep = n;
   modal.scrollTop = 0;
+
+  if (n === 4 && window._updateMpButton) {
+    const tipo = document.querySelector('input[name="tipoClase"]:checked')?.value || 'individual';
+    window._updateMpButton(tipo);
+  }
 }
 
 function clearErrors() {
@@ -324,6 +329,43 @@ function buildResumen() {
   };
 }
 
+/* ===== MERCADOPAGO — PAYMENT LINKS ===== */
+const MP_LINKS = {
+  individual: 'https://www.mercadopago.com.pe/pay/REEMPLAZAR_LINK_INDIVIDUAL',
+  grupal: 'https://www.mercadopago.com.pe/pay/REEMPLAZAR_LINK_GRUPAL',
+  paquete: 'https://www.mercadopago.com.pe/pay/REEMPLAZAR_LINK_PAQUETE4',
+  paquete8: 'https://www.mercadopago.com.pe/pay/REEMPLAZAR_LINK_PAQUETE8',
+  paquete12: 'https://www.mercadopago.com.pe/pay/REEMPLAZAR_LINK_PAQUETE12'
+};
+
+function setupMpPayment() {
+  const pagoSelect = document.getElementById('res-pago');
+  const mpInfo = document.getElementById('mp-info');
+  const mpSection = document.getElementById('mpSection');
+  const btnMpPay = document.getElementById('btnMpPay');
+  const resumenNota = document.getElementById('resumenNota');
+  const btnWhatsapp = document.getElementById('btnWhatsapp');
+
+  if (!pagoSelect) return;
+
+  pagoSelect.addEventListener('change', () => {
+    const isMp = pagoSelect.value === 'mercadopago';
+    mpInfo.classList.toggle('hidden', !isMp);
+  });
+
+  window._updateMpButton = function(tipo) {
+    const isMp = pagoSelect.value === 'mercadopago';
+    mpSection.classList.toggle('hidden', !isMp);
+    if (isMp && MP_LINKS[tipo]) {
+      btnMpPay.href = MP_LINKS[tipo];
+    }
+    resumenNota.textContent = isMp
+      ? 'Haz clic en "Pagar ahora" para completar el pago con MercadoPago.'
+      : 'Al confirmar serás redirigido a WhatsApp para coordinar el pago y confirmar tu reserva.';
+    btnWhatsapp.classList.toggle('hidden', isMp);
+  };
+}
+
 /* ===== CONFIRMAR RESERVA → WHATSAPP ===== */
 function confirmarReserva() {
   const d = window._reservaData;
@@ -394,6 +436,8 @@ window.closeModal = closeModal;
 window.nextStep = nextStep;
 window.confirmarReserva = confirmarReserva;
 window.addToCalendar = addToCalendar;
+
+setupMpPayment();
 
 /* ===== SURF FORECAST — 4 DAY CARDS — OPEN-METEO ===== */
 const BARRANQUITO = { lat: -12.14, lon: -77.03 };
