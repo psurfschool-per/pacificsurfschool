@@ -997,6 +997,23 @@ button{cursor:pointer;font-family:inherit}
 .mp-seguro { font-size: var(--text-xs); color: var(--gray); text-align: center; margin-top: var(--sp-2-5); display: flex; align-items: center; justify-content: center; gap: var(--sp-1-5); }
 .mp-seguro i { color: #10b981; }
 
+/* Payment toast */
+.payment-toast {
+  position: fixed; top: 20px; right: 20px; z-index: 10000;
+  background: #fff; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  max-width: 400px; border-left: 4px solid #10b981;
+}
+.payment-toast.show { transform: translateX(0); }
+.payment-toast-content { display: flex; align-items: flex-start; gap: 12px; padding: 16px 20px; }
+.payment-toast-icon { font-size: 28px; flex-shrink: 0; }
+.payment-toast-content strong { display: block; margin-bottom: 4px; color: var(--dark); }
+.payment-toast-content p { margin: 0; font-size: 13px; color: var(--gray); line-height: 1.4; }
+.payment-toast-close {
+  position: absolute; top: 8px; right: 12px; background: none; border: none;
+  font-size: 20px; color: var(--gray); cursor: pointer; line-height: 1;
+}
+
 /* logo img en navbar */
 .nav-logo-img { height: 36px; width: auto; object-fit: contain; }
 
@@ -1431,6 +1448,7 @@ button{cursor:pointer;font-family:inherit}
   .resumen-box p { flex-direction: column; gap: 2px; padding: 5px 0; }
   .resumen-nota { font-size: var(--text-2xs); }
   .btn-mp-pay { padding: var(--sp-3-5); font-size: var(--text-base); }
+  .payment-toast { left: 12px; right: 12px; max-width: none; }
 }
 
 @media (max-width: 360px) {

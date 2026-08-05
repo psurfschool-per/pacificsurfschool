@@ -1,3 +1,24 @@
+/* ===== PAYMENT STATUS — MercadoPago return ===== */
+const urlParams = new URLSearchParams(window.location.search);
+const pagoStatus = urlParams.get('pago');
+if (pagoStatus) {
+  const messages = {
+    exitoso: { icon: '✅', title: '¡Pago exitoso!', text: 'Tu pago fue procesado. Te enviaremos la confirmación por WhatsApp.' },
+    fallo: { icon: '❌', title: 'Pago fallido', text: 'Hubo un problema con el pago. Intenta de nuevo o contacta por WhatsApp.' },
+    pendiente: { icon: '⏳', title: 'Pago pendiente', text: 'Tu pago está siendo procesado. Te notificaremos cuando se confirme.' }
+  };
+  const msg = messages[pagoStatus];
+  if (msg) {
+    const toast = document.createElement('div');
+    toast.className = 'payment-toast';
+    toast.innerHTML = `<div class="payment-toast-content"><span class="payment-toast-icon">${msg.icon}</span><div><strong>${msg.title}</strong><p>${msg.text}</p></div><button class="payment-toast-close" onclick="this.parentElement.parentElement.remove()">×</button></div>`;
+    document.body.prepend(toast);
+    setTimeout(() => toast.classList.add('show'), 100);
+    setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 8000);
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+}
+
 /* ===== IMAGE SYNC — corrige .jpg → .jpeg automáticamente ===== */
 document.querySelectorAll('img[src^="img/"]').forEach(img => {
   img.addEventListener('error', function() {
@@ -329,15 +350,7 @@ function buildResumen() {
   };
 }
 
-/* ===== MERCADOPAGO — PAYMENT LINKS ===== */
-const MP_LINKS = {
-  individual: 'https://mpago.la/1Z338zm',
-  grupal: 'https://mpago.la/2mLWCbY',
-  paquete: 'https://mpago.la/2DyvLcm',
-  paquete8: 'https://mpago.la/1MFVCgP',
-  paquete12: 'https://mpago.la/2qeLksQ'
-};
-
+/* ===== MERCADOPAGO — CHECKOUT PRO ===== */
 function setupMpPayment() {
   const pagoSelect = document.getElementById('res-pago');
   const mpInfo = document.getElementById('mp-info');
@@ -356,15 +369,53 @@ function setupMpPayment() {
   window._updateMpButton = function(tipo) {
     const isMp = pagoSelect.value === 'mercadopago';
     mpSection.classList.toggle('hidden', !isMp);
-    if (isMp && MP_LINKS[tipo]) {
-      btnMpPay.href = MP_LINKS[tipo];
-    }
     resumenNota.textContent = isMp
       ? 'Haz clic en "Pagar ahora" para completar el pago con MercadoPago.'
       : 'Al confirmar serás redirigido a WhatsApp para coordinar el pago y confirmar tu reserva.';
     btnWhatsapp.classList.toggle('hidden', isMp);
   };
 }
+
+async function payWithMercadoPago() {
+  const d = window._reservaData;
+  if (!d) return;
+
+  const btn = document.getElementById('btnMpPay');
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+  btn.style.pointerEvents = 'none';
+
+  try {
+    const res = await fetch('/api/create-preference', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tipo: d.tipo,
+        personas: d.personas,
+        nombre: d.nombre,
+        horario: d.horario,
+        fecha: d.fecha
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.init_point) {
+      window.location.href = data.init_point;
+    } else {
+      alert('Error al procesar el pago. Intenta de nuevo.');
+      btn.innerHTML = originalText;
+      btn.style.pointerEvents = '';
+    }
+  } catch (err) {
+    console.error('MP error:', err);
+    alert('Error de conexión. Intenta de nuevo.');
+    btn.innerHTML = originalText;
+    btn.style.pointerEvents = '';
+  }
+}
+
+window.payWithMercadoPago = payWithMercadoPago;
 
 /* ===== CONFIRMAR RESERVA → WHATSAPP ===== */
 function confirmarReserva() {

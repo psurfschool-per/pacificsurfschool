@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "serve dist -l $PORT"
+    "start": "node server.js"
   },
   "dependencies": {
+    "express": "^4.21.0",
+    "mercadopago": "^2.13.0",
     "serve": "^14.2.6"
   },
   "devDependencies": {
