@@ -331,11 +331,11 @@ function buildResumen() {
 
 /* ===== MERCADOPAGO — PAYMENT LINKS ===== */
 const MP_LINKS = {
-  individual: 'https://www.mercadopago.com.pe/pay/REEMPLAZAR_LINK_INDIVIDUAL',
-  grupal: 'https://www.mercadopago.com.pe/pay/REEMPLAZAR_LINK_GRUPAL',
-  paquete: 'https://www.mercadopago.com.pe/pay/REEMPLAZAR_LINK_PAQUETE4',
-  paquete8: 'https://www.mercadopago.com.pe/pay/REEMPLAZAR_LINK_PAQUETE8',
-  paquete12: 'https://www.mercadopago.com.pe/pay/REEMPLAZAR_LINK_PAQUETE12'
+  individual: 'https://mpago.la/1Z338zm',
+  grupal: 'https://mpago.la/2mLWCbY',
+  paquete: 'https://mpago.la/2DyvLcm',
+  paquete8: 'https://mpago.la/1MFVCgP',
+  paquete12: 'https://mpago.la/2qeLksQ'
 };
 
 function setupMpPayment() {
