@@ -539,10 +539,13 @@ function evalSurfQuality(waveH, wavePeriod) {
 /* Formato: cada objeto es un día consecutivo desde HOY */
 /* olas: altura máxima en metros | periodo: segundos | direccion: grados (N=0, E=90, S=180, W=270) | energia: kJ | marea_alta: metros | marea_baja: metros */
 const FORECAST_DATA = [
-  { olas: 0.8, periodo: 12, direccion: 200, energia: 80, marea_alta: 0.9, marea_baja: 0.2 },
-  { olas: 1.0, periodo: 13, direccion: 210, energia: 110, marea_alta: 1.0, marea_baja: 0.1 },
-  { olas: 0.7, periodo: 11, direccion: 190, energia: 65, marea_alta: 0.8, marea_baja: 0.3 },
-  { olas: 0.9, periodo: 14, direccion: 220, energia: 100, marea_alta: 1.1, marea_baja: 0.2 },
+  { olas: 1.1, periodo: 17, direccion: 225, energia: 653, marea_alta: 0.72, marea_baja: 0.18 },
+  { olas: 1.4, periodo: 16, direccion: 225, energia: 989, marea_alta: 0.79, marea_baja: 0.15 },
+  { olas: 1.3, periodo: 14, direccion: 225, energia: 667, marea_alta: 0.87, marea_baja: 0.11 },
+  { olas: 0.9, periodo: 13, direccion: 225, energia: 282, marea_alta: 0.95, marea_baja: 0.07 },
+  { olas: 1.2, periodo: 15, direccion: 202, energia: 449, marea_alta: 1.02, marea_baja: 0.02 },
+  { olas: 1.3, periodo: 15, direccion: 202, energia: 569, marea_alta: 1.06, marea_baja: 0.0 },
+  { olas: 1.5, periodo: 14, direccion: 202, energia: 758, marea_alta: 0.62, marea_baja: 0.0 },
 ];
 /* ===== FIN DATOS MANUALES ===== */
 
