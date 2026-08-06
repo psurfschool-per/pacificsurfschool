@@ -505,13 +505,7 @@ window.addToCalendar = addToCalendar;
 
 setupMpPayment();
 
-/* ===== SURF FORECAST — 4 DAY CARDS — OPEN-METEO ===== */
-const BARRANQUITO = { lat: -12.14, lon: -77.03 };
-
-// Calibrated correction factors to match surf-forecast.com data
-const SHOALING_FACTOR = 0.50;  // 1.84m → 0.92m (matches surf-forecast)
-const PERIOD_FACTOR = 1.4;     // 8.6s → 12s (matches surf-forecast)
-const ENERGY_K = 26;           // E = 26 × H² × T (kJ)
+/* ===== SURF FORECAST — 4 DAY CARDS — MANUAL DATA ===== */
 
 const DAYS_ES = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 const DAYS_SHORT = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
@@ -541,61 +535,22 @@ function evalSurfQuality(waveH, wavePeriod) {
   return { level: 'poor', label: 'Difícil', emoji: '⚠️', css: 'q-poor' };
 }
 
-function getDailySummary(marine, weather, dayIndex) {
-  const h = marine.hourly;
-  const wS = weather?.hourly?.wind_speed_10m || [];
+/* ===== DATOS MANUALES — EDITAR AQUÍ ===== */
+/* Formato: cada objeto es un día consecutivo desde HOY */
+/* olas: altura máxima en metros | periodo: segundos | direccion: grados (N=0, E=90, S=180, W=270) | energia: kJ | marea_alta: metros | marea_baja: metros */
+const FORECAST_DATA = [
+  { olas: 0.8, periodo: 12, direccion: 200, energia: 80, marea_alta: 0.9, marea_baja: 0.2 },
+  { olas: 1.0, periodo: 13, direccion: 210, energia: 110, marea_alta: 1.0, marea_baja: 0.1 },
+  { olas: 0.7, periodo: 11, direccion: 190, energia: 65, marea_alta: 0.8, marea_baja: 0.3 },
+  { olas: 0.9, periodo: 14, direccion: 220, energia: 100, marea_alta: 1.1, marea_baja: 0.2 },
+];
+/* ===== FIN DATOS MANUALES ===== */
 
-  // Get hours for this day (0-23 = day 0, 24-47 = day 1, etc.)
-  const startIdx = dayIndex * 24;
-  const endIdx = startIdx + 24;
-
-  let maxWave = 0, avgPeriod = 0, avgDir = 0, count = 0;
-  let maxEnergy = 0, bestPeriod = 0, bestDir = 0;
-  let minTide = 999, maxTide = -999;
-
-  for (let i = startIdx; i < endIdx && i < h.time.length; i++) {
-    const wh = h.wave_height[i];
-    const wp = h.wave_period[i];
-    const wd = h.wave_direction[i];
-    const tide = h.sea_level_height_msl[i];
-
-    if (wh != null) {
-      const whBr = wh * SHOALING_FACTOR;
-      const wpCorr = wp != null ? wp * PERIOD_FACTOR : 0;
-      if (whBr > maxWave) maxWave = whBr;
-      if (wpCorr > bestPeriod) { bestPeriod = wpCorr; bestDir = wd; }
-      const energy = wpCorr > 0 ? ENERGY_K * whBr * whBr * wpCorr : 0;
-      if (energy > maxEnergy) maxEnergy = energy;
-      avgPeriod += wpCorr;
-      avgDir += wd || 0;
-      count++;
-    }
-    if (tide != null) {
-      if (tide < minTide) minTide = tide;
-      if (tide > maxTide) maxTide = tide;
-    }
-  }
-
-  const avgP = count > 0 ? avgPeriod / count : 0;
-  const avgD = count > 0 ? avgDir / count : 0;
-  const q = evalSurfQuality(maxWave, bestPeriod);
-
-  return {
-    maxWave: +maxWave.toFixed(1),
-    bestPeriod: Math.round(bestPeriod),
-    avgPeriod: Math.round(avgP),
-    avgDir: Math.round(avgD),
-    maxEnergy: Math.round(maxEnergy),
-    minTide: minTide < 999 ? +minTide.toFixed(2) : null,
-    maxTide: maxTide > -999 ? +maxTide.toFixed(2) : null,
-    quality: q
-  };
-}
-
-function buildDayCard(date, summary, isToday) {
+function buildDayCard(date, data, isToday) {
   const dayName = isToday ? 'Hoy' : DAYS_SHORT[date.getDay()];
   const dayNum = date.getDate();
   const month = MONTHS_ES[date.getMonth()];
+  const quality = evalSurfQuality(data.olas, data.periodo);
 
   return `
     <div class="day-card ${isToday ? 'day-card--today' : ''}">
@@ -604,82 +559,62 @@ function buildDayCard(date, summary, isToday) {
           <span class="day-name">${dayName}</span>
           <span class="day-num">${dayNum} ${month}</span>
         </div>
-        <span class="quality-dot ${summary.quality.css}">${summary.quality.emoji} ${summary.quality.label}</span>
+        <span class="quality-dot ${quality.css}">${quality.emoji} ${quality.label}</span>
       </div>
 
       <div class="day-card-metrics">
         <div class="bcm">
           <div class="bcm-icon"><i class="fas fa-water"></i></div>
-          <div class="bcm-val">${summary.maxWave > 0 ? summary.maxWave.toFixed(1) : '--'}</div>
+          <div class="bcm-val">${data.olas}</div>
           <div class="bcm-lbl">Ola máx (m)</div>
         </div>
         <div class="bcm">
           <div class="bcm-icon"><i class="fas fa-clock"></i></div>
-          <div class="bcm-val">${summary.bestPeriod > 0 ? summary.bestPeriod : '--'}</div>
+          <div class="bcm-val">${data.periodo}</div>
           <div class="bcm-lbl">Período (s)</div>
         </div>
         <div class="bcm">
           <div class="bcm-icon"><i class="fas fa-compass"></i></div>
-          <div class="bcm-val">${summary.avgDir > 0 ? degToCardinal(summary.avgDir) : '--'}</div>
+          <div class="bcm-val">${degToCardinal(data.direccion)}</div>
           <div class="bcm-lbl">Dirección</div>
         </div>
         <div class="bcm">
           <div class="bcm-icon"><i class="fas fa-bolt"></i></div>
-          <div class="bcm-val">${summary.maxEnergy > 0 ? summary.maxEnergy : '--'}</div>
+          <div class="bcm-val">${data.energia}</div>
           <div class="bcm-lbl">Energía (kJ)</div>
         </div>
       </div>
 
       <div class="day-card-tide">
         <div class="bct-row">
-          <span class="bct-high"><i class="fas fa-arrow-up"></i> ${summary.maxTide != null ? summary.maxTide + ' m' : '--'}</span>
-          <span class="bct-low"><i class="fas fa-arrow-down"></i> ${summary.minTide != null ? summary.minTide + ' m' : '--'}</span>
+          <span class="bct-high"><i class="fas fa-arrow-up"></i> ${data.marea_alta} m</span>
+          <span class="bct-low"><i class="fas fa-arrow-down"></i> ${data.marea_baja} m</span>
         </div>
       </div>
     </div>`;
 }
 
-async function loadBeachData() {
+function loadBeachData() {
   const grid = document.getElementById('daysGrid');
   const errorEl = document.getElementById('forecastError');
   if (!grid) return;
 
-  grid.innerHTML = '<div class="beach-loading"><div class="forecast-spinner"></div><p>Cargando datos del océano...</p></div>';
   errorEl.style.display = 'none';
 
-  try {
-    const marineUrl = `https://marine-api.open-meteo.com/v1/marine?latitude=${BARRANQUITO.lat}&longitude=${BARRANQUITO.lon}&hourly=wave_height,wave_period,wave_direction,swell_wave_height,swell_wave_period,swell_wave_direction,sea_level_height_msl&timezone=America%2FLima&forecast_days=4`;
-    const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${BARRANQUITO.lat}&longitude=${BARRANQUITO.lon}&hourly=wind_speed_10m,wind_direction_10m&timezone=America%2FLima&forecast_days=4`;
+  const now = new Date();
+  let cards = '';
 
-    const [mRes, wRes] = await Promise.all([fetch(marineUrl), fetch(weatherUrl)]);
-    const marine = await mRes.json();
-    const weather = wRes.ok ? await wRes.json() : null;
-
-    const now = new Date();
-    const todayIdx = now.getDate();
-
-    // Build 4 day cards
-    let cards = '';
-    for (let d = 0; d < 4; d++) {
-      const dayDate = new Date(now);
-      dayDate.setDate(now.getDate() + d);
-      const isToday = d === 0;
-      const summary = getDailySummary(marine, weather, d);
-      cards += buildDayCard(dayDate, summary, isToday);
-    }
-
-    grid.innerHTML = cards;
-    document.getElementById('lastUpdated').textContent = now.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
-
-  } catch (err) {
-    console.error('Forecast error:', err);
-    grid.innerHTML = '';
-    errorEl.style.display = 'block';
+  for (let d = 0; d < FORECAST_DATA.length; d++) {
+    const dayDate = new Date(now);
+    dayDate.setDate(now.getDate() + d);
+    const isToday = d === 0;
+    cards += buildDayCard(dayDate, FORECAST_DATA[d], isToday);
   }
+
+  grid.innerHTML = cards;
 }
 
 loadBeachData();
-setInterval(loadBeachData, 15 * 60 * 1000);
 
 /* ===== EXPOSE TO WINDOW ===== */
 window.loadBeachData = loadBeachData;
