@@ -243,7 +243,6 @@ function nextStep(n) {
     if (!wsp.value.match(/^[\d\s\+\-]{7,15}$/)) { showError(wsp, 'Formato inválido'); return; }
     if (!experiencia.value) { showError(experiencia, 'Selecciona tu experiencia'); return; }
     if (!nivel.value) { showError(nivel, 'Selecciona tu nivel'); return; }
-    if (!pago.value) { showError(pago, 'Selecciona medio de pago'); return; }
     buildResumen();
   }
 
@@ -350,40 +349,9 @@ function buildResumen() {
   };
 }
 
-/* ===== MERCADOPAGO — CHECKOUT PRO ===== */
+/* ===== PAYMENT SETUP ===== */
 function setupMpPayment() {
-  const pagoSelect = document.getElementById('res-pago');
-  const mpInfo = document.getElementById('mp-info');
-  const mpSection = document.getElementById('mpSection');
-  const btnMpPay = document.getElementById('btnMpPay');
-  const culqiInfo = document.getElementById('culqi-info');
-  const culqiSection = document.getElementById('culqiSection');
-  const btnCulqiPay = document.getElementById('btnCulqiPay');
-  const resumenNota = document.getElementById('resumenNota');
-  const btnWhatsapp = document.getElementById('btnWhatsapp');
-
-  if (!pagoSelect) return;
-
-  pagoSelect.addEventListener('change', () => {
-    const isMp = pagoSelect.value === 'mercadopago';
-    const isCulqi = pagoSelect.value === 'culqi';
-    mpInfo.classList.toggle('hidden', !isMp);
-    culqiInfo.classList.toggle('hidden', !isCulqi);
-  });
-
-  window._updateMpButton = function(tipo) {
-    const isMp = pagoSelect.value === 'mercadopago';
-    const isCulqi = pagoSelect.value === 'culqi';
-    mpSection.classList.toggle('hidden', !isMp);
-    culqiSection.classList.toggle('hidden', !isCulqi);
-
-    if (isMp || isCulqi) {
-      resumenNota.textContent = 'Haz clic en "Pagar ahora" para completar el pago de forma segura.';
-    } else {
-      resumenNota.textContent = 'Al confirmar serás redirigido a WhatsApp para coordinar el pago y confirmar tu reserva.';
-    }
-    btnWhatsapp.classList.toggle('hidden', isMp || isCulqi);
-  };
+  // Culqi is the only payment method - always visible
 }
 
 /* ===== CULQI — CHECKOUT EMPEBIDO ===== */
@@ -462,47 +430,6 @@ async function processCulqiPayment(token, email) {
 }
 
 window.culqi = culqiHandler;
-
-async function payWithMercadoPago() {
-  const d = window._reservaData;
-  if (!d) return;
-
-  const btn = document.getElementById('btnMpPay');
-  const originalText = btn.innerHTML;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
-  btn.style.pointerEvents = 'none';
-
-  try {
-    const res = await fetch('/api/create-preference', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        tipo: d.tipo,
-        personas: d.personas,
-        nombre: d.nombre,
-        horario: d.horario,
-        fecha: d.fecha
-      })
-    });
-
-    const data = await res.json();
-
-    if (data.init_point) {
-      window.location.href = data.init_point;
-    } else {
-      alert('Error al procesar el pago. Intenta de nuevo.');
-      btn.innerHTML = originalText;
-      btn.style.pointerEvents = '';
-    }
-  } catch (err) {
-    console.error('MP error:', err);
-    alert('Error de conexión. Intenta de nuevo.');
-    btn.innerHTML = originalText;
-    btn.style.pointerEvents = '';
-  }
-}
-
-window.payWithMercadoPago = payWithMercadoPago;
 window.payWithCulqi = payWithCulqi;
 
 /* ===== CONFIRMAR RESERVA → WHATSAPP ===== */
