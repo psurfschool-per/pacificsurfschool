@@ -356,6 +356,9 @@ function setupMpPayment() {
   const mpInfo = document.getElementById('mp-info');
   const mpSection = document.getElementById('mpSection');
   const btnMpPay = document.getElementById('btnMpPay');
+  const culqiInfo = document.getElementById('culqi-info');
+  const culqiSection = document.getElementById('culqiSection');
+  const btnCulqiPay = document.getElementById('btnCulqiPay');
   const resumenNota = document.getElementById('resumenNota');
   const btnWhatsapp = document.getElementById('btnWhatsapp');
 
@@ -363,18 +366,102 @@ function setupMpPayment() {
 
   pagoSelect.addEventListener('change', () => {
     const isMp = pagoSelect.value === 'mercadopago';
+    const isCulqi = pagoSelect.value === 'culqi';
     mpInfo.classList.toggle('hidden', !isMp);
+    culqiInfo.classList.toggle('hidden', !isCulqi);
   });
 
   window._updateMpButton = function(tipo) {
     const isMp = pagoSelect.value === 'mercadopago';
+    const isCulqi = pagoSelect.value === 'culqi';
     mpSection.classList.toggle('hidden', !isMp);
-    resumenNota.textContent = isMp
-      ? 'Haz clic en "Pagar ahora" para completar el pago con MercadoPago.'
-      : 'Al confirmar serás redirigido a WhatsApp para coordinar el pago y confirmar tu reserva.';
-    btnWhatsapp.classList.toggle('hidden', isMp);
+    culqiSection.classList.toggle('hidden', !isCulqi);
+
+    if (isMp || isCulqi) {
+      resumenNota.textContent = 'Haz clic en "Pagar ahora" para completar el pago de forma segura.';
+    } else {
+      resumenNota.textContent = 'Al confirmar serás redirigido a WhatsApp para coordinar el pago y confirmar tu reserva.';
+    }
+    btnWhatsapp.classList.toggle('hidden', isMp || isCulqi);
   };
 }
+
+/* ===== CULQI — CHECKOUT EMPEBIDO ===== */
+function payWithCulqi() {
+  const d = window._reservaData;
+  if (!d) return;
+
+  Culqi.settings({
+    title: 'Pacific Surf School',
+    currency: 'PEN',
+    amount: d.total * 100,
+  });
+
+  Culqi.open();
+}
+
+function culqiHandler() {
+  if (Culqi.token) {
+    const token = Culqi.token.id;
+    const email = Culqi.token.email || '';
+    Culqi.close();
+
+    processCulqiPayment(token, email);
+  } else if (Culqi.error) {
+    console.error('Culqi error:', Culqi.error);
+    if (Culqi.error.user_message) {
+      alert(Culqi.error.user_message);
+    }
+  }
+}
+
+async function processCulqiPayment(token, email) {
+  const d = window._reservaData;
+  if (!d) return;
+
+  const btn = document.getElementById('btnCulqiPay');
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+  btn.style.pointerEvents = 'none';
+
+  try {
+    const res = await fetch('/api/culqi-charge', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token,
+        amount: d.total * 100,
+        email: email || 'cliente@pacificsurfschool.com',
+        tipo: d.tipo,
+        personas: d.personas,
+        fecha: d.fecha,
+        horario: d.horario,
+        nombre: d.nombre
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      btn.innerHTML = '<i class="fas fa-check"></i> ¡Pago exitoso!';
+      btn.classList.add('btn-success');
+      setTimeout(() => {
+        confirmarReserva();
+      }, 1500);
+    } else {
+      alert(data.error || 'Error al procesar el pago. Intenta de nuevo.');
+      btn.innerHTML = originalText;
+      btn.style.pointerEvents = '';
+    }
+  } catch (err) {
+    console.error('Culqi error:', err);
+    alert('Error de conexión. Intenta de nuevo.');
+    btn.innerHTML = originalText;
+    btn.style.pointerEvents = '';
+  }
+}
+
+window.culqi = culqiHandler;
 
 async function payWithMercadoPago() {
   const d = window._reservaData;
@@ -416,6 +503,7 @@ async function payWithMercadoPago() {
 }
 
 window.payWithMercadoPago = payWithMercadoPago;
+window.payWithCulqi = payWithCulqi;
 
 /* ===== CONFIRMAR RESERVA → WHATSAPP ===== */
 function confirmarReserva() {

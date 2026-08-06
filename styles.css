@@ -997,6 +997,27 @@ button{cursor:pointer;font-family:inherit}
 .mp-seguro { font-size: var(--text-xs); color: var(--gray); text-align: center; margin-top: var(--sp-2-5); display: flex; align-items: center; justify-content: center; gap: var(--sp-1-5); }
 .mp-seguro i { color: #10b981; }
 
+/* Culqi */
+.culqi-info {
+  background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+  border: 1px solid #86efac; border-radius: var(--sp-3-5);
+  padding: var(--sp-3) var(--sp-4); margin-top: var(--sp-3); font-size: var(--text-sm);
+  color: #15803d; display: flex; align-items: center; gap: var(--sp-2);
+}
+.btn-culqi-pay {
+  display: flex; align-items: center; justify-content: center; gap: var(--sp-3);
+  width: 100%; padding: var(--sp-4) var(--sp-6);
+  background: #7b2ff2; color: #fff; border: none; border-radius: var(--radius-pill);
+  font-size: var(--text-lg); font-weight: 700; cursor: pointer;
+  transition: all var(--transition-base) ease;
+  box-shadow: 0 4px 20px rgba(123,47,242,0.35); text-decoration: none;
+}
+.btn-culqi-pay:hover { background: #6b21d9; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(123,47,242,0.5); }
+.btn-culqi-pay .culqi-logo { width: 24px; height: 24px; }
+.btn-culqi-pay.btn-success { background: #10b981; box-shadow: 0 4px 20px rgba(16,185,129,0.35); }
+.culqi-seguro { font-size: var(--text-xs); color: var(--gray); text-align: center; margin-top: var(--sp-2-5); display: flex; align-items: center; justify-content: center; gap: var(--sp-1-5); }
+.culqi-seguro i { color: #10b981; }
+
 /* Payment toast */
 .payment-toast {
   position: fixed; top: 20px; right: 20px; z-index: 10000;
@@ -1448,6 +1469,7 @@ button{cursor:pointer;font-family:inherit}
   .resumen-box p { flex-direction: column; gap: 2px; padding: 5px 0; }
   .resumen-nota { font-size: var(--text-2xs); }
   .btn-mp-pay { padding: var(--sp-3-5); font-size: var(--text-base); }
+  .btn-culqi-pay { padding: var(--sp-3-5); font-size: var(--text-base); }
   .payment-toast { left: 12px; right: 12px; max-width: none; }
 }
 

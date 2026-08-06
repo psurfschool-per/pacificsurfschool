@@ -82,6 +82,56 @@ app.post('/api/create-preference', async (req, res) => {
   }
 });
 
+/* ===== CULQI — CARGO ÚNICO ===== */
+app.post('/api/culqi-charge', async (req, res) => {
+  try {
+    const { token, amount, email, tipo, personas, fecha, horario, nombre } = req.body;
+
+    if (!token) {
+      return res.status(400).json({ error: 'Token de pago requerido' });
+    }
+
+    const CULQI_SECRET = process.env.CULQI_SECRET_KEY;
+    if (!CULQI_SECRET) {
+      return res.status(500).json({ error: 'Culqi no configurado en el servidor' });
+    }
+
+    const response = await fetch('https://api.culqi.com/v2/charges', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${CULQI_SECRET}`
+      },
+      body: JSON.stringify({
+        amount,
+        currency_code: 'PEN',
+        email,
+        source_id: token,
+        description: `Pacific Surf School - ${tipo} - ${fecha} ${horario}`,
+        metadata: {
+          tipo,
+          personas: String(personas),
+          fecha,
+          horario,
+          nombre
+        }
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.object === 'charge') {
+      res.json({ success: true, id: data.id });
+    } else {
+      console.error('Culqi error:', data);
+      res.status(400).json({ error: data.user_message || 'Error al procesar el pago' });
+    }
+  } catch (error) {
+    console.error('Culqi charge error:', error);
+    res.status(500).json({ error: 'Error de conexión con Culqi' });
+  }
+});
+
 app.get('*', (req, res) => {
   res.sendFile(join(__dirname, 'dist', 'index.html'));
 });

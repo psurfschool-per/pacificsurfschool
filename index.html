@@ -752,11 +752,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <option value="plin">Plin</option>
             <option value="transferencia">Transferencia bancaria</option>
             <option value="tarjeta">Tarjeta de crédito/débito</option>
+            <option value="culqi">💳 Pagar con Tarjeta / Yape</option>
             <option value="mercadopago">💳 Pagar con MercadoPago</option>
           </select>
         </div>
         <div id="mp-info" class="mp-info hidden">
           <p><i class="fas fa-info-circle"></i> Serás redirigido a MercadoPago para completar el pago de forma segura.</p>
+        </div>
+        <div id="culqi-info" class="culqi-info hidden">
+          <p><i class="fas fa-info-circle"></i> Se abrirá el formulario de Culqi para completar el pago de forma segura.</p>
         </div>
         <div class="modal-nav">
           <button class="btn-back" onclick="nextStep(2)"><i class="fas fa-arrow-left"></i> Atrás</button>
@@ -769,6 +773,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h3>Confirma tu reserva</h3>
         <div class="resumen-box" id="resumenBox"></div>
         <p class="resumen-nota" id="resumenNota">Al confirmar serás redirigido a WhatsApp para coordinar el pago y confirmar tu reserva.</p>
+        <div id="culqiSection" class="hidden">
+          <p class="mp-pago-nota">Completa el pago de forma segura con Culqi:</p>
+          <button id="btnCulqiPay" class="btn-culqi-pay" onclick="payWithCulqi(); return false;">
+            <svg class="culqi-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span>Pagar ahora</span>
+          </button>
+          <p class="culqi-seguro"><i class="fas fa-lock"></i> Pago seguro · Tarjeta y Yape</p>
+        </div>
         <div id="mpSection" class="hidden">
           <p class="mp-pago-nota">Completa el pago de forma segura con MercadoPago:</p>
           <a href="#" id="btnMpPay" class="btn-mp-pay" onclick="payWithMercadoPago(); return false;">
@@ -795,5 +807,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script type="module" src="app.js"></script>
+<script src="https://checkout.culqi.com/js/v4"></script>
+<script>
+  Culqi.publicKey = 'pk_test_VfKYw1haKMh0Zqh0';
+  Culqi.options({
+    lang: 'es',
+    installments: false,
+    paymentMethods: {
+      tarjeta: true,
+      yape: true,
+      bancaMovil: false,
+      agente: false,
+      billetera: false,
+      cuotealo: false
+    }
+  });
+</script>
 </body>
 </html>
