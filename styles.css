@@ -99,7 +99,7 @@ button{cursor:pointer;font-family:inherit}
 
 /* ===== HERO CLEAN STYLE ===== */
 .hero {
-  min-height: 90vh;
+  min-height: 70vh;
   position: relative;
   display: flex;
   align-items: center;
@@ -1002,7 +1002,7 @@ button{cursor:pointer;font-family:inherit}
   }
 
   /* Hero */
-  .hero { min-height: 85svh; }
+  .hero { min-height: 70svh; }
   .hero-content-clean { padding: 0 var(--sp-5); }
   .hero-text-box h1 { font-size: clamp(var(--text-xl), 7vw, 2.8rem); margin-bottom: var(--sp-4); }
   .hero-desc { font-size: 0.95rem; line-height: 1.6; margin-bottom: var(--sp-6); }
@@ -1433,7 +1433,7 @@ button{cursor:pointer;font-family:inherit}
     --text-lg: 1rem;
     --text-xl: 1.1rem;
   }
-  .hero { min-height: 80svh; }
+  .hero { min-height: 70svh; }
   .hero-text-box h1 { font-size: 1.6rem; line-height: 1.1; }
   .hero-desc { font-size: var(--text-sm); margin-bottom: var(--sp-5); }
   .hero-actions-clean { gap: var(--sp-2-5); }
@@ -1477,7 +1477,7 @@ button{cursor:pointer;font-family:inherit}
 
 /* Tablets portrait (481px - 768px) */
 @media (min-width: 481px) and (max-width: 768px) {
-  .hero { min-height: 85svh; }
+  .hero { min-height: 70svh; }
   .hero-text-box h1 { font-size: 2.2rem; }
   .hero-desc { font-size: 1rem; }
   .stats-inner { grid-template-columns: repeat(4, 1fr); gap: var(--sp-3); }
@@ -1491,7 +1491,7 @@ button{cursor:pointer;font-family:inherit}
 
 /* Tablets landscape (769px - 1024px) */
 @media (min-width: 769px) and (max-width: 1024px) {
-  .hero { min-height: 88svh; }
+  .hero { min-height: 70svh; }
   .hero-text-box h1 { font-size: 2.8rem; }
   .stats-inner { grid-template-columns: repeat(4, 1fr); gap: var(--sp-4); }
   .clases-grid { grid-template-columns: repeat(2, 1fr); gap: var(--sp-5); }
@@ -1503,7 +1503,7 @@ button{cursor:pointer;font-family:inherit}
 
 /* Large desktop (1440px+) */
 @media (min-width: 1440px) {
-  .hero { min-height: 92svh; }
+  .hero { min-height: 70svh; }
   .hero-text-box h1 { font-size: 4.5rem; }
   .hero-desc { font-size: 1.25rem; }
   .days-grid { max-width: 1400px; }
