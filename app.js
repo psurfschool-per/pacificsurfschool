@@ -539,13 +539,13 @@ function evalSurfQuality(waveH, wavePeriod) {
 /* Formato: cada objeto es un día consecutivo desde HOY */
 /* olas: altura máxima en metros | periodo: segundos | direccion: grados (N=0, E=90, S=180, W=270) | energia: kJ | marea_alta: metros | marea_baja: metros */
 const FORECAST_DATA = [
-  { olas: 1.1, periodo: 17, direccion: 225, energia: 653, marea_alta: 0.72, marea_baja: 0.18 },
-  { olas: 1.4, periodo: 16, direccion: 225, energia: 989, marea_alta: 0.79, marea_baja: 0.15 },
-  { olas: 1.3, periodo: 14, direccion: 225, energia: 667, marea_alta: 0.87, marea_baja: 0.11 },
-  { olas: 0.9, periodo: 13, direccion: 225, energia: 282, marea_alta: 0.95, marea_baja: 0.07 },
-  { olas: 1.2, periodo: 15, direccion: 202, energia: 449, marea_alta: 1.02, marea_baja: 0.02 },
-  { olas: 1.3, periodo: 15, direccion: 202, energia: 569, marea_alta: 1.06, marea_baja: 0.0 },
-  { olas: 1.5, periodo: 14, direccion: 202, energia: 758, marea_alta: 0.62, marea_baja: 0.0 },
+  { olas: 1.3, periodo: 9, direccion: 180, energia: 257, marea_alta: 0.52, marea_baja: 0.37 },
+  { olas: 1.1, periodo: 15, direccion: 225, energia: 496, marea_alta: 0.95, marea_baja: 0.07 },
+  { olas: 1.3, periodo: 14, direccion: 202, energia: 578, marea_alta: 1.02, marea_baja: 0.02 },
+  { olas: 1.2, periodo: 15, direccion: 202, energia: 576, marea_alta: 1.06, marea_baja: 0.0 },
+  { olas: 1.6, periodo: 14, direccion: 202, energia: 1002, marea_alta: 1.06, marea_baja: 0.0 },
+  { olas: 1.0, periodo: 12, direccion: 202, energia: 318, marea_alta: 0.66, marea_baja: 0.0 },
+  { olas: 0.8, periodo: 19, direccion: 225, energia: 488, marea_alta: 0.69, marea_baja: 0.11 },
 ];
 /* ===== FIN DATOS MANUALES ===== */
 
@@ -607,7 +607,7 @@ function loadBeachData() {
   const now = new Date();
   let cards = '';
 
-  for (let d = 0; d < FORECAST_DATA.length; d++) {
+  for (let d = 0; d < 4; d++) {
     const dayDate = new Date(now);
     dayDate.setDate(now.getDate() + d);
     const isToday = d === 0;
