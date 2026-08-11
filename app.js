@@ -622,6 +622,7 @@ loadBeachData();
 /* ===== GALLERY CAROUSEL ===== */
 let carouselIndex = 0;
 let carouselTimer = null;
+let galleryPaused = false;
 function initCarousel() {
   const track = document.querySelector('.carousel-track');
   const dotsContainer = document.getElementById('carouselDots');
@@ -642,8 +643,11 @@ function initCarousel() {
     dotsContainer.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === carouselIndex));
   }
   function goToSlide(n) { carouselIndex = n; update(); resetTimer(); }
-  function resetTimer() { clearInterval(carouselTimer); carouselTimer = setInterval(() => { carouselIndex = (carouselIndex + 1) % total; update(); }, 4000); }
+  function getInterval() { return window.innerWidth <= 768 ? 6000 : 4000; }
+  function resetTimer() { clearInterval(carouselTimer); carouselTimer = setInterval(() => { if (!galleryPaused) { carouselIndex = (carouselIndex + 1) % total; update(); } }, getInterval()); }
   function stopTimer() { clearInterval(carouselTimer); }
+  function pause() { galleryPaused = true; stopTimer(); }
+  function resume() { galleryPaused = false; resetTimer(); }
   window.moveCarousel = function(dir) { carouselIndex = (carouselIndex + dir + total) % total; update(); resetTimer(); };
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -653,11 +657,14 @@ function initCarousel() {
   }, { threshold: 0.3 });
   observer.observe(section);
   let touchStartX = 0;
-  section.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  section.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; pause(); }, { passive: true });
   section.addEventListener('touchend', e => {
     const diff = touchStartX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) window.moveCarousel(diff > 0 ? 1 : -1);
+    setTimeout(resume, 4000);
   }, { passive: true });
+  section.addEventListener('mouseenter', pause);
+  section.addEventListener('mouseleave', resume);
 }
 document.addEventListener('DOMContentLoaded', initCarousel);
 
@@ -669,6 +676,7 @@ function initClasesCarousel() {
   const total = cards.length;
   let idx = 0;
   let timer = null;
+  let isPaused = false;
 
   function getVisible() {
     const w = window.innerWidth;
@@ -677,7 +685,12 @@ function initClasesCarousel() {
     return 1;
   }
 
+  function getInterval() {
+    return window.innerWidth <= 768 ? 6000 : 3500;
+  }
+
   function slide() {
+    if (isPaused) return;
     const visible = getVisible();
     const maxIdx = Math.max(0, total - visible);
     if (idx > maxIdx) idx = 0;
@@ -692,11 +705,23 @@ function initClasesCarousel() {
 
   function resetTimer() {
     clearInterval(timer);
-    timer = setInterval(slide, 3500);
+    timer = setInterval(slide, getInterval());
   }
+
+  function pause() { isPaused = true; clearInterval(timer); }
+  function resume() { isPaused = false; resetTimer(); }
 
   slide();
   resetTimer();
+
+  const carousel = track.closest('.clases-carousel');
+  if (carousel) {
+    carousel.addEventListener('mouseenter', pause);
+    carousel.addEventListener('mouseleave', resume);
+    carousel.addEventListener('touchstart', pause, { passive: true });
+    carousel.addEventListener('touchend', () => { setTimeout(resume, 3000); }, { passive: true });
+  }
+
   window.addEventListener('resize', () => { idx = 0; slide(); resetTimer(); });
 }
 document.addEventListener('DOMContentLoaded', initClasesCarousel);
