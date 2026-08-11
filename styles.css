@@ -896,12 +896,14 @@ button{cursor:pointer;font-family:inherit}
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--white);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  text-align: center;
 }
 .camden-feature p {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: rgba(255,255,255,0.5);
-  line-height: 1.5;
+  line-height: 1.6;
+  text-align: center;
 }
 .camden-cta {
   position: relative;
@@ -1263,12 +1265,9 @@ button{cursor:pointer;font-family:inherit}
   .nosotros-inner { grid-template-columns: 1fr; gap: var(--sp-9); }
   .footer-inner { grid-template-columns: 1fr 1fr; }
   .ubicacion-faq-inner { grid-template-columns: 1fr; gap: var(--sp-10); }
-  .sponsor-camden-inner { grid-template-columns: 1fr; text-align: center; padding: 60px 32px; gap: 32px; }
-  .sponsor-camden-center { align-items: center; }
-  .sponsor-title { font-size: 3rem; }
-  .sponsor-subtitle { max-width: 100%; }
-  .sponsor-photos { grid-template-columns: 1fr 1fr; grid-template-rows: 150px 150px; }
-  .sponsor-photo-1 { grid-row: span 2; }
+  .camden-title { font-size: 3rem; }
+  .camden-products { grid-template-columns: repeat(2, 1fr); }
+  .camden-features { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -1353,19 +1352,51 @@ button{cursor:pointer;font-family:inherit}
   .hero-text-box h1 { font-size: 1.85rem; line-height: 1.15; }
   .hero-desc { font-size: var(--text-base); }
   .btn-primary-clean, .btn-secondary-clean { padding: var(--sp-3-5) var(--sp-5); font-size: 0.95rem; }
-  .sponsor-camden-inner { padding: 48px 20px; gap: 24px; }
-  .sponsor-title { font-size: 2.5rem; }
-  .sponsor-subtitle { font-size: 0.9rem; }
-  .sponsor-photos { grid-template-columns: 1fr 1fr; grid-template-rows: 120px 120px; gap: 8px; }
+  .camden-hero { padding: 40px 20px 30px; }
+  .camden-tag { font-size: 0.6rem; letter-spacing: 2px; }
+  .camden-title { font-size: 2.5rem; }
+  .camden-desc { font-size: 0.9rem; line-height: 1.5; }
+  .camden-btn { font-size: 0.8rem; padding: 10px 24px; }
+  .camden-products { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; padding: 0 16px 40px; }
+  .camden-products::-webkit-scrollbar { display: none; }
+  .camden-product { min-width: 280px; scroll-snap-align: start; flex-shrink: 0; }
+  .camden-product-img { height: 220px; }
+  .camden-product-info { padding: 16px; }
+  .camden-product-info h3 { font-size: 0.95rem; }
+  .camden-product-info p { font-size: 0.75rem; }
+  .camden-price { font-size: 0.9rem; }
+  .camden-features { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 30px 16px 40px; border-top: none; }
+  .camden-feature { min-width: auto; }
+  .camden-feature-icon { width: 44px; height: 44px; font-size: 0.9rem; }
+  .camden-feature h4 { font-size: 0.8rem; }
+  .camden-feature p { font-size: 0.7rem; }
+  .camden-cta { height: 220px; margin: 0 16px 30px; }
+  .camden-cta-overlay { padding: 24px; }
+  .camden-cta-overlay h3 { font-size: 1.2rem; }
+  .camden-cta-overlay p { font-size: 0.8rem; }
+  .camden-btn-white { font-size: 0.8rem; padding: 10px 20px; }
+  .camden-footer { padding: 20px 24px; flex-direction: column; gap: 16px; }
+  .camden-footer a { font-size: 0.75rem; }
+
+  .days-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; padding: 0 16px 20px; }
+  .days-grid::-webkit-scrollbar { display: none; }
+  .day-card { min-width: 280px; scroll-snap-align: start; flex-shrink: 0; }
 
   .stats-inner { grid-template-columns: repeat(2, 1fr); gap: var(--sp-3); }
   .stat-item strong { font-size: var(--text-3xl); }
 
-  .clase-card { border-radius: var(--sp-3-5); }
+  .clase-card { border-radius: var(--sp-3-5); min-width: 260px; }
   .clase-img { aspect-ratio: 16 / 9; }
+  .clase-body { padding: 14px; }
+  .clase-body h3 { font-size: 0.9rem; }
+  .clase-body p { font-size: 0.75rem; }
+  .clase-body ul li { font-size: 0.7rem; gap: 6px; }
+  .clase-body ul li i { font-size: 0.65rem; }
+  .clase-precio .precio { font-size: 1.1rem; }
+  .clase-precio .por { font-size: 0.7rem; }
+  .popular-ribbon { font-size: 0.6rem; padding: 4px 10px; top: 8px; right: 8px; }
 
   /* Surf Forecast - Mobile */
-  .days-grid { grid-template-columns: 1fr; gap: 14px; }
   .day-card { padding: 16px; }
   .day-card-header { margin-bottom: 14px; padding-bottom: 12px; }
   .day-name { font-size: var(--text-base); }
@@ -1652,6 +1683,27 @@ button{cursor:pointer;font-family:inherit}
 @media (max-width: 360px) {
   .clase-options { grid-template-columns: 1fr; }
   .modal-body { padding: var(--sp-3) var(--sp-3-5) var(--sp-4); }
+  .clase-card { min-width: 240px; }
+  .clase-body { padding: 12px; }
+  .clase-body h3 { font-size: 0.85rem; }
+  .clase-body p { font-size: 0.7rem; }
+  .clase-body ul { gap: 4px; }
+  .clase-body ul li { font-size: 0.65rem; }
+  .camden-title { font-size: 2rem; }
+  .camden-desc { font-size: 0.8rem; }
+  .camden-btn { font-size: 0.75rem; padding: 8px 20px; }
+  .camden-products { min-width: 260px; }
+  .camden-product-info h3 { font-size: 0.85rem; }
+  .camden-product-info p { font-size: 0.7rem; }
+  .camden-price { font-size: 0.85rem; }
+  .camden-features { gap: 12px; padding: 20px 16px 30px; }
+  .camden-feature-icon { width: 40px; height: 40px; font-size: 0.85rem; }
+  .camden-feature h4 { font-size: 0.75rem; }
+  .camden-feature p { font-size: 0.65rem; }
+  .camden-cta { height: 180px; }
+  .camden-cta-overlay h3 { font-size: 1rem; }
+  .camden-cta-overlay p { font-size: 0.75rem; margin-bottom: 16px; }
+  .day-card { min-width: 260px; }
 }
 
 /* ===== HORARIO BUTTONS ===== */
@@ -1728,16 +1780,19 @@ button{cursor:pointer;font-family:inherit}
   .stat-item strong { font-size: var(--text-2xl); }
   .stat-item span { font-size: var(--text-2xs); }
   .section-head h2 { font-size: var(--text-xl); }
-  .clase-card { border-radius: var(--sp-2-5); }
+  .clase-card { border-radius: var(--sp-2-5); min-width: 280px; }
   .clase-img { aspect-ratio: 16/10; }
-  .clase-body { padding: var(--sp-3); }
+  .clase-body { padding: 16px; }
   .clase-body h3 { font-size: var(--text-base); }
-  .clase-body p { font-size: var(--text-xs); }
-  .clase-body ul li { font-size: var(--text-xs); }
+  .clase-body p { font-size: 0.8rem; line-height: 1.4; }
+  .clase-body ul { gap: 6px; }
+  .clase-body ul li { font-size: 0.75rem; }
+  .clase-body ul li i { font-size: 0.7rem; }
   .clase-precio .precio { font-size: var(--text-lg); }
+  .clase-footer { flex-direction: column; gap: 12px; align-items: stretch; }
+  .btn-reservar-card { width: 100%; text-align: center; padding: 12px; }
   .gallery-carousel { margin: 0 auto 32px; border-radius: 12px; }
   .carousel-btn { width: 36px; height: 36px; font-size: 0.85rem; }
-  .days-grid { grid-template-columns: 1fr; }
   .day-card { padding: var(--sp-3); }
   .day-card-metrics { grid-template-columns: repeat(2, 1fr); gap: 6px; }
   .day-card-metrics .bcm { padding: 8px 6px; }
