@@ -718,8 +718,45 @@ function initClasesCarousel() {
   if (carousel) {
     carousel.addEventListener('mouseenter', pause);
     carousel.addEventListener('mouseleave', resume);
-    carousel.addEventListener('touchstart', pause, { passive: true });
-    carousel.addEventListener('touchend', () => { setTimeout(resume, 3000); }, { passive: true });
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let isDragging = false;
+
+    carousel.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+      isDragging = true;
+      pause();
+    }, { passive: true });
+
+    carousel.addEventListener('touchmove', e => {
+      if (!isDragging) return;
+      touchEndX = e.touches[0].clientX;
+    }, { passive: true });
+
+    carousel.addEventListener('touchend', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 50) {
+        const visible = getVisible();
+        const maxIdx = Math.max(0, total - visible);
+        if (diff > 0 && idx <= maxIdx) {
+          idx++;
+          if (idx > maxIdx) idx = 0;
+        } else if (diff < 0) {
+          idx--;
+          if (idx < 0) idx = maxIdx;
+        }
+        const card = cards[0];
+        if (card) {
+          const gap = 24;
+          const cardW = card.offsetWidth + gap;
+          track.style.transform = 'translateX(-' + (idx * cardW) + 'px)';
+        }
+      }
+      setTimeout(resume, 3000);
+    }, { passive: true });
   }
 
   window.addEventListener('resize', () => { idx = 0; slide(); resetTimer(); });
