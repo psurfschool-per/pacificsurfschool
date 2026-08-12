@@ -693,14 +693,22 @@ function initClasesCarousel() {
     if (isPaused || isMobile()) return;
     const visible = getVisible();
     const maxIdx = Math.max(0, total - visible);
-    if (idx > maxIdx) idx = 0;
     const card = cards[0];
     if (!card) return;
     const gap = 24;
     const cardW = card.offsetWidth + gap;
+
+    track.style.transition = 'transform 0.5s ease';
     track.style.transform = 'translateX(-' + (idx * cardW) + 'px)';
     idx++;
-    if (idx > maxIdx) idx = 0;
+
+    if (idx > maxIdx) {
+      setTimeout(() => {
+        track.style.transition = 'none';
+        idx = 0;
+        track.style.transform = 'translateX(0)';
+      }, 520);
+    }
   }
 
   function resetTimer() {
@@ -747,10 +755,11 @@ function initClasesCarousel() {
       if (Math.abs(diff) > 50) {
         const visible = getVisible();
         const maxIdx = Math.max(0, total - visible);
-        if (diff > 0 && idx <= maxIdx) {
+        track.style.transition = 'transform 0.5s ease';
+        if (diff > 0) {
           idx++;
           if (idx > maxIdx) idx = 0;
-        } else if (diff < 0) {
+        } else {
           idx--;
           if (idx < 0) idx = maxIdx;
         }
@@ -767,6 +776,7 @@ function initClasesCarousel() {
 
   window.addEventListener('resize', () => {
     idx = 0;
+    track.style.transition = 'none';
     if (isMobile()) {
       clearInterval(timer);
       track.style.transform = 'translateX(0)';
