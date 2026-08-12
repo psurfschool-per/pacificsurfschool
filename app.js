@@ -19,6 +19,9 @@ if (pagoStatus) {
   }
 }
 
+/* ===== EMAILJS ===== */
+emailjs.init({ publicKey: 'l7cB9DCkKYmalVubB' });
+
 /* ===== IMAGE SYNC — corrige .jpg → .jpeg automáticamente ===== */
 document.querySelectorAll('img[src^="img/"]').forEach(img => {
   img.addEventListener('error', function() {
@@ -368,6 +371,32 @@ function payWithCulqi() {
   Culqi.open();
 }
 
+/* ===== ENVIAR EMAIL DE CONFIRMACIÓN (EmailJS) ===== */
+function sendConfirmationEmail(data) {
+  const reservationId = 'PSS-' + Date.now().toString(36).toUpperCase();
+  const classNames = {
+    individual: 'Clase Individual',
+    grupal: 'Clase Grupal',
+    paquete: 'Pack x4 Clases',
+    paquete8: 'Pack x8 Clases',
+    paquete12: 'Pack x12 Clases'
+  };
+
+  const templateParams = {
+    nombre: data.nombre,
+    email: data.email,
+    clase: classNames[data.tipo] || data.tipo,
+    fecha: data.fecha,
+    horario: data.horario,
+    precio: data.total,
+    reserva: reservationId
+  };
+
+  return emailjs.send('service_pss05', 'template_yx981r7', templateParams)
+    .then(res => console.log('Email enviado:', res))
+    .catch(err => console.error('Error email:', err));
+}
+
 function culqiHandler() {
   if (Culqi.token) {
     const token = Culqi.token.id;
@@ -413,6 +442,7 @@ async function processCulqiPayment(token, email) {
     if (data.success) {
       btn.innerHTML = '<i class="fas fa-check"></i> ¡Pago exitoso!';
       btn.classList.add('btn-success');
+      sendConfirmationEmail({ ...d, email });
       setTimeout(() => {
         confirmarReserva();
       }, 1500);
