@@ -685,12 +685,12 @@ function initClasesCarousel() {
     return 1;
   }
 
-  function getInterval() {
-    return window.innerWidth <= 768 ? 6000 : 3500;
+  function isMobile() {
+    return window.innerWidth <= 768;
   }
 
   function slide() {
-    if (isPaused) return;
+    if (isPaused || isMobile()) return;
     const visible = getVisible();
     const maxIdx = Math.max(0, total - visible);
     if (idx > maxIdx) idx = 0;
@@ -705,19 +705,25 @@ function initClasesCarousel() {
 
   function resetTimer() {
     clearInterval(timer);
-    timer = setInterval(slide, getInterval());
+    if (!isMobile()) {
+      timer = setInterval(slide, 3500);
+    }
   }
 
   function pause() { isPaused = true; clearInterval(timer); }
   function resume() { isPaused = false; resetTimer(); }
 
-  slide();
-  resetTimer();
+  if (!isMobile()) {
+    slide();
+    resetTimer();
+  }
 
   const carousel = track.closest('.clases-carousel');
   if (carousel) {
-    carousel.addEventListener('mouseenter', pause);
-    carousel.addEventListener('mouseleave', resume);
+    if (!isMobile()) {
+      carousel.addEventListener('mouseenter', pause);
+      carousel.addEventListener('mouseleave', resume);
+    }
 
     let touchStartX = 0;
     let touchEndX = 0;
@@ -726,7 +732,7 @@ function initClasesCarousel() {
     carousel.addEventListener('touchstart', e => {
       touchStartX = e.touches[0].clientX;
       isDragging = true;
-      pause();
+      if (!isMobile()) pause();
     }, { passive: true });
 
     carousel.addEventListener('touchmove', e => {
@@ -759,7 +765,16 @@ function initClasesCarousel() {
     }, { passive: true });
   }
 
-  window.addEventListener('resize', () => { idx = 0; slide(); resetTimer(); });
+  window.addEventListener('resize', () => {
+    idx = 0;
+    if (isMobile()) {
+      clearInterval(timer);
+      track.style.transform = 'translateX(0)';
+    } else {
+      slide();
+      resetTimer();
+    }
+  });
 }
 document.addEventListener('DOMContentLoaded', initClasesCarousel);
 
