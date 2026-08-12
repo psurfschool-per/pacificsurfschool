@@ -1348,78 +1348,103 @@ button{cursor:pointer;font-family:inherit}
   :root {
     --text-2xs: 0.75rem; --text-xs: 0.8125rem; --text-sm: 0.875rem; --text-base: 0.9375rem;
   }
+
+  section { padding: 40px 16px; }
+  .section-head { margin-bottom: 28px; }
+
   .hero-content-clean { padding: 0 var(--sp-4); }
   .hero-text-box h1 { font-size: 1.85rem; line-height: 1.15; }
   .hero-desc { font-size: var(--text-base); }
   .btn-primary-clean, .btn-secondary-clean { padding: var(--sp-3-5) var(--sp-5); font-size: 0.95rem; }
-  .camden-hero { padding: 40px 20px 30px; }
+
+  .camden-hero { padding: 32px 16px 24px; }
   .camden-tag { font-size: 0.6rem; letter-spacing: 2px; }
-  .camden-title { font-size: 2.5rem; }
-  .camden-desc { font-size: 0.9rem; line-height: 1.5; }
+  .camden-title { font-size: 2.2rem; }
+  .camden-desc { font-size: 0.85rem; line-height: 1.5; }
   .camden-btn { font-size: 0.8rem; padding: 10px 24px; }
-  .camden-products { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; padding: 0 16px 40px; }
+  .camden-products { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; gap: 16px; padding: 0 16px 30px; }
   .camden-products::-webkit-scrollbar { display: none; }
-  .camden-product { min-width: 280px; scroll-snap-align: start; flex-shrink: 0; }
-  .camden-product-img { height: 220px; }
-  .camden-product-info { padding: 16px; }
-  .camden-product-info h3 { font-size: 0.95rem; }
-  .camden-product-info p { font-size: 0.75rem; }
-  .camden-price { font-size: 0.9rem; }
-  .camden-features { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 30px 16px 40px; border-top: none; }
+  .camden-product { min-width: calc(100vw - 64px); scroll-snap-align: start; flex-shrink: 0; }
+  .camden-product-img { height: 200px; }
+  .camden-product-info { padding: 14px; }
+  .camden-product-info h3 { font-size: 0.9rem; }
+  .camden-product-info p { font-size: 0.7rem; }
+  .camden-price { font-size: 0.85rem; }
+  .camden-features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 24px 16px 30px; border-top: none; }
   .camden-feature { min-width: auto; }
-  .camden-feature-icon { width: 44px; height: 44px; font-size: 0.9rem; }
-  .camden-feature h4 { font-size: 0.8rem; }
-  .camden-feature p { font-size: 0.7rem; }
-  .camden-cta { height: 220px; margin: 0 16px 30px; }
-  .camden-cta-overlay { padding: 24px; }
-  .camden-cta-overlay h3 { font-size: 1.2rem; }
-  .camden-cta-overlay p { font-size: 0.8rem; }
+  .camden-feature-icon { width: 40px; height: 40px; font-size: 0.85rem; }
+  .camden-feature h4 { font-size: 0.75rem; }
+  .camden-feature p { font-size: 0.65rem; }
+  .camden-cta { min-height: 200px; height: auto; margin: 0 16px 24px; }
+  .camden-cta-overlay { padding: 20px; }
+  .camden-cta-overlay h3 { font-size: 1.1rem; max-width: 100%; }
+  .camden-cta-overlay p { font-size: 0.75rem; max-width: 100%; }
   .camden-btn-white { font-size: 0.8rem; padding: 10px 20px; }
-  .camden-footer { padding: 20px 24px; flex-direction: column; gap: 16px; }
+  .camden-footer { padding: 18px 16px; flex-direction: column; gap: 14px; align-items: center; }
   .camden-footer a { font-size: 0.75rem; }
 
-  .days-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; padding: 0 16px 20px; }
+  .days-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; gap: 14px; padding: 0 16px 16px; }
   .days-grid::-webkit-scrollbar { display: none; }
-  .day-card { min-width: 280px; scroll-snap-align: start; flex-shrink: 0; }
+  .day-card { min-width: calc(100vw - 64px); scroll-snap-align: start; flex-shrink: 0; padding: 14px; }
 
-  .stats-inner { grid-template-columns: repeat(2, 1fr); gap: var(--sp-3); }
-  .stat-item strong { font-size: var(--text-3xl); }
-
-  .clase-card { border-radius: var(--sp-3-5); min-width: 260px; }
-  .clase-img { aspect-ratio: 16 / 9; }
-  .clase-body { padding: 14px; }
-  .clase-body h3 { font-size: 0.9rem; }
-  .clase-body p { font-size: 0.75rem; }
-  .clase-body ul li { font-size: 0.7rem; gap: 6px; }
-  .clase-body ul li i { font-size: 0.65rem; }
-  .clase-precio .precio { font-size: 1.1rem; }
-  .clase-precio .por { font-size: 0.7rem; }
-  .popular-ribbon { font-size: 0.6rem; padding: 4px 10px; top: 8px; right: 8px; }
-
-  /* Surf Forecast - Mobile */
-  .day-card { padding: 16px; }
-  .day-card-header { margin-bottom: 14px; padding-bottom: 12px; }
+  .day-card-header { margin-bottom: 12px; padding-bottom: 10px; }
   .day-name { font-size: var(--text-base); }
-  .day-card-metrics { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .day-card-metrics .bcm { padding: 10px 8px; }
-  .day-card-metrics .bcm-val { font-size: 1rem; }
+  .day-card-metrics { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .day-card-metrics .bcm { padding: 8px 6px; }
+  .day-card-metrics .bcm-val { font-size: 0.9rem; }
   .day-card-metrics .bcm-lbl { font-size: 0.5rem; }
 
-  /* Footer */
+  .stats-inner { grid-template-columns: repeat(2, 1fr); gap: var(--sp-2); }
+  .stat-item strong { font-size: var(--text-3xl); }
+
+  .clase-card { border-radius: var(--sp-3); min-width: calc(100vw - 48px); }
+  .clase-img { aspect-ratio: 16 / 9; }
+  .clase-body { padding: 14px; }
+  .clase-body h3 { font-size: 0.85rem; }
+  .clase-body p { font-size: 0.7rem; }
+  .clase-body ul li { font-size: 0.68rem; gap: 5px; }
+  .clase-body ul li i { font-size: 0.6rem; }
+  .clase-precio .precio { font-size: 1rem; }
+  .clase-precio .por { font-size: 0.65rem; }
+  .popular-ribbon { font-size: 0.55rem; padding: 3px 8px; top: 6px; right: 6px; }
+
   .footer-inner { grid-template-columns: 1fr; text-align: center; }
   .footer-brand { align-items: center; }
   .footer-contact a { justify-content: center; }
   .footer-bottom { flex-direction: column; text-align: center; gap: var(--sp-2-5); }
 
-  /* Modal */
   .modal-overlay { align-items: flex-end; padding: 0; }
-  .modal { border-radius: var(--radius-2xl) var(--radius-2xl) 0 0; max-height: 92vh; width: 100%; }
-  .modal-header { padding: var(--sp-5) var(--sp-5) var(--sp-3-5); }
-  .modal-header h2 { font-size: var(--text-xl); margin-bottom: var(--sp-3-5); }
-  .modal-body { padding: 18px var(--sp-5) var(--sp-6); }
-  .clase-options { grid-template-columns: 1fr; gap: var(--sp-2); }
-  .opt-card { padding: var(--sp-3); flex-direction: row; justify-content: space-between; align-items: center; }
+  .modal { border-radius: var(--radius-2xl) var(--radius-2xl) 0 0; max-height: 95vh; width: 100%; }
+  .modal-header { padding: var(--sp-4) var(--sp-4) var(--sp-3); }
+  .modal-header h2 { font-size: var(--text-lg); margin-bottom: var(--sp-3); }
+  .modal-body { padding: var(--sp-3-5) var(--sp-4) var(--sp-5); }
+  .clase-options { grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
+  .turno-options { grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
+  .opt-card { padding: var(--sp-2-5) var(--sp-2); flex-direction: row; justify-content: space-between; align-items: center; gap: var(--sp-1); }
+  .opt-card strong { font-size: var(--text-xs); }
+  .opt-card small { font-size: var(--text-2xs); }
   .opt-icon { font-size: var(--text-xl); }
+  .stepper { justify-content: center; padding: var(--sp-3) var(--sp-4); }
+  .step { min-width: 50px; }
+  .step span { width: 34px; height: 34px; font-size: var(--text-xs); }
+  .step small { font-size: 0.6rem; }
+  .step-line { width: var(--sp-4); }
+  .form-field input, .form-field select { padding: var(--sp-3) var(--sp-3-5); font-size: var(--text-base); }
+  .form-field label { font-size: var(--text-xs); }
+  .modal-nav { flex-direction: column-reverse; gap: var(--sp-2-5); }
+  .btn-back { width: 100%; justify-content: center; padding: var(--sp-3); }
+  .btn-next { width: 100%; justify-content: center; margin-left: 0; padding: var(--sp-3-5); }
+  .modal-nav-actions { width: 100%; margin-left: 0; flex-direction: column; }
+  .btn-calendar { width: 100%; justify-content: center; padding: var(--sp-3-5); }
+  .btn-whatsapp { width: 100%; justify-content: center; margin-left: 0; padding: var(--sp-3-5); }
+  .resumen-box { padding: var(--sp-3); font-size: var(--text-xs); }
+  .resumen-box p { flex-direction: column; gap: 2px; padding: 4px 0; }
+  .resumen-nota { font-size: var(--text-2xs); }
+  .btn-culqi-pay { padding: var(--sp-3-5); font-size: var(--text-base); }
+  .payment-toast { left: 12px; right: 12px; max-width: none; }
+  .horarios-grid { grid-template-columns: repeat(3, 1fr); gap: var(--sp-1-5); }
+  .horario-btn { padding: var(--sp-2) var(--sp-1); font-size: var(--text-xs); }
+  .form-row-2 { grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
 }
 
 /* ===== MICRO-ANIMATIONS ===== */
@@ -1634,78 +1659,6 @@ button{cursor:pointer;font-family:inherit}
 }
 
 /* ===== MODAL MOBILE IMPROVEMENTS ===== */
-@media (max-width: 480px) {
-  .modal { max-height: 95vh; border-radius: var(--radius-2xl) var(--radius-2xl) 0 0; }
-  .modal-header { padding: var(--sp-4) var(--sp-4) var(--sp-3); }
-  .modal-header h2 { font-size: var(--text-lg); margin-bottom: var(--sp-3); }
-  .modal-body { padding: var(--sp-3-5) var(--sp-4) var(--sp-5); }
-  .modal-step h3 { font-size: var(--text-base); margin-bottom: var(--sp-3-5); }
-
-  /* Stepper compact */
-  .stepper { justify-content: center; padding: var(--sp-3) var(--sp-4); }
-  .step { min-width: 50px; }
-  .step span { width: 36px; height: 36px; font-size: var(--text-xs); }
-  .step small { font-size: 0.6rem; }
-  .step-line { width: var(--sp-5); }
-
-  /* Options stacked */
-  .clase-options { grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
-  .turno-options { grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
-  .opt-card { padding: var(--sp-2-5) var(--sp-2); gap: var(--sp-1); }
-  .opt-card strong { font-size: var(--text-xs); }
-  .opt-card small { font-size: var(--text-2xs); }
-  .opt-icon { font-size: var(--text-xl); }
-
-  /* Form fields */
-  .form-field input,
-  .form-field select {
-    padding: var(--sp-3) var(--sp-3-5); font-size: var(--text-base);
-  }
-  .form-field label { font-size: var(--text-xs); }
-
-  /* Nav buttons */
-  .modal-nav { flex-direction: column-reverse; gap: var(--sp-3); }
-  .btn-back { width: 100%; justify-content: center; padding: var(--sp-3-5); }
-  .btn-next { width: 100%; justify-content: center; margin-left: 0; padding: var(--sp-4); }
-  .modal-nav-actions { width: 100%; margin-left: 0; flex-direction: column; }
-  .btn-calendar { width: 100%; justify-content: center; padding: var(--sp-4); }
-  .btn-whatsapp { width: 100%; justify-content: center; margin-left: 0; padding: var(--sp-4); }
-
-  /* Resumen */
-  .resumen-box { padding: var(--sp-3-5); font-size: var(--text-xs); }
-  .resumen-box p { flex-direction: column; gap: 2px; padding: 5px 0; }
-  .resumen-nota { font-size: var(--text-2xs); }
-  .btn-mp-pay { padding: var(--sp-3-5); font-size: var(--text-base); }
-  .btn-culqi-pay { padding: var(--sp-3-5); font-size: var(--text-base); }
-  .payment-toast { left: 12px; right: 12px; max-width: none; }
-}
-
-@media (max-width: 360px) {
-  .clase-options { grid-template-columns: 1fr; }
-  .modal-body { padding: var(--sp-3) var(--sp-3-5) var(--sp-4); }
-  .clase-card { min-width: 240px; }
-  .clase-body { padding: 12px; }
-  .clase-body h3 { font-size: 0.85rem; }
-  .clase-body p { font-size: 0.7rem; }
-  .clase-body ul { gap: 4px; }
-  .clase-body ul li { font-size: 0.65rem; }
-  .camden-title { font-size: 2rem; }
-  .camden-desc { font-size: 0.8rem; }
-  .camden-btn { font-size: 0.75rem; padding: 8px 20px; }
-  .camden-products { min-width: 260px; }
-  .camden-product-info h3 { font-size: 0.85rem; }
-  .camden-product-info p { font-size: 0.7rem; }
-  .camden-price { font-size: 0.85rem; }
-  .camden-features { gap: 12px; padding: 20px 16px 30px; }
-  .camden-feature-icon { width: 40px; height: 40px; font-size: 0.85rem; }
-  .camden-feature h4 { font-size: 0.75rem; }
-  .camden-feature p { font-size: 0.65rem; }
-  .camden-cta { height: 180px; }
-  .camden-cta-overlay h3 { font-size: 1rem; }
-  .camden-cta-overlay p { font-size: 0.75rem; margin-bottom: 16px; }
-  .day-card { min-width: 260px; }
-}
-
 /* ===== HORARIO BUTTONS ===== */
 .horarios-label {
   font-size: var(--text-xs); font-weight: 600; color: var(--gray);
@@ -1748,16 +1701,6 @@ button{cursor:pointer;font-family:inherit}
   gap: var(--sp-3);
 }
 
-@media (max-width: 480px) {
-  .horarios-grid { grid-template-columns: repeat(3, 1fr); gap: var(--sp-1-5); }
-  .horario-btn { padding: var(--sp-2) var(--sp-1); font-size: var(--text-xs); }
-  .form-row-2 { grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
-}
-
-@media (max-width: 360px) {
-  .horarios-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
 /* ===== COMPREHENSIVE RESPONSIVE ===== */
 
 /* Small phones (320px - 360px) */
@@ -1771,49 +1714,95 @@ button{cursor:pointer;font-family:inherit}
     --text-lg: 1rem;
     --text-xl: 1.1rem;
   }
-  .hero { min-height: 70svh; }
-  .hero-text-box h1 { font-size: 1.6rem; line-height: 1.1; }
-  .hero-desc { font-size: var(--text-sm); margin-bottom: var(--sp-5); }
-  .hero-actions-clean { gap: var(--sp-2-5); }
-  .btn-primary-clean, .btn-secondary-clean { padding: var(--sp-3) var(--sp-4); font-size: var(--text-sm); }
-  .stats-inner { gap: var(--sp-2); }
-  .stat-item strong { font-size: var(--text-2xl); }
-  .stat-item span { font-size: var(--text-2xs); }
-  .section-head h2 { font-size: var(--text-xl); }
-  .clase-card { border-radius: var(--sp-2-5); min-width: 280px; }
-  .clase-img { aspect-ratio: 16/10; }
-  .clase-body { padding: 16px; }
-  .clase-body h3 { font-size: var(--text-base); }
-  .clase-body p { font-size: 0.8rem; line-height: 1.4; }
-  .clase-body ul { gap: 6px; }
-  .clase-body ul li { font-size: 0.75rem; }
-  .clase-body ul li i { font-size: 0.7rem; }
-  .clase-precio .precio { font-size: var(--text-lg); }
-  .clase-footer { flex-direction: column; gap: 12px; align-items: stretch; }
-  .btn-reservar-card { width: 100%; text-align: center; padding: 12px; }
-  .gallery-carousel { margin: 0 auto 32px; border-radius: 12px; }
-  .carousel-btn { width: 36px; height: 36px; font-size: 0.85rem; }
-  .day-card { padding: var(--sp-3); }
-  .day-card-metrics { grid-template-columns: repeat(2, 1fr); gap: 6px; }
-  .day-card-metrics .bcm { padding: 8px 6px; }
-  .day-card-metrics .bcm-val { font-size: 0.9rem; }
-  .day-card-metrics .bcm-lbl { font-size: 0.55rem; }
-  .footer-inner { grid-template-columns: 1fr; gap: var(--sp-5); text-align: center; }
-  .footer-brand { align-items: center; }
-  .footer-contact a { justify-content: center; }
-  .footer-bottom { flex-direction: column; text-align: center; }
-  .modal { border-radius: var(--radius-lg) var(--radius-lg) 0 0; max-height: 98vh; }
-  .modal-header { padding: var(--sp-3) var(--sp-3) var(--sp-2); }
-  .modal-header h2 { font-size: var(--text-base); margin-bottom: var(--sp-2); }
-  .modal-body { padding: var(--sp-2-5) var(--sp-3) var(--sp-4); }
-  .clase-options { grid-template-columns: 1fr; gap: var(--sp-1-5); }
-  .opt-card { padding: var(--sp-2) var(--sp-2-5); }
-  .stepper { padding: var(--sp-2) var(--sp-3); }
-  .step span { width: 30px; height: 30px; font-size: var(--text-2xs); }
-  .step small { font-size: 0.5rem; }
-  .step-line { width: var(--sp-3); }
-  .form-field input, .form-field select { padding: var(--sp-2-5) var(--sp-3); font-size: var(--text-sm); }
-  .form-field label { font-size: var(--text-2xs); }
+
+  section { padding: 24px 10px; }
+  .section-head { margin-bottom: 14px; }
+  .section-head h2 { font-size: var(--text-lg); }
+
+  .hero { min-height: 60svh; }
+  .hero-text-box h1 { font-size: 1.4rem; line-height: 1.1; }
+  .hero-desc { font-size: var(--text-sm); margin-bottom: var(--sp-3-5); }
+  .hero-actions-clean { gap: var(--sp-2); }
+  .btn-primary-clean, .btn-secondary-clean { padding: var(--sp-2-5) var(--sp-3-5); font-size: var(--text-sm); }
+
+  .stats-inner { gap: var(--sp-1-5); }
+  .stat-item strong { font-size: var(--text-xl); }
+  .stat-item span { font-size: 0.6rem; }
+
+  .clase-card { border-radius: var(--sp-2-5); min-width: calc(100vw - 28px); }
+  .clase-img { aspect-ratio: 16 / 10; }
+  .clase-body { padding: 10px; }
+  .clase-body h3 { font-size: 0.78rem; }
+  .clase-body p { font-size: 0.65rem; line-height: 1.4; }
+  .clase-body ul { gap: 3px; }
+  .clase-body ul li { font-size: 0.62rem; }
+  .clase-body ul li i { font-size: 0.58rem; }
+  .clase-precio .precio { font-size: 0.9rem; }
+  .clase-footer { gap: 8px; }
+  .btn-reservar-card { padding: 10px; }
+
+  .camden-hero { padding: 20px 10px 16px; }
+  .camden-tag { font-size: 0.5rem; }
+  .camden-title { font-size: 1.6rem; }
+  .camden-desc { font-size: 0.7rem; }
+  .camden-btn { font-size: 0.65rem; padding: 8px 14px; }
+  .camden-products { padding: 0 10px 20px; }
+  .camden-product { min-width: calc(100vw - 28px); }
+  .camden-product-img { height: 160px; }
+  .camden-product-info { padding: 10px; }
+  .camden-product-info h3 { font-size: 0.75rem; }
+  .camden-product-info p { font-size: 0.6rem; }
+  .camden-price { font-size: 0.75rem; }
+  .camden-features { gap: 8px; padding: 16px 10px 20px; grid-template-columns: 1fr 1fr; }
+  .camden-feature-icon { width: 32px; height: 32px; font-size: 0.7rem; }
+  .camden-feature h4 { font-size: 0.65rem; }
+  .camden-feature p { font-size: 0.55rem; }
+  .camden-cta { min-height: 140px; margin: 0 10px 16px; }
+  .camden-cta-overlay { padding: 14px; }
+  .camden-cta-overlay h3 { font-size: 0.85rem; }
+  .camden-cta-overlay p { font-size: 0.65rem; }
+  .camden-btn-white { font-size: 0.65rem; padding: 8px 14px; }
+  .camden-footer { padding: 14px 10px; }
+  .camden-footer a { font-size: 0.65rem; }
+
+  .days-grid { gap: 10px; padding: 0 10px 12px; }
+  .day-card { min-width: calc(100vw - 28px); padding: 10px; }
+  .day-card-metrics { gap: 5px; }
+  .day-card-metrics .bcm { padding: 6px 5px; }
+  .day-card-metrics .bcm-val { font-size: 0.8rem; }
+  .day-card-metrics .bcm-lbl { font-size: 0.48rem; }
+
+  .gallery-carousel { margin: 0 auto 20px; border-radius: 8px; }
+  .carousel-btn { width: 28px; height: 28px; font-size: 0.75rem; }
+
+  .ubicacion-faq { padding: 24px 10px; }
+  .faq-accordion summary { padding: 10px; font-size: 0.78rem; }
+  .faq-accordion .faq-item { padding: 0 10px 10px; font-size: 0.72rem; }
+
+  .footer-inner { gap: var(--sp-3); }
+  .footer-bottom { gap: var(--sp-2); }
+
+  .modal { border-radius: 14px 14px 0 0; max-height: 98vh; }
+  .modal-header { padding: 10px 10px 6px; }
+  .modal-header h2 { font-size: 0.8rem; margin-bottom: 6px; }
+  .modal-body { padding: 8px 10px 12px; }
+  .clase-options { grid-template-columns: 1fr; gap: 5px; }
+  .turno-options { grid-template-columns: 1fr 1fr; gap: 5px; }
+  .opt-card { padding: 8px 8px; }
+  .stepper { padding: 6px 10px; }
+  .step span { width: 26px; height: 26px; font-size: 0.6rem; }
+  .step small { font-size: 0.48rem; }
+  .step-line { width: 8px; }
+  .horarios-grid { grid-template-columns: repeat(2, 1fr); gap: 5px; }
+  .horario-btn { padding: var(--sp-1-5) var(--sp-0-5); font-size: var(--text-2xs); }
+  .form-row-2 { grid-template-columns: 1fr; gap: 6px; }
+  .form-field input, .form-field select { padding: 8px 10px; font-size: var(--text-sm); }
+  .form-field label { font-size: 0.6rem; }
+  .modal-nav { gap: 8px; }
+  .btn-back { padding: 10px; }
+  .btn-next { padding: 12px; }
+  .resumen-box { padding: 8px; font-size: 0.7rem; }
+  .btn-culqi-pay { padding: 10px; font-size: 0.8rem; }
 }
 
 /* Tablets portrait (481px - 768px) */
