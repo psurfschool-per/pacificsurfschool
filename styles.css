@@ -288,7 +288,7 @@ button{cursor:pointer;font-family:inherit}
   margin: 0 auto;
   overflow: hidden;
   position: relative;
-  padding: 0 24px;
+  padding: 0 50px;
 }
 
 .clases-track {
@@ -296,6 +296,41 @@ button{cursor:pointer;font-family:inherit}
   gap: 20px;
   transition: transform 0.5s ease;
   padding: 8px 0 24px;
+}
+
+.clase-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--dark);
+  font-size: 0.9rem;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.clase-nav-btn:hover {
+  background: var(--pink);
+  color: var(--white);
+  border-color: var(--pink);
+  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+}
+
+.clase-nav-prev {
+  left: 8px;
+}
+
+.clase-nav-next {
+  right: 8px;
 }
 
 .clase-card {
@@ -1515,9 +1550,12 @@ button{cursor:pointer;font-family:inherit}
   .stats-inner { grid-template-columns: repeat(2, 1fr); gap: var(--sp-2); }
   .stat-item strong { font-size: var(--text-3xl); }
 
-  .clases-carousel { padding: 0 16px; }
+  .clases-carousel { padding: 0 40px; }
+  .clase-nav-btn { width: 34px; height: 34px; font-size: 0.8rem; }
+  .clase-nav-prev { left: 4px; }
+  .clase-nav-next { right: 4px; }
   .clases-track { gap: 16px; }
-  .clase-card { min-width: calc(100vw - 64px); border-radius: 12px; }
+  .clase-card { min-width: calc(100vw - 88px); border-radius: 12px; }
   .clase-img { aspect-ratio: 16 / 9; }
   .clase-body { padding: 14px; }
   .clase-body h3 { font-size: 0.9rem; }
@@ -1838,9 +1876,12 @@ button{cursor:pointer;font-family:inherit}
   .stat-item strong { font-size: var(--text-xl); }
   .stat-item span { font-size: 0.6rem; }
 
-  .clases-carousel { padding: 0 12px; }
+  .clases-carousel { padding: 0 36px; }
+  .clase-nav-btn { width: 30px; height: 30px; font-size: 0.75rem; }
+  .clase-nav-prev { left: 2px; }
+  .clase-nav-next { right: 2px; }
   .clases-track { gap: 12px; }
-  .clase-card { min-width: calc(100vw - 56px); border-radius: 10px; }
+  .clase-card { min-width: calc(100vw - 80px); border-radius: 10px; }
   .clase-img { aspect-ratio: 16 / 10; }
   .clase-body { padding: 10px; }
   .clase-body h3 { font-size: 0.82rem; }
