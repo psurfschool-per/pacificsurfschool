@@ -19,6 +19,13 @@ const PRECIOS = {
   paquete12: 1020
 };
 
+const CULQI_COMMISSION_RATE = 0.0344;
+const CULQI_FIXED_FEE = 0.77;
+
+function calculateTotalWithCommission(basePrice) {
+  return Math.ceil((basePrice + CULQI_FIXED_FEE) / (1 - CULQI_COMMISSION_RATE));
+}
+
 /* ===== CULQI — CARGO ÚNICO ===== */
 app.post('/api/culqi-charge', async (req, res) => {
   try {
@@ -31,6 +38,13 @@ app.post('/api/culqi-charge', async (req, res) => {
     const CULQI_SECRET = process.env.CULQI_SECRET_KEY;
     if (!CULQI_SECRET) {
       return res.status(500).json({ error: 'Culqi no configurado en el servidor' });
+    }
+
+    const basePrice = PRECIOS[tipo] * personas;
+    const expectedAmount = calculateTotalWithCommission(basePrice) * 100;
+
+    if (Math.abs(amount - expectedAmount) > 100) {
+      console.warn(`Amount mismatch: expected ${expectedAmount}, got ${amount}`);
     }
 
     const response = await fetch('https://api.culqi.com/v2/charges', {

@@ -343,7 +343,8 @@ function buildResumen() {
     <p><span>Experiencia:</span> ${experienciaFmt}</p>
     <p><span>Nivel:</span> ${nivelFmt}</p>
     <p><span>Medio de pago:</span> ${pagoFmt}</p>
-    <p class="resumen-total"><span>Total estimado:</span> <strong>S/ ${total}</strong></p>
+    <p class="resumen-total"><span>Total a pagar:</span> <strong>S/ ${calculateTotalWithCommission(total)}</strong></p>
+    <p class="resumen-nota" style="font-size:0.75rem;color:#888;margin-top:4px;">Incluye comisión de procesamiento</p>
   `;
 
   window._reservaData = {
@@ -359,14 +360,24 @@ function setupMpPayment() {
 }
 
 /* ===== CULQI — CHECKOUT EMPEBIDO ===== */
+const CULQI_COMMISSION_RATE = 0.0344;
+const CULQI_FIXED_FEE = 0.77;
+
+function calculateTotalWithCommission(basePrice) {
+  return Math.ceil((basePrice + CULQI_FIXED_FEE) / (1 - CULQI_COMMISSION_RATE));
+}
+
 function payWithCulqi() {
   const d = window._reservaData;
   if (!d) return;
 
+  const totalWithCommission = calculateTotalWithCommission(d.total);
+  d.totalConComision = totalWithCommission;
+
   Culqi.settings({
     title: 'Pacific Surf School',
     currency: 'PEN',
-    amount: d.total * 100,
+    amount: totalWithCommission * 100,
   });
 
   Culqi.open();
@@ -422,13 +433,15 @@ async function processCulqiPayment(token, email) {
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
   btn.style.pointerEvents = 'none';
 
+  const finalAmount = d.totalConComision || calculateTotalWithCommission(d.total);
+
   try {
     const res = await fetch('/api/culqi-charge', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         token,
-        amount: d.total * 100,
+        amount: finalAmount * 100,
         email: email || 'cliente@pacificsurfschool.com',
         tipo: d.tipo,
         personas: d.personas,
@@ -443,7 +456,7 @@ async function processCulqiPayment(token, email) {
     if (data.success) {
       btn.innerHTML = '<i class="fas fa-check"></i> ¡Pago exitoso!';
       btn.classList.add('btn-success');
-      sendConfirmationEmail({ ...d, email });
+      sendConfirmationEmail({ ...d, email, total: finalAmount });
       setTimeout(() => {
         confirmarReserva();
       }, 1500);
@@ -468,6 +481,8 @@ function confirmarReserva() {
   const d = window._reservaData;
   if (!d) return;
 
+  const finalPrice = d.totalConComision || calculateTotalWithCommission(d.total);
+
   const msg = encodeURIComponent(
     `Hola! Quiero reservar en Pacific Surf School\n\n` +
     `*Clase:* ${nombres[d.tipo]}\n` +
@@ -480,8 +495,8 @@ function confirmarReserva() {
     (d.altura ? `*Altura:* ${d.altura} cm\n` : '') +
     `*Experiencia:* ${d.experiencia}\n` +
     `*Nivel:* ${d.nivel}\n` +
-    `*Medio de pago:* ${d.pago}\n` +
-    `*Total:* S/ ${d.total}`
+    `*Medio de pago:* Culqi (tarjeta)\n` +
+    `*Total pagado:* S/ ${finalPrice}`
   );
 
   const btn = document.getElementById('btnWhatsapp');
