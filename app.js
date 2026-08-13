@@ -813,3 +813,5 @@ document.addEventListener('DOMContentLoaded', initScrollAnimations);
 
 /* ===== EXPOSE TO WINDOW ===== */
 window.loadBeachData = loadBeachData;
+window.claseCarouselPrev = claseCarouselPrev;
+window.claseCarouselNext = claseCarouselNext;
