@@ -699,10 +699,8 @@ function initCarousel() {
 }
 document.addEventListener('DOMContentLoaded', initCarousel);
 
-/* ===== CLASES CAROUSEL AUTO-SCROLL ===== */
+/* ===== CLASES CAROUSEL (sin auto-play) ===== */
 let claseIdx = 0;
-let claseTimer = null;
-let clasePaused = false;
 
 function claseGetVisible() {
   const w = window.innerWidth;
@@ -714,41 +712,6 @@ function claseGetVisible() {
 function claseIsMobile() {
   return window.innerWidth <= 768;
 }
-
-function claseSlide() {
-  const track = document.querySelector('.clases-track');
-  if (!track || clasePaused || claseIsMobile()) return;
-  const cards = track.querySelectorAll('.clase-card');
-  const total = cards.length;
-  const visible = claseGetVisible();
-  const maxIdx = Math.max(0, total - visible);
-  const card = cards[0];
-  if (!card) return;
-  const gap = 20;
-  const cardW = card.offsetWidth + gap;
-
-  track.style.transition = 'transform 0.5s ease';
-  track.style.transform = 'translateX(-' + (claseIdx * cardW) + 'px)';
-  claseIdx++;
-
-  if (claseIdx > maxIdx) {
-    setTimeout(() => {
-      track.style.transition = 'none';
-      claseIdx = 0;
-      track.style.transform = 'translateX(0)';
-    }, 520);
-  }
-}
-
-function claseResetTimer() {
-  clearInterval(claseTimer);
-  if (!claseIsMobile()) {
-    claseTimer = setInterval(claseSlide, 4000);
-  }
-}
-
-function clasePause() { clasePaused = true; clearInterval(claseTimer); }
-function claseResume() { clasePaused = false; claseResetTimer(); }
 
 function claseCarouselPrev() {
   const track = document.querySelector('.clases-track');
@@ -762,14 +725,11 @@ function claseCarouselPrev() {
   const gap = 20;
   const cardW = card.offsetWidth + gap;
 
-  clasePause();
   claseIdx--;
   if (claseIdx < 0) claseIdx = maxIdx;
 
   track.style.transition = 'transform 0.5s ease';
   track.style.transform = 'translateX(-' + (claseIdx * cardW) + 'px)';
-
-  setTimeout(claseResume, 3000);
 }
 
 function claseCarouselNext() {
@@ -784,32 +744,19 @@ function claseCarouselNext() {
   const gap = 20;
   const cardW = card.offsetWidth + gap;
 
-  clasePause();
   claseIdx++;
   if (claseIdx > maxIdx) claseIdx = 0;
 
   track.style.transition = 'transform 0.5s ease';
   track.style.transform = 'translateX(-' + (claseIdx * cardW) + 'px)';
-
-  setTimeout(claseResume, 3000);
 }
 
 function initClasesCarousel() {
   const track = document.querySelector('.clases-track');
   if (!track) return;
 
-  if (!claseIsMobile()) {
-    claseSlide();
-    claseResetTimer();
-  }
-
   const carousel = track.closest('.clases-carousel');
   if (carousel) {
-    if (!claseIsMobile()) {
-      carousel.addEventListener('mouseenter', clasePause);
-      carousel.addEventListener('mouseleave', claseResume);
-    }
-
     let touchStartX = 0;
     let touchEndX = 0;
     let isDragging = false;
@@ -817,7 +764,6 @@ function initClasesCarousel() {
     carousel.addEventListener('touchstart', e => {
       touchStartX = e.touches[0].clientX;
       isDragging = true;
-      if (!claseIsMobile()) clasePause();
     }, { passive: true });
 
     carousel.addEventListener('touchmove', e => {
@@ -836,20 +782,13 @@ function initClasesCarousel() {
           claseCarouselPrev();
         }
       }
-      setTimeout(claseResume, 3000);
     }, { passive: true });
   }
 
   window.addEventListener('resize', () => {
     claseIdx = 0;
     track.style.transition = 'none';
-    if (claseIsMobile()) {
-      clearInterval(claseTimer);
-      track.style.transform = 'translateX(0)';
-    } else {
-      claseSlide();
-      claseResetTimer();
-    }
+    track.style.transform = 'translateX(0)';
   });
 }
 document.addEventListener('DOMContentLoaded', initClasesCarousel);
