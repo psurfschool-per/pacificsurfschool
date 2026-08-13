@@ -1,4 +1,5 @@
 /* ===== PAYMENT STATUS — MercadoPago return ===== */
+window.scrollTo(0, 0);
 const urlParams = new URLSearchParams(window.location.search);
 const pagoStatus = urlParams.get('pago');
 if (pagoStatus) {
