@@ -1,9 +1,9 @@
 *, *::before, *::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   /* Primary (Brand Pink) */
-  --pink:#e11d48;--pink-d:#be123c;--pink-light:#fce7f3;--pink-lighter:#fbcfe8;
+  --pink:#EB2B8E;--pink-d:#c92078;--pink-light:#fce7f3;--pink-lighter:#fbcfe8;
   /* Accent */
-  --yellow:#f5c800;--yellow-bright:#fbbf24;--yellow-light:#fef9c3;--yellow-dark:#854d0e;--orange:#f07830;
+  --yellow:#EDE133;--yellow-bright:#EDE133;--yellow-light:#fef9c3;--yellow-dark:#854d0e;--orange:#f07830;
   /* Ocean / Blue */
   --ocean:#0077b6;--ocean-d:#023e8a;--ocean-l:#00b4d8;
   --ocean-25:#f0f9ff;--ocean-50:#e0f2fe;--ocean-100:#90e0ef;--ocean-200:#caf0f8;
@@ -26,7 +26,7 @@
   /* Shadows */
   --shadow:0 2px 12px rgba(0,0,0,0.06);--shadow-md:0 4px 14px rgba(0,0,0,0.08);
   --shadow-lg:0 8px 32px rgba(0,0,0,0.12);--shadow-xl:0 12px 32px rgba(0,0,0,0.12);
-  --shadow-nav:0 2px 20px rgba(0,0,0,0.08);--shadow-btn:0 4px 14px rgba(225,29,72,0.4);
+  --shadow-nav:0 2px 20px rgba(0,0,0,0.08);--shadow-btn:0 4px 14px rgba(235,43,142,0.4);
   /* Transitions */
   --transition-fast:0.2s;--transition-base:0.3s;--transition-slow:0.4s;
 }
@@ -83,7 +83,7 @@ button{cursor:pointer;font-family:inherit}
 .nav-links { display: flex; list-style: none; gap: 32px; margin-left: auto; }
 .nav-links a { color: rgba(255,255,255,0.9); font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
 .navbar.scrolled .nav-links a { color: var(--dark); }
-.nav-links a:hover { color: #fbbf24; }
+.nav-links a:hover { color: #EDE133; }
 .btn-reservar-nav {
   background: var(--pink); color: var(--white);
   border: none; padding: 11px var(--sp-6); border-radius: var(--radius-md);
@@ -115,7 +115,7 @@ button{cursor:pointer;font-family:inherit}
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 30%;
+  object-position: center 40%;
 }
 .hero-overlay-clean {
   position: absolute;
@@ -131,6 +131,8 @@ button{cursor:pointer;font-family:inherit}
 }
 .hero-text-box {
   max-width: 620px;
+  margin: 0 auto;
+  text-align: center;
 }
 .hero-text-box h1 {
   font-size: clamp(3rem, 7vw, 5.5rem);
@@ -141,7 +143,7 @@ button{cursor:pointer;font-family:inherit}
   letter-spacing: -0.02em;
 }
 .highlight-yellow {
-  color: #fbbf24;
+  color: #EDE133;
   position: relative;
   display: inline-block;
 }
@@ -166,6 +168,7 @@ button{cursor:pointer;font-family:inherit}
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .btn-primary-clean {
   background: var(--pink);
@@ -750,7 +753,7 @@ button{cursor:pointer;font-family:inherit}
 .quality-dot.q-excellent::before { background: #10b981; box-shadow: 0 0 6px rgba(16,185,129,0.5); }
 .quality-dot.q-good { color: #60a5fa; background: rgba(59,130,246,0.12); }
 .quality-dot.q-good::before { background: #3b82f6; box-shadow: 0 0 6px rgba(59,130,246,0.5); }
-.quality-dot.q-fair { color: #fbbf24; background: rgba(245,158,11,0.12); }
+.quality-dot.q-fair { color: #EDE133; background: rgba(237,225,51,0.12); }
 .quality-dot.q-fair::before { background: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,0.5); }
 .quality-dot.q-poor { color: #f87171; background: rgba(239,68,68,0.12); }
 .quality-dot.q-poor::before { background: #ef4444; box-shadow: 0 0 6px rgba(239,68,68,0.5); }
@@ -804,7 +807,7 @@ button{cursor:pointer;font-family:inherit}
   font-size: 0.7rem;
   color: rgba(255,255,255,0.5);
 }
-.bct-high { color: #fbbf24; }
+.bct-high { color: #EDE133; }
 .bct-low { color: #60a5fa; }
 .bct-row i {
   font-size: 0.6rem;
@@ -1276,9 +1279,9 @@ button{cursor:pointer;font-family:inherit}
   box-shadow: 0 4px 16px rgba(225,29,72,0.3);
 }
 .btn-next:hover {
-  background: linear-gradient(135deg, var(--pink-d), #e11d48);
+  background: linear-gradient(135deg, var(--pink-d), #EB2B8E);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(225,29,72,0.4);
+  box-shadow: 0 8px 24px rgba(235,43,142,0.4);
 }
 .btn-back {
   background: var(--white); border: 2px solid var(--border); color: var(--gray);
@@ -1739,7 +1742,7 @@ button{cursor:pointer;font-family:inherit}
 .nav-links a { position: relative; }
 .nav-links a::after {
   content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
-  background: #fbbf24; transition: width 0.3s ease; border-radius: 2px;
+  background: #EDE133; transition: width 0.3s ease; border-radius: 2px;
 }
 .nav-links a:hover::after { width: 100%; }
 

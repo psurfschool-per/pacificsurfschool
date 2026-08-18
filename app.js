@@ -410,30 +410,54 @@ function sendConfirmationEmail(data) {
 }
 
 function culqiHandler() {
+  console.log('[Culqi] Callback recibido');
+
+  if (typeof Culqi === 'undefined') {
+    console.error('[Culqi] SDK no cargado');
+    alert('Error: El sistema de pago no se cargó correctamente. Recarga la página.');
+    return;
+  }
+
   if (Culqi.token) {
+    console.log('[Culqi] Token recibido:', Culqi.token.id);
     const token = Culqi.token.id;
     const email = Culqi.token.email || '';
     Culqi.close();
 
     processCulqiPayment(token, email);
   } else if (Culqi.error) {
-    console.error('Culqi error:', Culqi.error);
-    if (Culqi.error.user_message) {
-      alert(Culqi.error.user_message);
+    console.error('[Culqi] Error:', Culqi.error);
+    const msg = Culqi.error.user_message || 'Error al procesar el pago. Intenta de nuevo.';
+    alert(msg);
+
+    const btn = document.getElementById('btnCulqiPay');
+    if (btn) {
+      btn.innerHTML = '<i class="fas fa-credit-card"></i> Pagar ahora';
+      btn.style.pointerEvents = '';
     }
+  } else {
+    console.warn('[Culqi] Callback sin token ni error');
   }
 }
 
 async function processCulqiPayment(token, email) {
   const d = window._reservaData;
-  if (!d) return;
+  if (!d) {
+    console.error('[Culqi] No hay datos de reserva');
+    return;
+  }
 
   const btn = document.getElementById('btnCulqiPay');
+  if (!btn) return;
+
   const originalText = btn.innerHTML;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
   btn.style.pointerEvents = 'none';
 
   const finalAmount = d.totalConComision || calculateTotalWithCommission(d.total);
+  const amountInCentavos = finalAmount * 100;
+
+  console.log('[Culqi] Enviando pago:', { token, amount: amountInCentavos, email, tipo: d.tipo });
 
   try {
     const res = await fetch('/api/culqi-charge', {
@@ -441,7 +465,7 @@ async function processCulqiPayment(token, email) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         token,
-        amount: finalAmount * 100,
+        amount: amountInCentavos,
         email: email || 'cliente@pacificsurfschool.com',
         tipo: d.tipo,
         personas: d.personas,
@@ -451,7 +475,9 @@ async function processCulqiPayment(token, email) {
       })
     });
 
+    console.log('[Culqi] Respuesta HTTP:', res.status);
     const data = await res.json();
+    console.log('[Culqi] Datos respuesta:', data);
 
     if (data.success) {
       btn.innerHTML = '<i class="fas fa-check"></i> ¡Pago exitoso!';
@@ -461,13 +487,15 @@ async function processCulqiPayment(token, email) {
         confirmarReserva();
       }, 1500);
     } else {
-      alert(data.error || 'Error al procesar el pago. Intenta de nuevo.');
+      const errorMsg = data.error || 'Error al procesar el pago. Intenta de nuevo.';
+      console.error('[Culqi] Error del servidor:', errorMsg);
+      alert(errorMsg);
       btn.innerHTML = originalText;
       btn.style.pointerEvents = '';
     }
   } catch (err) {
-    console.error('Culqi error:', err);
-    alert('Error de conexión. Intenta de nuevo.');
+    console.error('[Culqi] Error de conexión:', err);
+    alert('Error de conexión con el servidor. Intenta de nuevo.');
     btn.innerHTML = originalText;
     btn.style.pointerEvents = '';
   }
@@ -475,6 +503,7 @@ async function processCulqiPayment(token, email) {
 
 window.culqi = culqiHandler;
 window.payWithCulqi = payWithCulqi;
+console.log('[Culqi] Handler registrado en window.culqi');
 
 /* ===== CONFIRMAR RESERVA → WHATSAPP ===== */
 function confirmarReserva() {
