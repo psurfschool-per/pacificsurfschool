@@ -12,7 +12,7 @@
   /* Neutrals */
   --white:#fff;--off:#fafbfc;--light:#f8fafc;--dark:#1e293b;--dark-deep:#1a1a2e;--gray:#64748b;--border:#e2e8f0;
   /* Spacing */
-  --sp-1:4px;--sp-1-5:6px;--sp-2:8px;--sp-2-5:10px;--sp-3:12px;--sp-3-5:14px;--sp-4:16px;
+  --sp-0-5:2px;--sp-1:4px;--sp-1-5:6px;--sp-2:8px;--sp-2-5:10px;--sp-3:12px;--sp-3-5:14px;--sp-4:16px;
   --sp-5:20px;--sp-6:24px;--sp-7:28px;--sp-8:32px;--sp-9:40px;--sp-10:48px;--sp-12:64px;--sp-section:100px;
   /* Border radius */
   --radius-xs:4px;--radius-sm:6px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;
@@ -915,8 +915,8 @@ button{cursor:pointer;font-family:inherit}
 .faq-q[aria-expanded="true"] { color: var(--ocean); }
 .faq-q[aria-expanded="true"] i { transform: rotate(180deg); }
 .faq-q i { font-size: var(--text-xs); color: var(--gray); flex-shrink: 0; transition: transform var(--transition-base); }
-.faq-a { display: none; padding: 0 var(--sp-5) var(--sp-4); }
-.faq-a.open { display: block; }
+.faq-a { max-height: 0; overflow: hidden; opacity: 0; padding: 0 var(--sp-5); transition: max-height var(--transition-slow) cubic-bezier(0.4,0,0.2,1), opacity var(--transition-base) ease, padding var(--transition-base) ease; }
+.faq-a.open { max-height: 400px; opacity: 1; padding: 0 var(--sp-5) var(--sp-4); }
 .faq-a p { color: var(--gray); font-size: var(--text-base); line-height: 1.7; }
 
 /* ===== SPONSOR CAMDEN ===== */
@@ -1451,7 +1451,7 @@ button{cursor:pointer;font-family:inherit}
     padding: var(--sp-1-5) 0; border-bottom: 1px solid rgba(255,255,255,0.08);
   }
   .nav-inner.open .btn-reservar-nav {
-    display: block; width: 100%; margin-top: var(--sp-2); text-align: center;
+    display: block; width: 100%; margin-top: var(--sp-2); text-align: center; white-space: normal;
   }
 
   /* Hero */
@@ -1515,7 +1515,7 @@ button{cursor:pointer;font-family:inherit}
   .hero-img { object-position: center 25%; }
   .hero-text-box h1 { font-size: 1.85rem; line-height: 1.15; }
   .hero-desc { font-size: var(--text-base); }
-  .btn-primary-clean, .btn-secondary-clean { padding: var(--sp-3-5) var(--sp-5); font-size: 0.95rem; }
+  .btn-primary-clean, .btn-secondary-clean { padding: var(--sp-3-5) var(--sp-5); font-size: 0.95rem; min-height: 48px; }
 
   .camden-hero { padding: 32px 16px 24px; }
   .camden-tag { font-size: 0.6rem; letter-spacing: 2px; }
@@ -1539,7 +1539,7 @@ button{cursor:pointer;font-family:inherit}
   .camden-cta-overlay { padding: 20px; }
   .camden-cta-overlay h3 { font-size: 1.1rem; max-width: 100%; }
   .camden-cta-overlay p { font-size: 0.75rem; max-width: 100%; }
-  .camden-btn-white { font-size: 0.8rem; padding: 10px 20px; }
+  .camden-btn-white { font-size: 0.8rem; padding: 12px 20px; min-height: 44px; }
   .camden-footer { padding: 18px 16px; flex-direction: column; gap: 14px; align-items: center; }
   .camden-footer a { font-size: 0.75rem; }
 
@@ -1552,7 +1552,7 @@ button{cursor:pointer;font-family:inherit}
   .day-card-metrics { grid-template-columns: repeat(2, 1fr); gap: 6px; }
   .day-card-metrics .bcm { padding: 8px 6px; }
   .day-card-metrics .bcm-val { font-size: 0.9rem; }
-  .day-card-metrics .bcm-lbl { font-size: 0.5rem; }
+  .day-card-metrics .bcm-lbl { font-size: 0.65rem; }
 
   .stats-inner { grid-template-columns: repeat(2, 1fr); gap: var(--sp-2); }
   .stat-item strong { font-size: var(--text-3xl); }
@@ -1580,6 +1580,7 @@ button{cursor:pointer;font-family:inherit}
 
   .modal-overlay { align-items: flex-end; padding: 0; }
   .modal { border-radius: var(--radius-2xl) var(--radius-2xl) 0 0; max-height: 95vh; width: 100%; }
+  .modal::before { content: ''; display: block; width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 8px auto 4px; }
   .modal-header { padding: var(--sp-4) var(--sp-4) var(--sp-3); }
   .modal-header h2 { font-size: var(--text-lg); margin-bottom: var(--sp-3); }
   .modal-body { padding: var(--sp-3-5) var(--sp-4) var(--sp-5); }
@@ -1597,19 +1598,20 @@ button{cursor:pointer;font-family:inherit}
   .form-field input, .form-field select { padding: var(--sp-3) var(--sp-3-5); font-size: var(--text-base); }
   .form-field label { font-size: var(--text-xs); }
   .modal-nav { flex-direction: column-reverse; gap: var(--sp-2-5); }
-  .btn-back { width: 100%; justify-content: center; padding: var(--sp-3); }
-  .btn-next { width: 100%; justify-content: center; margin-left: 0; padding: var(--sp-3-5); }
+  .btn-back { width: 100%; justify-content: center; padding: var(--sp-3); min-height: 44px; }
+  .btn-next { width: 100%; justify-content: center; margin-left: 0; padding: var(--sp-3-5); min-height: 44px; }
   .modal-nav-actions { width: 100%; margin-left: 0; flex-direction: column; }
-  .btn-calendar { width: 100%; justify-content: center; padding: var(--sp-3-5); }
-  .btn-whatsapp { width: 100%; justify-content: center; margin-left: 0; padding: var(--sp-3-5); }
+  .btn-calendar { width: 100%; justify-content: center; padding: var(--sp-3-5); min-height: 44px; }
+  .btn-whatsapp { width: 100%; justify-content: center; margin-left: 0; padding: var(--sp-3-5); min-height: 44px; }
   .resumen-box { padding: var(--sp-3); font-size: var(--text-xs); }
   .resumen-box p { flex-direction: column; gap: 2px; padding: 4px 0; }
   .resumen-nota { font-size: var(--text-2xs); }
-  .btn-culqi-pay { padding: var(--sp-3-5); font-size: var(--text-base); }
+  .btn-culqi-pay { padding: var(--sp-3-5); font-size: var(--text-base); min-height: 48px; }
   .payment-toast { left: 12px; right: 12px; max-width: none; }
   .horarios-grid { grid-template-columns: repeat(3, 1fr); gap: var(--sp-1-5); }
-  .horario-btn { padding: var(--sp-2) var(--sp-1); font-size: var(--text-xs); }
+  .horario-btn { padding: var(--sp-2) var(--sp-1); font-size: var(--text-xs); min-height: 44px; }
   .form-row-2 { grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
+  .whatsapp-float { width: 52px; height: 52px; font-size: 1.4rem; bottom: 16px; right: 16px; }
 }
 
 /* ===== MICRO-ANIMATIONS ===== */
@@ -1689,8 +1691,6 @@ button{cursor:pointer;font-family:inherit}
 .stat-item:hover strong { color: var(--ocean); }
 
 /* FAQ accordion smooth */
-.faq-a { max-height: 0; overflow: hidden; transition: max-height var(--transition-slow) cubic-bezier(0.4,0,0.2,1), padding var(--transition-base) ease, opacity var(--transition-base) ease; opacity: 0; padding: 0 var(--sp-5); }
-.faq-a.open { max-height: 300px; opacity: 1; padding: 0 var(--sp-5) var(--sp-4); }
 .faq-q { transition: all var(--transition-base) ease; }
 .faq-q:hover { background: var(--off); transform: translateX(var(--sp-1)); }
 
@@ -1860,110 +1860,111 @@ button{cursor:pointer;font-family:inherit}
 /* Small phones (320px - 360px) */
 @media (max-width: 360px) {
   :root {
-    --text-2xs: 0.68rem;
-    --text-xs: 0.75rem;
-    --text-sm: 0.8rem;
-    --text-base: 0.85rem;
-    --text-md: 0.9rem;
-    --text-lg: 1rem;
-    --text-xl: 1.1rem;
+    --text-2xs: 0.7rem;
+    --text-xs: 0.78rem;
+    --text-sm: 0.85rem;
+    --text-base: 0.9rem;
+    --text-md: 0.95rem;
+    --text-lg: 1.05rem;
+    --text-xl: 1.15rem;
   }
 
-  section { padding: 24px 10px; }
-  .section-head { margin-bottom: 14px; }
+  section { padding: 28px 12px; }
+  .section-head { margin-bottom: 16px; }
   .section-head h2 { font-size: var(--text-lg); }
 
-  .hero { min-height: 40svh; }
-  .hero-image-bg { height: 40svh; }
+  .hero { min-height: 45svh; }
+  .hero-image-bg { height: 45svh; }
   .hero-img { object-position: center 20%; }
-  .hero-text-box h1 { font-size: 1.4rem; line-height: 1.1; }
-  .hero-desc { font-size: var(--text-sm); margin-bottom: var(--sp-3-5); }
-  .hero-actions-clean { gap: var(--sp-2); }
-  .btn-primary-clean, .btn-secondary-clean { padding: var(--sp-2-5) var(--sp-3-5); font-size: var(--text-sm); }
+  .hero-text-box h1 { font-size: 1.5rem; line-height: 1.15; }
+  .hero-desc { font-size: var(--text-sm); margin-bottom: var(--sp-4); }
+  .hero-actions-clean { gap: var(--sp-3); }
+  .btn-primary-clean, .btn-secondary-clean { padding: var(--sp-3) var(--sp-4); font-size: var(--text-sm); min-height: 48px; }
 
-  .stats-inner { gap: var(--sp-1-5); }
+  .stats-inner { gap: var(--sp-2); }
   .stat-item strong { font-size: var(--text-xl); }
-  .stat-item span { font-size: 0.6rem; }
+  .stat-item span { font-size: var(--text-2xs); }
 
-  .clases-carousel { padding: 0 36px; }
-  .clase-nav-btn { width: 30px; height: 30px; font-size: 0.75rem; }
-  .clase-nav-prev { left: 2px; }
-  .clase-nav-next { right: 2px; }
+  .clases-carousel { padding: 0 40px; }
+  .clase-nav-btn { width: 32px; height: 32px; font-size: 0.8rem; }
+  .clase-nav-prev { left: 4px; }
+  .clase-nav-next { right: 4px; }
   .clases-track { gap: 12px; }
-  .clase-card { min-width: calc(100vw - 80px); border-radius: 10px; }
+  .clase-card { min-width: calc(100vw - 88px); border-radius: 12px; }
   .clase-img { aspect-ratio: 16 / 10; }
-  .clase-body { padding: 10px; }
-  .clase-body h3 { font-size: 0.82rem; }
-  .clase-body p { font-size: 0.68rem; line-height: 1.4; }
-  .clase-body ul { gap: 3px; }
-  .clase-body ul li { font-size: 0.65rem; }
-  .clase-body ul li i { font-size: 0.6rem; }
-  .clase-precio .precio { font-size: 1rem; }
-  .clase-footer { gap: 8px; }
-  .btn-reservar-card { padding: 10px 16px; }
+  .clase-body { padding: 12px; }
+  .clase-body h3 { font-size: 0.88rem; }
+  .clase-body p { font-size: 0.75rem; line-height: 1.45; }
+  .clase-body ul { gap: 4px; }
+  .clase-body ul li { font-size: 0.72rem; }
+  .clase-body ul li i { font-size: 0.65rem; }
+  .clase-precio .precio { font-size: 1.05rem; }
+  .clase-footer { gap: 10px; }
+  .btn-reservar-card { padding: 12px 18px; min-height: 44px; }
 
-  .camden-hero { padding: 20px 10px 16px; }
-  .camden-tag { font-size: 0.5rem; }
-  .camden-title { font-size: 1.6rem; }
-  .camden-desc { font-size: 0.7rem; }
-  .camden-btn { font-size: 0.65rem; padding: 8px 14px; }
-  .camden-products { padding: 0 10px 20px; }
-  .camden-product { min-width: calc(100vw - 28px); }
-  .camden-product-img { height: 160px; }
-  .camden-product-info { padding: 10px; }
-  .camden-product-info h3 { font-size: 0.75rem; }
-  .camden-product-info p { font-size: 0.6rem; }
-  .camden-price { font-size: 0.75rem; }
-  .camden-features { gap: 8px; padding: 16px 10px 20px; grid-template-columns: 1fr 1fr; }
-  .camden-feature-icon { width: 32px; height: 32px; font-size: 0.7rem; }
-  .camden-feature h4 { font-size: 0.65rem; }
-  .camden-feature p { font-size: 0.55rem; }
-  .camden-cta { min-height: 140px; margin: 0 10px 16px; }
-  .camden-cta-overlay { padding: 14px; }
-  .camden-cta-overlay h3 { font-size: 0.85rem; }
-  .camden-cta-overlay p { font-size: 0.65rem; }
-  .camden-btn-white { font-size: 0.65rem; padding: 8px 14px; }
-  .camden-footer { padding: 14px 10px; }
-  .camden-footer a { font-size: 0.65rem; }
+  .camden-hero { padding: 24px 12px 18px; }
+  .camden-tag { font-size: 0.55rem; }
+  .camden-title { font-size: 1.7rem; }
+  .camden-desc { font-size: 0.75rem; }
+  .camden-btn { font-size: 0.7rem; padding: 10px 16px; }
+  .camden-products { padding: 0 12px 24px; }
+  .camden-product { min-width: calc(100vw - 24px); }
+  .camden-product-img { height: 170px; }
+  .camden-product-info { padding: 12px; }
+  .camden-product-info h3 { font-size: 0.8rem; }
+  .camden-product-info p { font-size: 0.68rem; }
+  .camden-price { font-size: 0.8rem; }
+  .camden-features { gap: 10px; padding: 18px 12px 24px; grid-template-columns: 1fr 1fr; }
+  .camden-feature-icon { width: 36px; height: 36px; font-size: 0.75rem; }
+  .camden-feature h4 { font-size: 0.7rem; }
+  .camden-feature p { font-size: 0.65rem; }
+  .camden-cta { min-height: 150px; margin: 0 12px 18px; }
+  .camden-cta-overlay { padding: 16px; }
+  .camden-cta-overlay h3 { font-size: 0.9rem; }
+  .camden-cta-overlay p { font-size: 0.7rem; }
+  .camden-btn-white { font-size: 0.7rem; padding: 10px 16px; min-height: 44px; }
+  .camden-footer { padding: 16px 12px; }
+  .camden-footer a { font-size: 0.7rem; }
 
-  .days-grid { gap: 10px; padding: 0 10px 12px; }
-  .day-card { min-width: calc(100vw - 28px); padding: 10px; }
-  .day-card-metrics { gap: 5px; }
-  .day-card-metrics .bcm { padding: 6px 5px; }
-  .day-card-metrics .bcm-val { font-size: 0.8rem; }
-  .day-card-metrics .bcm-lbl { font-size: 0.48rem; }
+  .days-grid { gap: 12px; padding: 0 12px 14px; }
+  .day-card { min-width: calc(100vw - 24px); padding: 12px; }
+  .day-card-metrics { gap: 6px; }
+  .day-card-metrics .bcm { padding: 7px 6px; }
+  .day-card-metrics .bcm-val { font-size: 0.85rem; }
+  .day-card-metrics .bcm-lbl { font-size: 0.6rem; }
 
-  .gallery-carousel { margin: 0 auto 20px; border-radius: 8px; }
-  .carousel-btn { width: 28px; height: 28px; font-size: 0.75rem; }
+  .gallery-carousel { margin: 0 auto 24px; border-radius: 10px; }
+  .carousel-btn { width: 30px; height: 30px; font-size: 0.8rem; }
 
-  .ubicacion-faq { padding: 24px 10px; }
-  .faq-accordion summary { padding: 10px; font-size: 0.78rem; }
-  .faq-accordion .faq-item { padding: 0 10px 10px; font-size: 0.72rem; }
+  .ubicacion-faq { padding: 28px 12px; }
+  .faq-accordion summary { padding: 12px; font-size: 0.82rem; }
+  .faq-accordion .faq-item { padding: 0 12px 12px; font-size: 0.78rem; }
 
   .footer-inner { gap: var(--sp-3); }
   .footer-bottom { gap: var(--sp-2); }
 
-  .modal { border-radius: 14px 14px 0 0; max-height: 98vh; }
-  .modal-header { padding: 10px 10px 6px; }
-  .modal-header h2 { font-size: 0.8rem; margin-bottom: 6px; }
-  .modal-body { padding: 8px 10px 12px; }
-  .clase-options { grid-template-columns: 1fr; gap: 5px; }
-  .turno-options { grid-template-columns: 1fr 1fr; gap: 5px; }
-  .opt-card { padding: 8px 8px; }
-  .stepper { padding: 6px 10px; }
-  .step span { width: 26px; height: 26px; font-size: 0.6rem; }
-  .step small { font-size: 0.48rem; }
-  .step-line { width: 8px; }
-  .horarios-grid { grid-template-columns: repeat(2, 1fr); gap: 5px; }
-  .horario-btn { padding: var(--sp-1-5) var(--sp-0-5); font-size: var(--text-2xs); }
-  .form-row-2 { grid-template-columns: 1fr; gap: 6px; }
-  .form-field input, .form-field select { padding: 8px 10px; font-size: var(--text-sm); }
-  .form-field label { font-size: 0.6rem; }
-  .modal-nav { gap: 8px; }
-  .btn-back { padding: 10px; }
-  .btn-next { padding: 12px; }
-  .resumen-box { padding: 8px; font-size: 0.7rem; }
-  .btn-culqi-pay { padding: 10px; font-size: 0.8rem; }
+  .modal { border-radius: 16px 16px 0 0; max-height: 98vh; }
+  .modal-header { padding: 12px 12px 8px; }
+  .modal-header h2 { font-size: 0.85rem; margin-bottom: 8px; }
+  .modal-body { padding: 10px 12px 14px; }
+  .clase-options { grid-template-columns: 1fr; gap: 6px; }
+  .turno-options { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .opt-card { padding: 10px; min-height: 44px; }
+  .stepper { padding: 8px 12px; }
+  .step span { width: 28px; height: 28px; font-size: 0.7rem; }
+  .step small { font-size: 0.65rem; }
+  .step-line { width: 10px; }
+  .horarios-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .horario-btn { padding: var(--sp-1-5) var(--sp-1); font-size: var(--text-2xs); min-height: 44px; }
+  .form-row-2 { grid-template-columns: 1fr; gap: 8px; }
+  .form-field input, .form-field select { padding: 10px 12px; font-size: var(--text-sm); min-height: 44px; }
+  .form-field label { font-size: 0.65rem; }
+  .modal-nav { gap: 10px; }
+  .btn-back { padding: 12px; min-height: 44px; }
+  .btn-next { padding: 14px; min-height: 44px; }
+  .resumen-box { padding: 10px; font-size: 0.75rem; }
+  .btn-culqi-pay { padding: 12px; font-size: 0.85rem; min-height: 48px; }
+  .whatsapp-float { width: 48px; height: 48px; font-size: 1.3rem; bottom: 14px; right: 14px; }
 }
 
 /* Tablets portrait (481px - 768px) */
