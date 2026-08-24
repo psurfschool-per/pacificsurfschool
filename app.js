@@ -1,24 +1,4 @@
-/* ===== PAYMENT STATUS — MercadoPago return ===== */
 window.scrollTo(0, 0);
-const urlParams = new URLSearchParams(window.location.search);
-const pagoStatus = urlParams.get('pago');
-if (pagoStatus) {
-  const messages = {
-    exitoso: { icon: '✅', title: '¡Pago exitoso!', text: 'Tu pago fue procesado. Te enviaremos la confirmación por WhatsApp.' },
-    fallo: { icon: '❌', title: 'Pago fallido', text: 'Hubo un problema con el pago. Intenta de nuevo o contacta por WhatsApp.' },
-    pendiente: { icon: '⏳', title: 'Pago pendiente', text: 'Tu pago está siendo procesado. Te notificaremos cuando se confirme.' }
-  };
-  const msg = messages[pagoStatus];
-  if (msg) {
-    const toast = document.createElement('div');
-    toast.className = 'payment-toast';
-    toast.innerHTML = `<div class="payment-toast-content"><span class="payment-toast-icon">${msg.icon}</span><div><strong>${msg.title}</strong><p>${msg.text}</p></div><button class="payment-toast-close" onclick="this.parentElement.parentElement.remove()">×</button></div>`;
-    document.body.prepend(toast);
-    setTimeout(() => toast.classList.add('show'), 100);
-    setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 8000);
-    window.history.replaceState({}, '', window.location.pathname);
-  }
-}
 
 /* ===== EMAILJS ===== */
 emailjs.init({ publicKey: 'l7cB9DCkKYmalVubB' });
@@ -236,6 +216,7 @@ function nextStep(n) {
   if (n === 4) {
     const nombre = document.getElementById('res-nombre');
     const wsp = document.getElementById('res-wsp');
+    const email = document.getElementById('res-email');
     const peso = document.getElementById('res-peso');
     const altura = document.getElementById('res-altura');
     const experiencia = document.getElementById('res-experiencia');
@@ -245,6 +226,8 @@ function nextStep(n) {
     if (!nombre.value.trim()) { showError(nombre, 'Ingresa tu nombre'); return; }
     if (!wsp.value.trim()) { showError(wsp, 'Ingresa tu WhatsApp'); return; }
     if (!wsp.value.match(/^[\d\s\+\-]{7,15}$/)) { showError(wsp, 'Formato inválido'); return; }
+    if (!email.value.trim()) { showError(email, 'Ingresa tu correo electrónico'); return; }
+    if (!email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) { showError(email, 'Correo electrónico inválido'); return; }
     if (!experiencia.value) { showError(experiencia, 'Selecciona tu experiencia'); return; }
     if (!nivel.value) { showError(nivel, 'Selecciona tu nivel'); return; }
     buildResumen();
@@ -312,6 +295,7 @@ function buildResumen() {
   const horario = window._horarioSeleccionado;
   const nombre = document.getElementById('res-nombre').value.trim();
   const wsp = document.getElementById('res-wsp').value.trim();
+  const email = document.getElementById('res-email').value.trim();
   const peso = document.getElementById('res-peso').value;
   const altura = document.getElementById('res-altura').value;
   const experiencia = document.getElementById('res-experiencia').value;
@@ -338,6 +322,7 @@ function buildResumen() {
     <p><span>Personas:</span> ${personas}</p>
     <p><span>Nombre:</span> ${nombre}</p>
     <p><span>WhatsApp:</span> ${wsp}</p>
+    <p><span>Correo:</span> ${email}</p>
     ${peso ? `<p><span>Peso:</span> ${peso} kg</p>` : ''}
     ${altura ? `<p><span>Altura:</span> ${altura} cm</p>` : ''}
     <p><span>Experiencia:</span> ${experienciaFmt}</p>
@@ -348,7 +333,7 @@ function buildResumen() {
   `;
 
   window._reservaData = {
-    tipo, fecha: fechaFmt, horario, nombre, wsp, peso, altura,
+    tipo, fecha: fechaFmt, horario, nombre, wsp, email, peso, altura,
     experiencia: experienciaFmt, nivel: nivelFmt, personas, pago: pagoFmt,
     precioUnit, total
   };
@@ -520,6 +505,7 @@ function confirmarReserva() {
     `*Personas:* ${d.personas}\n` +
     `*Nombre:* ${d.nombre}\n` +
     `*WhatsApp:* ${d.wsp}\n` +
+    `*Correo:* ${d.email}\n` +
     (d.peso ? `*Peso:* ${d.peso} kg\n` : '') +
     (d.altura ? `*Altura:* ${d.altura} cm\n` : '') +
     `*Experiencia:* ${d.experiencia}\n` +

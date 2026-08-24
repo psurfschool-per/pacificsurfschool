@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Libro de Reclamaciones – Pacific Surf School</title>
+  <meta name="description" content="Libro de reclamaciones virtual de Pacific Surf School. Registra tu queja o reclamo según las normas de INDECOPI." />
+  <link rel="canonical" href="https://pacificsurfschool.com.pe/reclamos.html" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .reclamo-form { max-width: 600px; }
+    .reclamo-form label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.9rem; color: var(--dark); }
+    .reclamo-form input, .reclamo-form select, .reclamo-form textarea {
+      width: 100%; padding: 10px 14px; border: 2px solid var(--border); border-radius: var(--radius-md);
+      font-family: inherit; font-size: 0.9rem; margin-bottom: 16px; background: var(--white);
+      transition: border-color 0.2s;
+    }
+    .reclamo-form input:focus, .reclamo-form select:focus, .reclamo-form textarea:focus {
+      outline: none; border-color: var(--pink);
+    }
+    .reclamo-form textarea { resize: vertical; min-height: 120px; }
+    .reclamo-form button {
+      background: var(--pink); color: var(--white); border: none; padding: 14px 32px;
+      border-radius: var(--radius-md); font-weight: 700; font-size: 1rem; cursor: pointer;
+      width: 100%; transition: background 0.2s;
+    }
+    .reclamo-form button:hover { background: var(--pink-d); }
+    .reclamo-info { background: var(--ocean-25); border-left: 4px solid var(--ocean); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin-bottom: 24px; font-size: 0.85rem; line-height: 1.6; }
+    .reclamo-exito { display: none; background: #d1fae5; border: 2px solid #10b981; border-radius: var(--radius-md); padding: 24px; text-align: center; }
+    .reclamo-exito h3 { color: #065f46; margin-bottom: 8px; }
+    .reclamo-exito p { color: #047857; font-size: 0.9rem; }
+  </style>
+</head>
+<body style="background:#f8fafc;">
+
+<nav class="navbar scrolled" style="position:relative;">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" style="color:var(--dark);">
+      <span class="logo-text">Pacific Surf School</span>
+    </a>
+  </div>
+</nav>
+
+<main style="max-width:800px; margin:0 auto; padding:60px 24px 100px;">
+  <h1 style="font-size:2rem; font-weight:800; margin-bottom:8px; color:var(--dark);">Libro de Reclamaciones</h1>
+  <p style="color:var(--gray); margin-bottom:24px;">Conforme a la Ley N° 29571 — Ley General de Protección de Derechos de los Consumidores y la Resolución Directoral N° 012-2013/INDECOPI</p>
+
+  <div class="reclamo-info">
+    <strong>Datos del proveedor:</strong><br/>
+    Razón Social: Pacific Surf School<br/>
+    RUC: 20613070142<br/>
+    Dirección: Playa Barranquito, Costa Verde, Barranco, Lima, Perú<br/>
+    Teléfono: +51 915 168 620<br/>
+    Correo: info@pacificsurfschool.com.pe
+  </div>
+
+  <div class="reclamo-info" style="border-left-color: var(--pink); background: #fdf2f8;">
+    <strong>¿Qué es el Libro de Reclamaciones?</strong><br/>
+    Es un instrumento obligatorio que permite a los consumidores registrar quejas o reclamos sobre los productos y servicios ofrecidos por un proveedor. Tus datos serán tratados con confidencialidad conforme a la legislación vigente.
+  </div>
+
+  <div id="reclamoFormWrap" class="reclamo-form">
+    <form id="reclamoForm" onsubmit="return enviarReclamo(event)">
+      <h2 style="font-size:1.1rem; font-weight:700; margin-top:24px; margin-bottom:16px; color:var(--dark);">Datos del consumidor</h2>
+
+      <label for="r-nombre">Nombre completo *</label>
+      <input type="text" id="r-nombre" required placeholder="Ej: Juan Pérez López" />
+
+      <label for="r-dni">DNI / Documento de identidad *</label>
+      <input type="text" id="r-dni" required placeholder="Ej: 41234567" maxlength="15" />
+
+      <label for="r-email">Correo electrónico *</label>
+      <input type="email" id="r-email" required placeholder="Ej: juan@email.com" />
+
+      <label for="r-telefono">Teléfono / WhatsApp *</label>
+      <input type="tel" id="r-telefono" required placeholder="Ej: +51 912 345 678" />
+
+      <label for="r-direccion">Dirección</label>
+      <input type="text" id="r-direccion" placeholder="Ej: Av. Larco 123, Miraflores" />
+
+      <h2 style="font-size:1.1rem; font-weight:700; margin-top:24px; margin-bottom:16px; color:var(--dark);">Datos del reclamo</h2>
+
+      <label for="r-tipo">Tipo de documento *</label>
+      <select id="r-tipo" required>
+        <option value="">Seleccionar...</option>
+        <option value="queja">Queja</option>
+        <option value="reclamo">Reclamo</option>
+      </select>
+
+      <label for="r-fecha">Fecha de ocurrencia *</label>
+      <input type="date" id="r-fecha" required />
+
+      <label for="r-servicio">Servicio relacionado *</label>
+      <select id="r-servicio" required>
+        <option value="">Seleccionar...</option>
+        <option value="Clase Individual">Clase Individual</option>
+        <option value="Clase Grupal">Clase Grupal</option>
+        <option value="Pack x4 Clases">Pack x4 Clases</option>
+        <option value="Pack x8 Clases">Pack x8 Clases</option>
+        <option value="Pack x12 Clases">Pack x12 Clases</option>
+        <option value="Otro">Otro</option>
+      </select>
+
+      <label for="r-monto">Monto reclamado (S/) *</label>
+      <input type="number" id="r-monto" required min="0" step="0.01" placeholder="Ej: 150.00" />
+
+      <label for="r-descripcion">Descripción del reclamo *</label>
+      <textarea id="r-descripcion" required placeholder="Describe detalladamente tu queja o reclamo. Incluye fechas, montos, nombres de personas involucradas y cualquier otra información relevante."></textarea>
+
+      <label for="r-peticion">Petición concreta del consumidor *</label>
+      <textarea id="r-peticion" required placeholder="¿Qué solución esperas? (Ej: reembolso, reprogramación, disculpa, etc.)" style="min-height:80px;"></textarea>
+
+      <button type="submit">Registrar Reclamo</button>
+    </form>
+  </div>
+
+  <div id="reclamoExito" class="reclamo-exito">
+    <h3 style="font-size:1.3rem;">Reclamo registrado exitosamente</h3>
+    <p>Tu reclamo ha sido registrado con el número: <strong id="reclamoId"></strong></p>
+    <p style="margin-top:8px;">Serás contactado a través del correo electrónico o teléfono proporcionado en un plazo no mayor a 15 días hábiles.</p>
+    <p style="margin-top:16px; font-size:0.85rem;">Si no recibes respuesta, puedes escalar tu reclamo ante INDECOPI:<br/>
+    <a href="https://www.gob.pe/indecoopi" target="_blank" rel="noopener" style="color:var(--pink); text-decoration:underline;">www.gob.pe/indecoopi</a></p>
+    <p style="margin-top:16px;"><a href="index.html" style="color:var(--pink); text-decoration:underline;">Volver al inicio</a></p>
+  </div>
+</main>
+
+<footer style="background:var(--dark); color:rgba(255,255,255,0.6); text-align:center; padding:24px; font-size:0.8rem;">
+  <p>&copy; 2026 Pacific Surf School. Todos los derechos reservados. RUC: 20613070142</p>
+</footer>
+
+<script>
+function enviarReclamo(e) {
+  e.preventDefault();
+  const id = 'PSS-RC-' + Date.now().toString(36).toUpperCase();
+  document.getElementById('reclamoId').textContent = id;
+  document.getElementById('reclamoFormWrap').style.display = 'none';
+  document.getElementById('reclamoExito').style.display = 'block';
+  window.scrollTo(0, 0);
+  return false;
+}
+</script>
+
+</body>
+</html>
