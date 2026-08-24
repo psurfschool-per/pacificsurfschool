@@ -10,6 +10,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "compression": "^1.8.1",
     "express": "^4.21.0",
     "serve": "^14.2.6"
   },

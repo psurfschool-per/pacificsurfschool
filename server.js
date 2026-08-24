@@ -1,4 +1,5 @@
 import express from 'express';
+import compression from 'compression';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
@@ -8,8 +9,39 @@ const __dirname = dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(compression());
 app.use(express.json());
-app.use(express.static(join(__dirname, 'dist')));
+
+/* ===== CACHE STRATEGY ===== */
+/* Hashed assets (JS, CSS, images in /assets/) → 1 year immutable */
+app.use('/assets', express.static(join(__dirname, 'dist', 'assets'), {
+  maxAge: '1y',
+  immutable: true,
+  setHeaders: (res, path) => {
+    if (/\.\w{8}\.\w+$/.test(path)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    }
+  }
+}));
+
+/* Public images (img/) → 30 days */
+app.use('/img', express.static(join(__dirname, 'dist', 'img'), {
+  maxAge: '30d',
+  setHeaders: (res) => {
+    res.setHeader('Cache-Control', 'public, max-age=2592000');
+  }
+}));
+
+/* Everything else in dist → no cache (HTML, etc.) */
+app.use(express.static(join(__dirname, 'dist'), {
+  maxAge: 0,
+  setHeaders: (res, path) => {
+    if (path.endsWith('.html') || path.endsWith('/')) {
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Vary', 'Accept-Encoding');
+    }
+  }
+}));
 
 const PRECIOS = {
   individual: 150,
