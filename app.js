@@ -44,19 +44,26 @@ document.querySelectorAll('img[src^="img/"]').forEach(img => {
 });
 
 const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 60);
-});
 
 /* ===== SCROLL PROGRESS BAR ===== */
 const scrollProgress = document.createElement('div');
 scrollProgress.className = 'scroll-progress';
 document.body.prepend(scrollProgress);
+
+/* ===== COMBINED SCROLL LISTENER (throttled with rAF) ===== */
+let scrollTicking = false;
 window.addEventListener('scroll', () => {
-  const h = document.documentElement;
-  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
-  scrollProgress.style.width = pct + '%';
-});
+  if (!scrollTicking) {
+    requestAnimationFrame(() => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+      const h = document.documentElement;
+      const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      scrollProgress.style.width = pct + '%';
+      scrollTicking = false;
+    });
+    scrollTicking = true;
+  }
+}, { passive: true });
 
 const hamburger = document.getElementById('hamburger');
 const navInner = document.querySelector('.nav-inner');
@@ -367,11 +374,6 @@ function buildResumen() {
   };
 }
 
-/* ===== PAYMENT SETUP ===== */
-function setupMpPayment() {
-  // Culqi is the only payment method - always visible
-}
-
 /* ===== CULQI — CHECKOUT EMPEBIDO ===== */
 const CULQI_COMMISSION_RATE = 0.0344;
 const CULQI_FIXED_FEE = 0.77;
@@ -591,8 +593,6 @@ window.closeModal = closeModal;
 window.nextStep = nextStep;
 window.confirmarReserva = confirmarReserva;
 window.addToCalendar = addToCalendar;
-
-setupMpPayment();
 
 /* ===== SURF FORECAST — 4 DAY CARDS — MANUAL DATA ===== */
 
@@ -840,11 +840,15 @@ function initClasesCarousel() {
     }, { passive: true });
   }
 
+  let resizeTimer;
   window.addEventListener('resize', () => {
-    claseIdx = 0;
-    track.style.transition = 'none';
-    track.style.transform = 'translateX(0)';
-  });
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      claseIdx = 0;
+      track.style.transition = 'none';
+      track.style.transform = 'translateX(0)';
+    }, 150);
+  }, { passive: true });
 }
 document.addEventListener('DOMContentLoaded', initClasesCarousel);
 

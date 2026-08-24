@@ -23,7 +23,6 @@
   <link rel="icon" type="image/webp" href="img/logo.webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=block" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=block" rel="stylesheet" />
   <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" onload="this.rel='stylesheet'" />
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /></noscript>
@@ -710,23 +709,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="https://checkout.culqi.com/js/v4"></script>
+<script src="https://checkout.culqi.com/js/v4" defer></script>
 <script>
-  Culqi.publicKey = 'pk_test_VfKYw1haKMh0Zqh0';
-  Culqi.options({
-    lang: 'es',
-    installments: false,
-    paymentMethods: {
-      tarjeta: true,
-      yape: true,
-      bancaMovil: false,
-      agente: false,
-      billetera: false,
-      cuotealo: false
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof Culqi !== 'undefined') {
+      Culqi.publicKey = 'pk_test_VfKYw1haKMh0Zqh0';
+      Culqi.options({
+        lang: 'es',
+        installments: false,
+        paymentMethods: {
+          tarjeta: true,
+          yape: true,
+          bancaMovil: false,
+          agente: false,
+          billetera: false,
+          cuotealo: false
+        }
+      });
     }
   });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
 <script type="module" src="app.js"></script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-M33GQ3258G"></script>
