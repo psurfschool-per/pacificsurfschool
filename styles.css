@@ -38,6 +38,7 @@ body{
   background:var(--white);
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 img{max-width:100%;display:block}
 a{text-decoration:none;color:inherit}
@@ -45,12 +46,14 @@ button{cursor:pointer;font-family:inherit}
 
 /* ===== WHATSAPP FLOAT ===== */
 .whatsapp-float {
-  position: fixed; bottom: 24px; right: 24px; z-index: 999;
+  position: fixed; bottom: 24px; right: 24px; z-index: 9999;
   background: #25d366; color: var(--white);
   width: 58px; height: 58px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 1.6rem; box-shadow: 0 4px 20px rgba(37,211,102,0.5);
   transition: transform 0.2s, box-shadow 0.2s;
+  will-change: transform;
+  transform: translateZ(0);
 }
 .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(37,211,102,0.6); }
 
@@ -1611,7 +1614,7 @@ button{cursor:pointer;font-family:inherit}
   .horarios-grid { grid-template-columns: repeat(3, 1fr); gap: var(--sp-1-5); }
   .horario-btn { padding: var(--sp-2) var(--sp-1); font-size: var(--text-xs); min-height: 44px; }
   .form-row-2 { grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
-  .whatsapp-float { width: 52px; height: 52px; font-size: 1.4rem; bottom: 16px; right: 16px; }
+  .whatsapp-float { width: 52px; height: 52px; font-size: 1.4rem; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); right: 16px; z-index: 9999; }
 }
 
 /* ===== MICRO-ANIMATIONS ===== */
@@ -1964,7 +1967,7 @@ button{cursor:pointer;font-family:inherit}
   .btn-next { padding: 14px; min-height: 44px; }
   .resumen-box { padding: 10px; font-size: 0.75rem; }
   .btn-culqi-pay { padding: 12px; font-size: 0.85rem; min-height: 48px; }
-  .whatsapp-float { width: 48px; height: 48px; font-size: 1.3rem; bottom: 14px; right: 14px; }
+  .whatsapp-float { width: 48px; height: 48px; font-size: 1.3rem; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); right: 14px; z-index: 9999; }
 }
 
 /* Tablets portrait (481px - 768px) */
