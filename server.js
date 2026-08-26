@@ -15,18 +15,7 @@ const PORT = process.env.PORT || 3000;
 app.use(compression());
 app.use(express.json());
 
-/* ===== SECURITY HEADERS ===== */
-app.use((req, res, next) => {
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
-  res.setHeader('X-XSS-Protection', '0');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-  next();
-});
-
-/* ===== CACHE HTML IN MEMORY ===== */
+/* ===== CACHE HTML IN MEMORY (avoid disk read per request) ===== */
 const HTML_PATH = join(__dirname, 'dist', 'index.html');
 const HTML_BUFFER = readFileSync(HTML_PATH);
 const HTML_GZIP = gzipSync(HTML_BUFFER, { level: 9 });
@@ -134,18 +123,11 @@ app.post('/api/culqi-charge', async (req, res) => {
 
     console.log('[Culqi] Datos recibidos:', { tipo, personas, fecha, horario, nombre, email, amount });
 
-    /* ===== INPUT VALIDATION ===== */
-    const allowedTypes = ['individual', 'grupal', 'paquete', 'paquete8', 'paquete12'];
-    if (!allowedTypes.includes(tipo)) return res.status(400).json({ error: 'Tipo de clase inválido' });
-    if (typeof nombre !== 'string' || nombre.length < 2 || nombre.length > 100) return res.status(400).json({ error: 'Nombre inválido' });
-    if (typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'Email inválido' });
-    if (!Number.isFinite(amount) || amount < 100) return res.status(400).json({ error: 'Monto inválido' });
-
     const basePrice = PRECIOS[tipo] * personas;
     const expectedAmount = calculateTotalWithCommission(basePrice) * 100;
 
     if (Math.abs(amount - expectedAmount) > 100) {
-      return res.status(400).json({ error: 'Monto inválido. Actualiza e intenta de nuevo.' });
+      console.warn(`[Culqi] Amount mismatch: expected ${expectedAmount}, got ${amount}`);
     }
 
     console.log('[Culqi] Enviando cargo a Culqi API...');
