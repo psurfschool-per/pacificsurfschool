@@ -163,6 +163,10 @@ function openModal(tipo) {
     if (radio) {
       radio.checked = true;
       radio.closest('.opt-card').classList.add('selected');
+      const personasField = document.getElementById('personas-field');
+      if (personasField) {
+        personasField.style.display = tipo === 'grupal' ? '' : 'none';
+      }
     }
   }
 }
@@ -181,6 +185,8 @@ function resetModal() {
   overlay.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
   const horariosWrap = document.getElementById('horarios-wrap');
   if (horariosWrap) horariosWrap.style.display = 'none';
+  const personasField = document.getElementById('personas-field');
+  if (personasField) personasField.style.display = 'none';
   window._horarioSeleccionado = null;
   clearErrors();
   window._reservaData = null;
@@ -188,6 +194,15 @@ function resetModal() {
 
 overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+document.querySelectorAll('input[name="tipoClase"]').forEach(r => {
+  r.addEventListener('change', () => {
+    const personasField = document.getElementById('personas-field');
+    if (personasField) {
+      personasField.style.display = r.value === 'grupal' ? '' : 'none';
+    }
+  });
+});
 
 /* ===== STEP NAVIGATION ===== */
 function goToStep(n) {

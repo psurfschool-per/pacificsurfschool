@@ -20,7 +20,13 @@
   <meta name="twitter:description" content="Clases de surf individuales, grupales y packs en Playa Barranquito, Lima. Instructores certificados ISA." />
   <meta name="twitter:image" content="https://pacificsurfschool.com.pe/img/galeria6.webp" />
   <link rel="canonical" href="https://pacificsurfschool.com.pe/" />
-  <link rel="icon" type="image/webp" href="img/logo.webp" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/img/favicon-48x48.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/img/icon-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/img/icon-512x512.png" />
+  <meta name="theme-color" content="#0ea5e9" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=block" rel="stylesheet" />
@@ -211,10 +217,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <h3>Clase Grupal</h3>
           <p>Aprende en un ambiente divertido. Grupos de máximo 5 personas.</p>
           <ul>
-            <li><i class="fas fa-check-circle"></i> 2 horas de clase</li>
+            <li><i class="fas fa-check-circle"></i> 1.5 horas con instructor</li>
             <li><i class="fas fa-check-circle"></i> Tabla + traje de neopreno</li>
-            <li><i class="fas fa-check-circle"></i> Fotos grupales incluidas</li>
-            <li><i class="fas fa-check-circle"></i> Máx. 5 personas</li>
+            <li><i class="fas fa-check-circle"></i> Todos los niveles</li>
           </ul>
           <div class="clase-footer">
             <div class="clase-precio"><span class="precio">S/ 110</span><span class="por">/ persona</span></div>
@@ -237,7 +242,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <ul>
             <li><i class="fas fa-check-circle"></i> 1.5 horas con instructor</li>
             <li><i class="fas fa-check-circle"></i> Tabla + traje de neopreno</li>
-            <li><i class="fas fa-check-circle"></i> Fotos y video incluidos</li>
             <li><i class="fas fa-check-circle"></i> Todos los niveles</li>
           </ul>
           <div class="clase-footer">
@@ -260,9 +264,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p>4 clases para una mejora real y sostenida. El mejor precio por clase.</p>
           <ul>
             <li><i class="fas fa-check-circle"></i> 4 clases grupales</li>
-            <li><i class="fas fa-check-circle"></i> Tabla + neopreno siempre</li>
-            <li><i class="fas fa-check-circle"></i> Seguimiento personalizado</li>
-            <li><i class="fas fa-check-circle"></i> Válido 1 mes</li>
+            <li><i class="fas fa-check-circle"></i> 1.5 horas con instructor</li>
+            <li><i class="fas fa-check-circle"></i> Tabla + traje de neopreno</li>
+            <li><i class="fas fa-check-circle"></i> Todos los niveles</li>
           </ul>
           <div class="clase-footer">
             <div class="clase-precio"><span class="precio">S/ 400</span><span class="por">/ pack</span></div>
@@ -284,9 +288,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p>8 clases grupales para una transformación completa. Ahorra significativo.</p>
           <ul>
             <li><i class="fas fa-check-circle"></i> 8 clases grupales</li>
-            <li><i class="fas fa-check-circle"></i> Tabla + neopreno siempre</li>
-            <li><i class="fas fa-check-circle"></i> Seguimiento personalizado</li>
-            <li><i class="fas fa-check-circle"></i> Válido 1 mes</li>
+            <li><i class="fas fa-check-circle"></i> 1.5 horas con instructor</li>
+            <li><i class="fas fa-check-circle"></i> Tabla + traje de neopreno</li>
+            <li><i class="fas fa-check-circle"></i> Todos los niveles</li>
           </ul>
           <div class="clase-footer">
             <div class="clase-precio"><span class="precio">S/ 720</span><span class="por">/ pack</span></div>
@@ -308,9 +312,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p>12 clases grupales. La mejor inversión para dominar el surf.</p>
           <ul>
             <li><i class="fas fa-check-circle"></i> 12 clases grupales</li>
-            <li><i class="fas fa-check-circle"></i> Tabla + neopreno siempre</li>
-            <li><i class="fas fa-check-circle"></i> Seguimiento personalizado</li>
-            <li><i class="fas fa-check-circle"></i> Válido 1 mes</li>
+            <li><i class="fas fa-check-circle"></i> 1.5 horas con instructor</li>
+            <li><i class="fas fa-check-circle"></i> Tabla + traje de neopreno</li>
+            <li><i class="fas fa-check-circle"></i> Todos los niveles</li>
           </ul>
           <div class="clase-footer">
             <div class="clase-precio"><span class="precio">S/ 1020</span><span class="por">/ pack</span></div>
@@ -664,7 +668,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <option value="avanzado">Avanzado</option>
           </select>
         </div>
-        <div class="form-field"><label for="res-personas">N° de personas</label><select id="res-personas"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5+">5+</option></select></div>
+        <div class="form-field" id="personas-field" style="display:none;"><label for="res-personas">N° de personas</label><select id="res-personas"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option></select></div>
         <div class="form-field">
           <label for="res-pago">Medio de pago *</label>
           <select id="res-pago">
