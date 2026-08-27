@@ -836,6 +836,11 @@ function claseIsMobile() {
   return window.innerWidth <= 768;
 }
 
+function claseGetGap(track) {
+  const cs = getComputedStyle(track);
+  const g = parseFloat(cs.columnGap || cs.gap || '20');
+  return isNaN(g) ? 20 : g;
+}
 function claseCarouselPrev() {
   const track = document.querySelector('.clases-track');
   if (!track) return;
@@ -845,7 +850,7 @@ function claseCarouselPrev() {
   const maxIdx = Math.max(0, total - visible);
   const card = cards[0];
   if (!card) return;
-  const gap = 20;
+  const gap = claseGetGap(track);
   const cardW = card.offsetWidth + gap;
 
   // sync with early stub index if present
@@ -867,7 +872,7 @@ function claseCarouselNext() {
   const maxIdx = Math.max(0, total - visible);
   const card = cards[0];
   if (!card) return;
-  const gap = 20;
+  const gap = claseGetGap(track);
   const cardW = card.offsetWidth + gap;
 
   if (typeof window._claseIdx === 'number') claseIdx = window._claseIdx;

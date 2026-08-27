@@ -47,7 +47,9 @@
           var maxIdx=Math.max(0, total-visible);
           var card=cards[0];
           if(!card) return;
-          var gap=20;
+          var cs=getComputedStyle(track);
+          var gap=parseFloat(cs.columnGap||cs.gap||'20');
+          if(isNaN(gap)) gap=20;
           var cardW=card.offsetWidth+gap;
           window._claseIdx=typeof window._claseIdx==='number'?window._claseIdx:0;
           window._claseIdx+=dir;

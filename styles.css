@@ -1438,7 +1438,8 @@ button{cursor:pointer;font-family:inherit}
   .nav-links, .btn-reservar-nav--desktop { display: none; }
   .hamburger { display: flex; z-index: 902; position: relative; }
   .nav-cta-item { display: none; }
-  .nav-inner { position: relative; }
+  .nav-inner { position: relative; justify-content: space-between; }
+  .hamburger { margin-left: auto; flex-shrink: 0; }
 
   .nav-backdrop {
     display: none; position: fixed; inset: 0; top: 0;
@@ -1538,6 +1539,18 @@ button{cursor:pointer;font-family:inherit}
   .nosotros-photo { max-height: 480px; border-radius: var(--radius-2xl); }
   .reasons-grid { grid-template-columns: 1fr; gap: var(--sp-3); }
 
+  /* Clases carousel - tablet: 1 card visible, sin amontonamiento */
+  .clases { padding: 60px 14px; }
+  .clases-carousel { padding: 0 36px; }
+  .clases-track { gap: 14px; }
+  .clase-card { min-width: 100%; flex: 0 0 100%; max-width: 100%; border-radius: 14px; }
+  .clase-body { padding: 18px; }
+  .clase-footer { flex-wrap: wrap; gap: 12px; }
+  .clase-nav-btn { width: 32px; height: 32px; font-size: 0.8rem; }
+  .clase-nav-prev { left: 4px; }
+  .clase-nav-next { right: 4px; }
+  .clase-card.featured.fade-up.visible { border-width: 2px; }
+
   /* Galería - carousel responsive */
 
   /* Ubicación + FAQ */
@@ -1560,13 +1573,13 @@ button{cursor:pointer;font-family:inherit}
   }
 
   /* Logo comprimido en pantallas pequeñas */
-  .nav-inner { gap: 10px; padding: 0 14px; }
-  .nav-logo { gap: 6px; min-width: 0; flex-shrink: 0; }
+  .nav-inner { gap: 10px; padding: 0 14px; justify-content: space-between; }
+  .nav-logo { gap: 6px; min-width: 0; flex-shrink: 0; margin-right: auto; }
   .logo-text { font-size: 0.82rem; line-height: 1.05; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
   .nav-logo-img { height: 34px; width: 34px; flex-shrink: 0; }
   .nav-inner.open .nav-links { left: 10px; right: 10px; }
   .nav-inner.open .nav-links li a { padding: 13px 18px; font-size: 0.92rem; }
-  .hamburger { padding: 6px; margin-left: 8px; }
+  .hamburger { padding: 6px; margin-left: auto; flex-shrink: 0; }
 
   section { padding: 40px 16px; }
   .section-head { margin-bottom: 28px; }
@@ -1618,19 +1631,26 @@ button{cursor:pointer;font-family:inherit}
   .stats-inner { grid-template-columns: repeat(2, 1fr); gap: var(--sp-2); }
   .stat-item strong { font-size: var(--text-3xl); }
 
-  .clases-carousel { padding: 0 40px; }
-  .clase-nav-btn { width: 34px; height: 34px; font-size: 0.8rem; }
-  .clase-nav-prev { left: 4px; }
-  .clase-nav-next { right: 4px; }
-  .clases-track { gap: 16px; }
-  .clase-card { min-width: calc(100vw - 88px); border-radius: 12px; }
-  .clase-img { aspect-ratio: 16 / 9; }
-  .clase-body { padding: 14px; }
-  .clase-body h3 { font-size: 0.9rem; }
-  .clase-body p { font-size: 0.75rem; }
-  .clase-body ul li { font-size: 0.7rem; gap: 5px; }
+  /* Clases carousel - móvil: 1 card, sin compresión */
+  .clases { padding: 40px 12px; }
+  .clases-carousel { padding: 0 32px; overflow: hidden; }
+  .clases-track { gap: 12px; }
+  .clase-card { min-width: 100%; flex: 0 0 100%; max-width: 100%; border-radius: 14px; }
+  .clase-img { aspect-ratio: 16 / 10; }
+  .clase-body { padding: 16px; gap: 8px; }
+  .clase-body h3 { font-size: 1rem; }
+  .clase-body p { font-size: 0.82rem; line-height: 1.5; }
+  .clase-body ul { gap: 6px; }
+  .clase-body ul li { font-size: 0.75rem; gap: 6px; }
   .clase-body ul li i { font-size: 0.65rem; }
-  .clase-precio .precio { font-size: 1.1rem; }
+  .clase-footer { gap: 10px; flex-wrap: nowrap; align-items: center; }
+  .clase-precio { flex-shrink: 0; }
+  .clase-precio .precio { font-size: 1.2rem; }
+  .btn-reservar-card { padding: 10px 16px; font-size: 0.85rem; white-space: nowrap; flex-shrink: 0; }
+  .clase-nav-btn { width: 30px; height: 30px; font-size: 0.75rem; }
+  .clase-nav-prev { left: 2px; }
+  .clase-nav-next { right: 2px; }
+  .clase-card.featured.fade-up.visible { border-width: 2px; }
   .clase-precio .por { font-size: 0.7rem; }
   .popular-ribbon { font-size: 0.6rem; padding: 4px 10px; top: 8px; right: 8px; }
 
@@ -1946,22 +1966,24 @@ button{cursor:pointer;font-family:inherit}
   .stat-item strong { font-size: var(--text-xl); }
   .stat-item span { font-size: var(--text-2xs); }
 
-  .clases-carousel { padding: 0 40px; }
-  .clase-nav-btn { width: 32px; height: 32px; font-size: 0.8rem; }
-  .clase-nav-prev { left: 4px; }
-  .clase-nav-next { right: 4px; }
-  .clases-track { gap: 12px; }
-  .clase-card { min-width: calc(100vw - 88px); border-radius: 12px; }
+  .clases { padding: 28px 10px; }
+  .clases-carousel { padding: 0 28px; overflow: hidden; }
+  .clases-track { gap: 10px; }
+  .clase-card { min-width: 100%; flex: 0 0 100%; max-width: 100%; border-radius: 12px; }
   .clase-img { aspect-ratio: 16 / 10; }
-  .clase-body { padding: 12px; }
-  .clase-body h3 { font-size: 0.88rem; }
+  .clase-body { padding: 14px; gap: 6px; }
+  .clase-body h3 { font-size: 0.95rem; }
   .clase-body p { font-size: 0.75rem; line-height: 1.45; }
   .clase-body ul { gap: 4px; }
-  .clase-body ul li { font-size: 0.72rem; }
+  .clase-body ul li { font-size: 0.7rem; }
   .clase-body ul li i { font-size: 0.65rem; }
+  .clase-footer { gap: 8px; flex-wrap: nowrap; }
   .clase-precio .precio { font-size: 1.05rem; }
-  .clase-footer { gap: 10px; }
-  .btn-reservar-card { padding: 12px 18px; min-height: 44px; }
+  .btn-reservar-card { padding: 10px 14px; min-height: 44px; font-size: 0.82rem; white-space: nowrap; }
+  .clase-nav-btn { width: 28px; height: 28px; font-size: 0.75rem; }
+  .clase-nav-prev { left: 2px; }
+  .clase-nav-next { right: 2px; }
+  .clase-card.featured.fade-up.visible { border-width: 2px; }
 
   .camden-hero { padding: 24px 12px 18px; }
   .camden-tag { font-size: 0.55rem; }
