@@ -29,7 +29,20 @@ window.scrollTo(0, 0);
 })();
 
 /* ===== EMAILJS ===== */
-emailjs.init({ publicKey: 'l7cB9DCkKYmalVubB' });
+if (typeof emailjs !== 'undefined' && emailjs.init) {
+  emailjs.init({ publicKey: 'l7cB9DCkKYmalVubB' });
+} else {
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof emailjs !== 'undefined' && emailjs.init) {
+      emailjs.init({ publicKey: 'l7cB9DCkKYmalVubB' });
+    }
+  });
+  window.addEventListener('load', () => {
+    if (typeof emailjs !== 'undefined' && emailjs.init && !emailjs._initialized) {
+      try { emailjs.init({ publicKey: 'l7cB9DCkKYmalVubB' }); } catch(e) {}
+    }
+  });
+}
 
 /* ===== IMAGE SYNC — corrige .jpg → .jpeg automáticamente ===== */
 document.querySelectorAll('img[src^="img/"]').forEach(img => {
@@ -771,6 +784,12 @@ function initCarousel() {
   }, { passive: true });
   section.addEventListener('mouseenter', pause);
   section.addEventListener('mouseleave', resume);
+
+  // Bind gallery nav buttons via IDs (no inline onclick needed) — app.js:745
+  const prevBtn = document.getElementById('galleryPrevBtn');
+  const nextBtn = document.getElementById('galleryNextBtn');
+  if (prevBtn) prevBtn.addEventListener('click', () => window.moveCarousel(-1));
+  if (nextBtn) nextBtn.addEventListener('click', () => window.moveCarousel(1));
 }
 document.addEventListener('DOMContentLoaded', initCarousel);
 
@@ -800,8 +819,11 @@ function claseCarouselPrev() {
   const gap = 20;
   const cardW = card.offsetWidth + gap;
 
+  // sync with early stub index if present
+  if (typeof window._claseIdx === 'number') claseIdx = window._claseIdx;
   claseIdx--;
   if (claseIdx < 0) claseIdx = maxIdx;
+  window._claseIdx = claseIdx;
 
   track.style.transition = 'transform 0.5s ease';
   track.style.transform = 'translateX(-' + (claseIdx * cardW) + 'px)';
@@ -819,8 +841,10 @@ function claseCarouselNext() {
   const gap = 20;
   const cardW = card.offsetWidth + gap;
 
+  if (typeof window._claseIdx === 'number') claseIdx = window._claseIdx;
   claseIdx++;
   if (claseIdx > maxIdx) claseIdx = 0;
+  window._claseIdx = claseIdx;
 
   track.style.transition = 'transform 0.5s ease';
   track.style.transform = 'translateX(-' + (claseIdx * cardW) + 'px)';
@@ -829,6 +853,12 @@ function claseCarouselNext() {
 function initClasesCarousel() {
   const track = document.querySelector('.clases-track');
   if (!track) return;
+
+  // Bind clases nav buttons via IDs (no inline onclick needed) — app.js:842
+  const clasePrevBtn = document.getElementById('clasePrevBtn');
+  const claseNextBtn = document.getElementById('claseNextBtn');
+  if (clasePrevBtn) clasePrevBtn.addEventListener('click', claseCarouselPrev);
+  if (claseNextBtn) claseNextBtn.addEventListener('click', claseCarouselNext);
 
   const carousel = track.closest('.clases-carousel');
   if (carousel) {

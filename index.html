@@ -33,6 +33,51 @@
   <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" onload="this.rel='stylesheet'" />
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /></noscript>
   <link rel="stylesheet" href="styles.css" />
+  <script>
+    // Fallback stub so inline handlers / early clicks don't throw ReferenceError — overridden by app.js
+    (function(){
+      function fallbackClase(dir){
+        try{
+          var track=document.querySelector('.clases-track');
+          if(!track) return;
+          var cards=track.querySelectorAll('.clase-card');
+          var total=cards.length;
+          var w=window.innerWidth;
+          var visible=w>=1024?3:w>=860?2:1;
+          var maxIdx=Math.max(0, total-visible);
+          var card=cards[0];
+          if(!card) return;
+          var gap=20;
+          var cardW=card.offsetWidth+gap;
+          window._claseIdx=typeof window._claseIdx==='number'?window._claseIdx:0;
+          window._claseIdx+=dir;
+          if(window._claseIdx<0) window._claseIdx=maxIdx;
+          if(window._claseIdx>maxIdx) window._claseIdx=0;
+          track.style.transition='transform 0.5s ease';
+          track.style.transform='translateX(-'+(window._claseIdx*cardW)+'px)';
+        }catch(e){}
+      }
+      window.claseCarouselPrev = window.claseCarouselPrev || function(){ fallbackClase(-1); };
+      window.claseCarouselNext = window.claseCarouselNext || function(){ fallbackClase(1); };
+      window.moveCarousel = window.moveCarousel || function(){};
+      window.openModal = window.openModal || function(){};
+      window.closeModal = window.closeModal || function(){};
+      window.nextStep = window.nextStep || function(){};
+      // Early binding for buttons so clicks work even before app.js module loads
+      function bindEarly(){
+        var p=document.getElementById('clasePrevBtn');
+        var n=document.getElementById('claseNextBtn');
+        if(p) p.addEventListener('click', function(){ window.claseCarouselPrev(); });
+        if(n) n.addEventListener('click', function(){ window.claseCarouselNext(); });
+        var gp=document.getElementById('galleryPrevBtn');
+        var gn=document.getElementById('galleryNextBtn');
+        if(gp) gp.addEventListener('click', function(){ window.moveCarousel(-1); });
+        if(gn) gn.addEventListener('click', function(){ window.moveCarousel(1); });
+      }
+      if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', bindEarly);
+      else bindEarly();
+    })();
+  </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -201,7 +246,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <div class="clases-carousel">
-    <button class="clase-nav-btn clase-nav-prev" onclick="claseCarouselPrev()"><i class="fas fa-chevron-left"></i></button>
+    <button class="clase-nav-btn clase-nav-prev" id="clasePrevBtn" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
     <div class="clases-track">
 
       <div class="clase-card featured" data-clase="grupal">
@@ -324,7 +369,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
 
     </div>
-    <button class="clase-nav-btn clase-nav-next" onclick="claseCarouselNext()"><i class="fas fa-chevron-right"></i></button>
+    <button class="clase-nav-btn clase-nav-next" id="claseNextBtn" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
   </div>
 </section>
 
@@ -371,8 +416,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="carousel-slide"><img src="img/galeria10.jpeg" alt="Grupo surfista en la playa" loading="lazy"/></div>
       <div class="carousel-slide"><img src="img/galeria7.jpeg" alt="Alumnos Pacific Surf School" loading="lazy"/></div>
     </div>
-    <button class="carousel-btn carousel-prev" onclick="moveCarousel(-1)"><i class="fas fa-chevron-left"></i></button>
-    <button class="carousel-btn carousel-next" onclick="moveCarousel(1)"><i class="fas fa-chevron-right"></i></button>
+    <button class="carousel-btn carousel-prev" id="galleryPrevBtn" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+    <button class="carousel-btn carousel-next" id="galleryNextBtn" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
     <div class="carousel-dots" id="carouselDots"></div>
   </div>
   <div class="galeria-cta">
