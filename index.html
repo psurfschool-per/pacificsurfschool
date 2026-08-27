@@ -33,51 +33,97 @@
   <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" onload="this.rel='stylesheet'" />
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /></noscript>
   <link rel="stylesheet" href="styles.css" />
-  <script>
-    // Fallback stub so inline handlers / early clicks don't throw ReferenceError — overridden by app.js
-    (function(){
-      function fallbackClase(dir){
-        try{
-          var track=document.querySelector('.clases-track');
-          if(!track) return;
-          var cards=track.querySelectorAll('.clase-card');
-          var total=cards.length;
-          var w=window.innerWidth;
-          var visible=w>=1024?3:w>=860?2:1;
-          var maxIdx=Math.max(0, total-visible);
-          var card=cards[0];
-          if(!card) return;
-          var gap=20;
-          var cardW=card.offsetWidth+gap;
-          window._claseIdx=typeof window._claseIdx==='number'?window._claseIdx:0;
-          window._claseIdx+=dir;
-          if(window._claseIdx<0) window._claseIdx=maxIdx;
-          if(window._claseIdx>maxIdx) window._claseIdx=0;
-          track.style.transition='transform 0.5s ease';
-          track.style.transform='translateX(-'+(window._claseIdx*cardW)+'px)';
-        }catch(e){}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SportsActivityLocation",
+    "name": "Pacific Surf School",
+    "description": "Escuela de surf en Playa Barranquito, Lima. Clases individuales, grupales y packs con instructores certificados ISA.",
+    "url": "https://pacificsurfschool.com.pe",
+    "telephone": "+51915168620",
+    "email": "info@pacificsurfschool.com.pe",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Costa Verde, Playa Barranquito",
+      "addressLocality": "Barranco",
+      "addressRegion": "Lima",
+      "addressCountry": "PE"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -12.1444125,
+      "longitude": -77.0283963
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "07:00",
+        "closes": "18:00"
       }
-      window.claseCarouselPrev = window.claseCarouselPrev || function(){ fallbackClase(-1); };
-      window.claseCarouselNext = window.claseCarouselNext || function(){ fallbackClase(1); };
-      window.moveCarousel = window.moveCarousel || function(){};
-      window.openModal = window.openModal || function(){};
-      window.closeModal = window.closeModal || function(){};
-      window.nextStep = window.nextStep || function(){};
-      // Early binding for buttons so clicks work even before app.js module loads
-      function bindEarly(){
-        var p=document.getElementById('clasePrevBtn');
-        var n=document.getElementById('claseNextBtn');
-        if(p) p.addEventListener('click', function(){ window.claseCarouselPrev(); });
-        if(n) n.addEventListener('click', function(){ window.claseCarouselNext(); });
-        var gp=document.getElementById('galleryPrevBtn');
-        var gn=document.getElementById('galleryNextBtn');
-        if(gp) gp.addEventListener('click', function(){ window.moveCarousel(-1); });
-        if(gn) gn.addEventListener('click', function(){ window.moveCarousel(1); });
-      }
-      if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', bindEarly);
-      else bindEarly();
-    })();
-  </script>
+    ],
+    "priceRange": "$$",
+    "currenciesAccepted": "PEN",
+    "paymentAccepted": "Cash, Transfer",
+    "sameAs": [
+      "https://www.instagram.com/pacific_surfschool/",
+      "https://www.facebook.com/Pacificsurfs/"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Clases de Surf",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Clase Individual de Surf"
+          },
+          "price": "150",
+          "priceCurrency": "PEN"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Clase Grupal de Surf"
+          },
+          "price": "110",
+          "priceCurrency": "PEN"
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Pacific Surf School – Playa Barranquito, Lima</title>
+  <meta name="description" content="Aprende a surfear desde cero en Lima con Pacific Surf School. Ofrecemos una experiencia 100% segura, divertida y personalizada en Playa Barranquito, Costa Verde (Lima). Incluimos todo el equipo de alta calidad (tabla y wetsuit) e instructores dedicados para clases individuales o grupales. Nos enfocamos en la mejor técnica, la máxima diversión y en que vivas una experiencia inolvidable en el mar, sin importar si es tu primera vez." />
+  <meta name="keywords" content="clases de surf, surf Lima, Playa Barranquito, escuela de surf, aprender a surfear, Pacific Surf School, surf Barranco, clases surf Peru" />
+  <meta name="author" content="Pacific Surf School" />
+  <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.scrollTo(0, 0);</script>
+  <meta property="og:title" content="Pacific Surf School – Clases de Surf en Playa Barranquito, Lima" />
+  <meta property="og:description" content="Aprende a surfear desde cero en Lima con Pacific Surf School. Experiencia 100% segura, divertida y personalizada en Playa Barranquito. Equipo incluido. Clases individuales o grupales." />
+  <meta property="og:image" content="https://pacificsurfschool.com.pe/img/galeria6.webp" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pacificsurfschool.com.pe/" />
+  <meta property="og:locale" content="es_PE" />
+  <meta property="og:site_name" content="Pacific Surf School" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Pacific Surf School – Clases de Surf en Playa Barranquito, Lima" />
+  <meta name="twitter:description" content="Clases de surf individuales, grupales y packs en Playa Barranquito, Lima. Instructores certificados ISA." />
+  <meta name="twitter:image" content="https://pacificsurfschool.com.pe/img/galeria6.webp" />
+  <link rel="canonical" href="https://pacificsurfschool.com.pe/" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/img/favicon-48x48.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/img/icon-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/img/icon-512x512.png" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=block" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" onload="this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /></noscript>
+  <link rel="stylesheet" href="styles.css" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -181,7 +227,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="#inicio" class="nav-logo">
       <picture>
         <source srcset="img/logo.webp" type="image/webp" />
-        <img src="img/logo.jpeg" alt="Pacific Surf School Logo" class="nav-logo-img" width="256" height="276" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <img src="img/logo.webp" alt="Pacific Surf School Logo" class="nav-logo-img" width="256" height="276" decoding="async" />
       </picture>
       <div class="logo-placeholder" style="display:none">
         <span>PSS</span>
@@ -197,7 +243,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li><a href="#ubicacion">Ubicación</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
-    <button class="btn-reservar-nav" onclick="openModal()">Reservar Clase</button>
+    <button class="btn-reservar-nav" data-open-modal>Reservar Clase</button>
     <button class="hamburger" id="hamburger" aria-label="Menú">
       <span></span><span></span><span></span>
     </button>
@@ -218,8 +264,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h1>Clases de Surf<br/>en <span class="highlight-yellow">Lima</span></h1>
       <p class="hero-desc"><strong>Surfing por primera vez?</strong> Aprende con instructores capacitados. Desde cero hasta el nivel avanzado en la costa verde, Lima.</p>
       <div class="hero-actions-clean">
-        <button class="btn-primary-clean" onclick="openModal()">Reservar Clase</button>
-        <a href="https://wa.me/51915168620" target="_blank" class="btn-secondary-clean">
+        <button class="btn-primary-clean" data-open-modal>Reservar Clase</button>
+        <a href="https://wa.me/51915168620" target="_blank" rel="noopener" class="btn-secondary-clean">
           <i class="fab fa-whatsapp"></i> WhatsApp
         </a>
       </div>
@@ -268,7 +314,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </ul>
           <div class="clase-footer">
             <div class="clase-precio"><span class="precio">S/ 110</span><span class="por">/ persona</span></div>
-            <button class="btn-reservar-card" onclick="openModal('grupal')">Reservar</button>
+            <button class="btn-reservar-card" data-open-modal="grupal">Reservar</button>
           </div>
         </div>
       </div>
@@ -291,7 +337,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </ul>
           <div class="clase-footer">
             <div class="clase-precio"><span class="precio">S/ 150</span><span class="por">/ persona</span></div>
-            <button class="btn-reservar-card" onclick="openModal('individual')">Reservar</button>
+            <button class="btn-reservar-card" data-open-modal="individual">Reservar</button>
           </div>
         </div>
       </div>
@@ -315,7 +361,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </ul>
           <div class="clase-footer">
             <div class="clase-precio"><span class="precio">S/ 400</span><span class="por">/ pack</span></div>
-            <button class="btn-reservar-card" onclick="openModal('paquete')">Reservar</button>
+            <button class="btn-reservar-card" data-open-modal="paquete">Reservar</button>
           </div>
         </div>
       </div>
@@ -339,7 +385,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </ul>
           <div class="clase-footer">
             <div class="clase-precio"><span class="precio">S/ 720</span><span class="por">/ pack</span></div>
-            <button class="btn-reservar-card" onclick="openModal('paquete8')">Reservar</button>
+            <button class="btn-reservar-card" data-open-modal="paquete8">Reservar</button>
           </div>
         </div>
       </div>
@@ -363,7 +409,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </ul>
           <div class="clase-footer">
             <div class="clase-precio"><span class="precio">S/ 1020</span><span class="por">/ pack</span></div>
-            <button class="btn-reservar-card" onclick="openModal('paquete12')">Reservar</button>
+            <button class="btn-reservar-card" data-open-modal="paquete12">Reservar</button>
           </div>
         </div>
       </div>
@@ -374,18 +420,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- POR QUÉ ELEGIRNOS -->
-<section class="nosotros" id="nosotros">
-  <div class="nosotros-inner">
-    <div class="nosotros-img">
-      <picture>
-        <source srcset="img/galeria2.webp" type="image/webp" />
-        <img src="img/galeria2.jpg" alt="Equipo Pacific Surf School en la playa" class="nosotros-photo" width="800" height="1000" loading="lazy" decoding="async"/>
-      </picture>
-    </div>
-    <div class="nosotros-texto">
-      <span class="tag">¿Por qué elegirnos?</span>
-      <h2>Surf seguro, divertido y profesional</h2>
-      <p>En Pacific Surf School combinamos seguridad, técnica y pasión por el océano. Cada clase está diseñada para que salgas del agua con una sonrisa y ganas de volver.</p>
       <div class="reasons-grid">
         <div class="reason"><i class="fas fa-user-shield"></i><div><strong>Instructores certificados</strong><p>Instructores capacitados. Tu seguridad es primero.</p></div></div>
         <div class="reason"><i class="fas fa-users"></i><div><strong>Grupos reducidos</strong><p>Máximo 5 alumnos por instructor para atención real.</p></div></div>
@@ -394,6 +428,59 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="reason"><i class="fas fa-map-marker-alt"></i><div><strong>Playa Barranquito</strong><p>La playa ideal para aprender: olas perfectas para todos los niveles.</p></div></div>
         <div class="reason"><i class="fas fa-heart"></i><div><strong>Comunidad surf</strong><p>Únete a cientos de alumnos que ya forman parte de la familia PSS.</p></div></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA -->
+<section class="galeria" id="galeria">
+  <div class="section-head">
+    <span class="tag">Galería</span>
+    <h2>La experiencia en imágenes</h2>
+    <p>¿Listo para tu primera ola? Síguenos en <a href="https://www.instagram.com/pacific_surfschool/" target="_blank">@pacific_surfschool</a></p>
+  </div>
+  <div class="gallery-carousel">
+    <div class="carousel-track">
+      <div class="carousel-slide"><img src="img/galeria1.webp" alt="Clase grupal de surf" loading="lazy"/></div>
+      <div class="carousel-slide"><img src="img/galeria2.webp" alt="Alumno aprendiendo surf" loading="lazy"/></div>
+      <div class="carousel-slide"><img src="img/galeria3.webp" alt="Alumna celebrando su primera ola" loading="lazy"/></div>
+      <div class="carousel-slide"><img src="img/galeria4.jpg" alt="Niña surfeando en Barranquito" loading="lazy"/></div>
+      <div class="carousel-slide"><img src="img/galeria5.webp" alt="Instructor mirando el mar" loading="lazy"/></div>
+      <div class="carousel-slide"><img src="img/galeria11.jpeg" alt="Surfista en la ola" loading="lazy"/></div>
+      <div class="carousel-slide"><img src="img/galeria10.jpeg" alt="Grupo surfista en la playa" loading="lazy"/></div>
+      <div class="carousel-slide"><img src="img/galeria7.jpeg" alt="Alumnos Pacific Surf School" loading="lazy"/></div>
+    </div>
+    <button class="carousel-btn carousel-prev" id="galleryPrevBtn" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+    <button class="carousel-btn carousel-next" id="galleryNextBtn" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+    <div class="carousel-dots" id="carouselDots"></div>
+  </div>
+  <div class="galeria-cta">
+    <a href="https://www.instagram.com/pacific_surfschool/" target="_blank" class="btn-ig">
+      <i class="fab fa-instagram"></i> Ver más en Instagram
+    </a>
+  </div>
+</section>
+
+<!-- CONDICIONES DEL MAR — PRONÓSTICO 4 DÍAS -->
+<section class="surf-forecast" id="oleaje">
+  <div class="section-head">
+    <span class="tag">Costa Verde</span>
+    <h2>Pronóstico de Surf</h2>
+    <p>Condiciones del mar en Playa Barranquito — Pronóstico 4 días.</p>
+    <p class="last-update-text">Última actualización: <span id="lastUpdated">--:--</span></p>
+<section class="reasons" id="nosotros">
+  <div class="section-head">
+    <span class="tag">¿Por qué elegirnos?</span>
+    <h2>Tu mejor experiencia en el mar</h2>
+  </div>
+  <div class="container">
+    <div class="reasons-grid">
+      <div class="reason"><i class="fas fa-user-shield"></i><div><strong>Instructores certificados</strong><p>Instructores capacitados. Tu seguridad es primero.</p></div></div>
+      <div class="reason"><i class="fas fa-users"></i><div><strong>Grupos reducidos</strong><p>Máximo 5 alumnos por instructor para atención real.</p></div></div>
+      <div class="reason"><i class="fas fa-water"></i><div><strong>Equipo de primera</strong><p>Tablas de foam, neoprenos de calidad y leashes certificados.</p></div></div>
+      <div class="reason"><i class="fas fa-camera"></i><div><strong>Fotos y video</strong><p>Capturamos tus mejores olas para que las recuerdes siempre.</p></div></div>
+      <div class="reason"><i class="fas fa-map-marker-alt"></i><div><strong>Playa Barranquito</strong><p>La playa ideal para aprender: olas perfectas para todos los niveles.</p></div></div>
+      <div class="reason"><i class="fas fa-heart"></i><div><strong>Comunidad surf</strong><p>Únete a cientos de alumnos que ya forman parte de la familia PSS.</p></div></div>
     </div>
   </div>
 </section>
@@ -446,7 +533,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="forecast-error" id="forecastError" style="display:none;">
     <i class="fas fa-exclamation-triangle"></i>
     <p>No se pudieron cargar los datos. Intenta de nuevo más tarde.</p>
-    <button class="btn-retry" onclick="loadBeachData()"><i class="fas fa-redo"></i> Reintentar</button>
+    <button class="btn-retry" id="btnForecastRetry"><i class="fas fa-redo"></i> Reintentar</button>
   </div>
 
   <p class="forecast-disclaimer">
@@ -591,6 +678,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 </main>
 
+<!-- BOTÓN FLOTANTE WHATSAPP -->
+<a href="https://wa.me/message/Z3HDXG2KB5VZL1" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Contactar por WhatsApp" role="button">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-inner">
@@ -598,7 +690,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="logo-placeholder small" style="overflow:hidden">
         <picture>
           <source srcset="img/logo.webp" type="image/webp" />
-          <img src="img/logo.jpeg" alt="PSS" width="256" height="276" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover" />
+          <img src="img/logo.webp" alt="PSS" width="256" height="276" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover" />
         </picture>
       </div>
       <span>Pacific Surf School</span>
@@ -615,11 +707,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div class="footer-links">
       <strong>Clases</strong>
-      <a href="#" onclick="openModal('individual')">Clase Individual</a>
-      <a href="#" onclick="openModal('grupal')">Clase Grupal</a>
-      <a href="#" onclick="openModal('paquete')">Pack x4</a>
-      <a href="#" onclick="openModal('paquete8')">Pack x8</a>
-      <a href="#" onclick="openModal('paquete12')">Pack x12</a>
+      <a href="#" data-open-modal="individual">Clase Individual</a>
+      <a href="#" data-open-modal="grupal">Clase Grupal</a>
+      <a href="#" data-open-modal="paquete">Pack x4</a>
+      <a href="#" data-open-modal="paquete8">Pack x8</a>
+      <a href="#" data-open-modal="paquete12">Pack x12</a>
     </div>
     <div class="footer-contact">
       <strong>Contacto</strong>
@@ -638,7 +730,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- MODAL RESERVAS (4 pasos) -->
 <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()" aria-label="Cerrar">&times;</button>
+    <button class="modal-close" data-close-modal aria-label="Cerrar">&times;</button>
     <div class="modal-header">
       <h2 id="modalTitle">Reservar Clase</h2>
       <div class="stepper">
@@ -663,7 +755,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <label class="clase-opt"><input type="radio" name="tipoClase" value="paquete8"/><div class="opt-card"><span class="opt-icon">🏆</span><strong>Pack x8</strong><small>S/ 720</small></div></label>
           <label class="clase-opt"><input type="radio" name="tipoClase" value="paquete12"/><div class="opt-card"><span class="opt-icon">🏆</span><strong>Pack x12</strong><small>S/ 1020</small></div></label>
         </div>
-        <button class="btn-next" onclick="nextStep(2)">Siguiente <i class="fas fa-arrow-right"></i></button>
+        <button class="btn-next" data-next-step="2">Siguiente <i class="fas fa-arrow-right"></i></button>
       </div>
 
       <!-- PASO 2: FECHA Y HORARIO -->
@@ -678,8 +770,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="horarios-grid" id="horarios-grid"></div>
         </div>
         <div class="modal-nav">
-          <button class="btn-back" onclick="nextStep(1)"><i class="fas fa-arrow-left"></i> Atrás</button>
-          <button class="btn-next" onclick="nextStep(3)">Siguiente <i class="fas fa-arrow-right"></i></button>
+          <button class="btn-back" data-step="1"><i class="fas fa-arrow-left"></i> Atrás</button>
+          <button class="btn-next" data-next-step="3">Siguiente <i class="fas fa-arrow-right"></i></button>
         </div>
       </div>
 
@@ -724,8 +816,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p><i class="fas fa-info-circle"></i> Se abrirá el formulario de Culqi para completar el pago de forma segura.</p>
         </div>
         <div class="modal-nav">
-          <button class="btn-back" onclick="nextStep(2)"><i class="fas fa-arrow-left"></i> Atrás</button>
-          <button class="btn-next" onclick="nextStep(4)">Ver resumen <i class="fas fa-arrow-right"></i></button>
+          <button class="btn-back" data-step="2"><i class="fas fa-arrow-left"></i> Atrás</button>
+          <button class="btn-next" data-next-step="4">Ver resumen <i class="fas fa-arrow-right"></i></button>
         </div>
       </div>
 
@@ -735,19 +827,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="resumen-box" id="resumenBox"></div>
         <p class="resumen-nota" id="resumenNota">Haz clic en "Pagar ahora" para completar el pago de forma segura.</p>
         <div id="culqiSection">
-          <button id="btnCulqiPay" class="btn-culqi-pay" onclick="payWithCulqi(); return false;">
+          <button id="btnCulqiPay" class="btn-culqi-pay">
             <svg class="culqi-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
             <span>Pagar ahora</span>
           </button>
           <p class="culqi-seguro"><i class="fas fa-lock"></i> Pago seguro · Tarjeta y Yape</p>
         </div>
         <div class="modal-nav">
-          <button class="btn-back" onclick="nextStep(3)"><i class="fas fa-arrow-left"></i> Atrás</button>
+          <button class="btn-back" data-step="3"><i class="fas fa-arrow-left"></i> Atrás</button>
           <div class="modal-nav-actions">
-            <button class="btn-calendar" id="btnCalendar" onclick="addToCalendar()">
+            <button class="btn-calendar" id="btnCalendar">
               <i class="fas fa-calendar-plus"></i> Agregar a mi calendario
             </button>
-            <button class="btn-whatsapp" id="btnWhatsapp" onclick="confirmarReserva()">
+            <button class="btn-whatsapp" id="btnWhatsapp">
               <i class="fab fa-whatsapp"></i> Confirmar por WhatsApp
             </button>
           </div>
