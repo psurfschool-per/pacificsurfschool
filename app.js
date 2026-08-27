@@ -716,6 +716,11 @@ function loadBeachData() {
   }
 
   grid.innerHTML = cards;
+
+  const lastUpdated = document.getElementById('lastUpdated');
+  if (lastUpdated) {
+    lastUpdated.textContent = now.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
+  }
 }
 
 loadBeachData();
