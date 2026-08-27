@@ -63,6 +63,7 @@
       window.openModal = window.openModal || function(){};
       window.closeModal = window.closeModal || function(){};
       window.nextStep = window.nextStep || function(){};
+      window.closeMobileMenu = window.closeMobileMenu || function(){};
       // Early binding for buttons so clicks work even before app.js module loads
       function bindEarly(){
         var p=document.getElementById('clasePrevBtn');
@@ -196,12 +197,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li><a href="#oleaje">Oleaje</a></li>
       <li><a href="#ubicacion">Ubicación</a></li>
       <li><a href="#faq">FAQ</a></li>
+      <li class="nav-cta-item"><button class="btn-reservar-nav btn-reservar-nav--mobile" onclick="closeMobileMenu(); openModal()">Reservar Clase</button></li>
     </ul>
-    <button class="btn-reservar-nav" onclick="openModal()">Reservar Clase</button>
-    <button class="hamburger" id="hamburger" aria-label="Menú">
+    <button class="btn-reservar-nav btn-reservar-nav--desktop" onclick="openModal()">Reservar Clase</button>
+    <button class="hamburger" id="hamburger" aria-label="Menú" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
     </button>
   </div>
+  <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
 </nav>
 
 <main>

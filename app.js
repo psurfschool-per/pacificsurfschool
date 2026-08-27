@@ -80,16 +80,45 @@ window.addEventListener('scroll', () => {
 
 const hamburger = document.getElementById('hamburger');
 const navInner = document.querySelector('.nav-inner');
-hamburger.addEventListener('click', () => {
-  navInner.classList.toggle('open');
-  hamburger.classList.toggle('active');
-});
-document.querySelectorAll('.nav-links a').forEach(a => {
-  a.addEventListener('click', () => {
-    navInner.classList.remove('open');
-    hamburger.classList.remove('active');
+const navBackdrop = document.getElementById('navBackdrop');
+
+function openMobileMenu() {
+  if (!navInner || !hamburger) return;
+  navInner.classList.add('open');
+  hamburger.classList.add('active');
+  hamburger.setAttribute('aria-expanded', 'true');
+  if (navbar) navbar.classList.add('menu-open');
+  if (navBackdrop) navBackdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMobileMenu() {
+  if (!navInner || !hamburger) return;
+  navInner.classList.remove('open');
+  hamburger.classList.remove('active');
+  hamburger.setAttribute('aria-expanded', 'false');
+  if (navbar) navbar.classList.remove('menu-open');
+  if (navBackdrop) navBackdrop.classList.remove('open');
+  document.body.style.overflow = '';
+}
+window.closeMobileMenu = closeMobileMenu;
+
+if (hamburger && navInner) {
+  hamburger.addEventListener('click', () => {
+    if (navInner.classList.contains('open')) closeMobileMenu();
+    else openMobileMenu();
   });
-});
+  if (navBackdrop) navBackdrop.addEventListener('click', closeMobileMenu);
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', closeMobileMenu);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navInner.classList.contains('open')) closeMobileMenu();
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 1024 && navInner.classList.contains('open')) closeMobileMenu();
+  }, { passive: true });
+}
 
 /* ===== COUNTER ANIMATION ===== */
 function animateCounter(el, target, duration = 1500) {
