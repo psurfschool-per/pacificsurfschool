@@ -123,6 +123,12 @@ app.post('/api/culqi-charge', async (req, res) => {
 
     console.log('[Culqi] Datos recibidos:', { tipo, personas, fecha, horario, nombre, email, amount });
 
+    if (tipo === 'grupal') {
+      const n = parseInt(personas, 10);
+      if (isNaN(n) || n < 2) return res.status(400).json({ error: 'Clase grupal: mínimo 2 personas' });
+      if (n > 5) return res.status(400).json({ error: 'Clase grupal: máximo 5 personas' });
+    }
+
     const basePrice = PRECIOS[tipo] * personas;
     const expectedAmount = calculateTotalWithCommission(basePrice) * 100;
 

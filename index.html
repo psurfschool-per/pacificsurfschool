@@ -34,29 +34,20 @@
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /></noscript>
   <link rel="stylesheet" href="styles.css" />
   <script>
-    // Fallback stub so inline handlers / early clicks don't throw ReferenceError — overridden by app.js
+    // Fallback stub compatible con carrusel moderno (scroll-snap) — sobreescrito por app.js
     (function(){
       function fallbackClase(dir){
         try{
-          var track=document.querySelector('.clases-track');
+          var track=document.getElementById('clasesTrack')||document.querySelector('.clases-track');
           if(!track) return;
-          var cards=track.querySelectorAll('.clase-card');
-          var total=cards.length;
-          var w=window.innerWidth;
-          var visible=w>=1024?3:w>=860?2:1;
+          var cards=track.querySelectorAll('.clase-card'); var total=cards.length;
+          var w=window.innerWidth; var visible=w>=1024?3:1;
           var maxIdx=Math.max(0, total-visible);
-          var card=cards[0];
-          if(!card) return;
-          var cs=getComputedStyle(track);
-          var gap=parseFloat(cs.columnGap||cs.gap||'20');
-          if(isNaN(gap)) gap=20;
-          var cardW=card.offsetWidth+gap;
+          var gap=parseFloat(getComputedStyle(track).gap||20); if(isNaN(gap)) gap=20;
+          var cardW=(cards[0]?.offsetWidth||300)+gap;
           window._claseIdx=typeof window._claseIdx==='number'?window._claseIdx:0;
-          window._claseIdx+=dir;
-          if(window._claseIdx<0) window._claseIdx=maxIdx;
-          if(window._claseIdx>maxIdx) window._claseIdx=0;
-          track.style.transition='transform 0.5s ease';
-          track.style.transform='translateX(-'+(window._claseIdx*cardW)+'px)';
+          window._claseIdx+=dir; if(window._claseIdx<0) window._claseIdx=maxIdx; if(window._claseIdx>maxIdx) window._claseIdx=0;
+          track.scrollTo({left: window._claseIdx*cardW, behavior:'smooth'});
         }catch(e){}
       }
       window.claseCarouselPrev = window.claseCarouselPrev || function(){ fallbackClase(-1); };
@@ -66,19 +57,15 @@
       window.closeModal = window.closeModal || function(){};
       window.nextStep = window.nextStep || function(){};
       window.closeMobileMenu = window.closeMobileMenu || function(){};
-      // Early binding for buttons so clicks work even before app.js module loads
       function bindEarly(){
-        var p=document.getElementById('clasePrevBtn');
-        var n=document.getElementById('claseNextBtn');
+        var p=document.getElementById('clasePrevBtn'); var n=document.getElementById('claseNextBtn');
         if(p) p.addEventListener('click', function(){ window.claseCarouselPrev(); });
         if(n) n.addEventListener('click', function(){ window.claseCarouselNext(); });
-        var gp=document.getElementById('galleryPrevBtn');
-        var gn=document.getElementById('galleryNextBtn');
+        var gp=document.getElementById('galleryPrevBtn'); var gn=document.getElementById('galleryNextBtn');
         if(gp) gp.addEventListener('click', function(){ window.moveCarousel(-1); });
         if(gn) gn.addEventListener('click', function(){ window.moveCarousel(1); });
       }
-      if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', bindEarly);
-      else bindEarly();
+      if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', bindEarly); else bindEarly();
     })();
   </script>
   <script type="application/ld+json">
@@ -250,9 +237,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p>Desde tu primera ola hasta maniobras avanzadas. Equipamiento completo incluido en todas las clases.</p>
   </div>
 
-  <div class="clases-carousel">
+  <div class="clases-carousel" role="region" aria-roledescription="carrusel" aria-label="Clases de surf">
     <button class="clase-nav-btn clase-nav-prev" id="clasePrevBtn" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
-    <div class="clases-track">
+    <div class="clases-viewport">
+      <div class="clases-track" id="clasesTrack">
 
       <div class="clase-card featured" data-clase="grupal">
         <div class="clase-img">
@@ -265,7 +253,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="clase-body">
           <h3>Clase Grupal</h3>
-          <p>Aprende en un ambiente divertido. Grupos de máximo 5 personas.</p>
+          <p>Aprende en un ambiente divertido. Grupos de 2 a 5 personas. Mín. 2.</p>
           <ul>
             <li><i class="fas fa-check-circle"></i> 1.5 horas con instructor</li>
             <li><i class="fas fa-check-circle"></i> Tabla + traje de neopreno</li>
@@ -373,8 +361,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
+      </div>
     </div>
     <button class="clase-nav-btn clase-nav-next" id="claseNextBtn" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+    <div class="clases-controls">
+      <div class="clases-dots" id="clasesDots" role="tablist" aria-label="Paginación de clases"></div>
+      <div class="clases-progress" aria-hidden="true"><div class="clases-progress-bar" id="clasesProgress"></div></div>
+      <div class="clases-counter" id="clasesCounter" aria-live="polite"><strong>1</strong> / 5</div>
+      <span class="clases-hint"><i class="fas fa-arrows-left-right"></i> Desliza o arrastra</span>
+    </div>
   </div>
 </section>
 
@@ -410,25 +405,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2>La experiencia en imágenes</h2>
     <p>¿Listo para tu primera ola? Síguenos en <a href="https://www.instagram.com/pacific_surfschool/" target="_blank">@pacific_surfschool</a></p>
   </div>
-  <div class="gallery-carousel">
-    <div class="carousel-track">
-      <div class="carousel-slide"><img src="img/galeria1.webp" alt="Clase grupal de surf" loading="lazy"/></div>
-      <div class="carousel-slide"><img src="img/galeria2.webp" alt="Alumno aprendiendo surf" loading="lazy"/></div>
-      <div class="carousel-slide"><img src="img/galeria3.webp" alt="Alumna celebrando su primera ola" loading="lazy"/></div>
-      <div class="carousel-slide"><img src="img/galeria4.jpg" alt="Niña surfeando en Barranquito" loading="lazy"/></div>
-      <div class="carousel-slide"><img src="img/galeria5.webp" alt="Instructor mirando el mar" loading="lazy"/></div>
-      <div class="carousel-slide"><img src="img/galeria11.jpeg" alt="Surfista en la ola" loading="lazy"/></div>
-      <div class="carousel-slide"><img src="img/galeria10.jpeg" alt="Grupo surfista en la playa" loading="lazy"/></div>
-      <div class="carousel-slide"><img src="img/galeria7.jpeg" alt="Alumnos Pacific Surf School" loading="lazy"/></div>
+  <div class="gallery-shell">
+    <div class="gallery-main">
+      <div class="gallery-carousel" role="region" aria-roledescription="carrusel" aria-label="Galería Pacific Surf School">
+        <div class="gallery-progress" aria-hidden="true"><div class="gallery-progress-bar" id="galleryProgress"></div></div>
+        <div class="carousel-track" id="galleryTrack">
+          <div class="carousel-slide"><img src="img/galeria1.webp" alt="Clase grupal de surf en Barranquito" loading="lazy" decoding="async"/><span class="slide-caption">Clase grupal · Barranquito</span></div>
+          <div class="carousel-slide"><img src="img/galeria2.webp" alt="Alumno aprendiendo surf" loading="lazy" decoding="async"/><span class="slide-caption">Tu primera parada</span></div>
+          <div class="carousel-slide"><img src="img/galeria3.webp" alt="Alumna celebrando su primera ola" loading="lazy" decoding="async"/><span class="slide-caption">Primera ola desbloqueada</span></div>
+          <div class="carousel-slide"><img src="img/galeria4.jpg" alt="Niña surfeando en Barranquito" loading="lazy" decoding="async"/><span class="slide-caption">Surf para peques · 7+ años</span></div>
+          <div class="carousel-slide"><img src="img/galeria5.webp" alt="Instructor mirando el mar" loading="lazy" decoding="async"/><span class="slide-caption">Instructores certificados ISA</span></div>
+          <div class="carousel-slide"><img src="img/galeria11.jpeg" alt="Surfista en la ola" loading="lazy" decoding="async"/><span class="slide-caption">Olas de la Costa Verde</span></div>
+          <div class="carousel-slide"><img src="img/galeria10.jpeg" alt="Grupo surfista en la playa" loading="lazy" decoding="async"/><span class="slide-caption">La familia PSS</span></div>
+          <div class="carousel-slide"><img src="img/galeria7.jpeg" alt="Alumnos Pacific Surf School" loading="lazy" decoding="async"/><span class="slide-caption">Comunidad que te impulsa</span></div>
+        </div>
+        <button class="carousel-btn carousel-prev" id="galleryPrevBtn" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+        <button class="carousel-btn carousel-next" id="galleryNextBtn" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+        <button class="gallery-expand" id="galleryExpand" aria-label="Ver en pantalla completa"><i class="fas fa-expand"></i></button>
+        <div class="gallery-meta">
+          <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Paginación galería"></div>
+          <div class="gallery-counter" id="galleryCounter" aria-live="polite"><strong>01</strong> / 08</div>
+        </div>
+      </div>
+      <div class="gallery-thumbs" id="galleryThumbs" aria-label="Miniaturas"></div>
     </div>
-    <button class="carousel-btn carousel-prev" id="galleryPrevBtn" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
-    <button class="carousel-btn carousel-next" id="galleryNextBtn" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
-    <div class="carousel-dots" id="carouselDots"></div>
   </div>
   <div class="galeria-cta">
     <a href="https://www.instagram.com/pacific_surfschool/" target="_blank" class="btn-ig">
       <i class="fab fa-instagram"></i> Ver más en Instagram
     </a>
+    <span class="galeria-cta-note">+800 alumnos · 5★ en Google</span>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="gallery-lightbox" id="galleryLightbox" role="dialog" aria-modal="true" aria-label="Galería ampliada" hidden>
+    <button class="lb-close" id="lbClose" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+    <button class="lb-nav lb-next" id="lbNext" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+    <div class="lb-stage"><img id="lbImg" alt="" /><p class="lb-caption" id="lbCaption"></p><span class="lb-counter" id="lbCounter"></span></div>
   </div>
 </section>
 
@@ -663,7 +677,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h3>¿Qué tipo de clase quieres?</h3>
         <div class="clase-options">
           <label class="clase-opt"><input type="radio" name="tipoClase" value="individual"/><div class="opt-card"><span class="opt-icon">🏄</span><strong>Individual</strong><small>S/ 150</small></div></label>
-          <label class="clase-opt"><input type="radio" name="tipoClase" value="grupal"/><div class="opt-card"><span class="opt-icon">🌊</span><strong>Grupal</strong><small>S/ 110</small></div></label>
+          <label class="clase-opt"><input type="radio" name="tipoClase" value="grupal"/><div class="opt-card"><span class="opt-icon">🌊</span><strong>Grupal</strong><small>S/ 110 c/u · mín. 2</small></div></label>
           <label class="clase-opt"><input type="radio" name="tipoClase" value="paquete"/><div class="opt-card"><span class="opt-icon">🏆</span><strong>Pack x4</strong><small>S/ 400</small></div></label>
           <label class="clase-opt"><input type="radio" name="tipoClase" value="paquete8"/><div class="opt-card"><span class="opt-icon">🏆</span><strong>Pack x8</strong><small>S/ 720</small></div></label>
           <label class="clase-opt"><input type="radio" name="tipoClase" value="paquete12"/><div class="opt-card"><span class="opt-icon">🏆</span><strong>Pack x12</strong><small>S/ 1020</small></div></label>
@@ -718,7 +732,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <option value="avanzado">Avanzado</option>
           </select>
         </div>
-        <div class="form-field" id="personas-field" style="display:none;"><label for="res-personas">N° de personas</label><select id="res-personas"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option></select></div>
+        <div class="form-field" id="personas-field" style="display:none;"><label for="res-personas">N° de personas * — Grupal: 2 a 5</label><select id="res-personas"><option value="2">2 personas</option><option value="3">3 personas</option><option value="4">4 personas</option><option value="5">5 personas</option></select><small class="field-hint" style="color:var(--gray);font-size:0.72rem;margin-top:4px;display:block">Mínimo 2 personas para clase grupal.</small></div>
         <div class="form-field">
           <label for="res-pago">Medio de pago *</label>
           <select id="res-pago">
