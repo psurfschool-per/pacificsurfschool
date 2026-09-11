@@ -187,8 +187,8 @@ const overlay = document.getElementById('modalOverlay');
 const modal = overlay.querySelector('.modal');
 let currentStep = 1;
 
-const precios = { individual: 150, grupal: 110, paquete: 400, paquete8: 720, paquete12: 1020 };
-const nombres = { individual: 'Clase Individual', grupal: 'Clase Grupal', paquete: 'Pack x4 Clases', paquete8: 'Pack x8 Clases', paquete12: 'Pack x12 Clases' };
+const precios = { individual: 150, grupal: 110, videoanalisis: 180, paquete: 400, paquete8: 720, paquete12: 1020 };
+const nombres = { individual: 'Clase Privada', grupal: 'Clase Grupal', videoanalisis: 'Plan Surf + Video Análisis', paquete: 'Pack x4 Clases', paquete8: 'Pack x8 Clases', paquete12: 'Pack x12 Clases' };
 
 /* ===== HORARIOS POR DÍA ===== */
 const horariosLunesASabado = ['6:00 am', '8:00 am', '10:00 am', '11:30 am', '2:00 pm', '4:00 pm'];
@@ -472,8 +472,9 @@ function payWithCulqi() {
 function sendConfirmationEmail(data) {
   const reservationId = 'PSS-' + Date.now().toString(36).toUpperCase();
   const classNames = {
-    individual: 'Clase Individual',
+    individual: 'Clase Privada',
     grupal: 'Clase Grupal',
+    videoanalisis: 'Plan Surf + Video Análisis',
     paquete: 'Pack x4 Clases',
     paquete8: 'Pack x8 Clases',
     paquete12: 'Pack x12 Clases'
@@ -982,101 +983,179 @@ function initCarousel() {
 }
 document.addEventListener('DOMContentLoaded', initCarousel);
 
-/* ===== CLASES CAROUSEL MODERNO — scroll-snap + dots + drag + teclado ===== */
+/* ===== CLASES — SIN FIN (igual que galería, clones + transform) ===== */
 let claseIdx = 0;
+let clasePos = 0;
+let claseIsAnimating = false;
+let claseClonesCount = 0;
+let claseTotalReal = 0;
 
 function claseGetVisible() {
   const w = window.innerWidth;
   if (w >= 1024) return 3;
-  return 1; // peek 85-88% en tablet/móvil para invitar al swipe
+  return 1;
 }
 function claseGetGap(track) {
-  const g = parseFloat(getComputedStyle(track).gap || getComputedStyle(track).columnGap || '20');
-  return isNaN(g) ? 20 : g;
+  const g = parseFloat(getComputedStyle(track).gap || getComputedStyle(track).columnGap || '16');
+  return isNaN(g) ? 16 : g;
 }
-function claseGetMaxIdx() {
-  const track = document.getElementById('clasesTrack') || document.querySelector('.clases-track');
-  if (!track) return 0;
-  const total = track.querySelectorAll('.clase-card').length;
-  return Math.max(0, total - claseGetVisible());
+function claseGetStep(track){
+  const card = track.querySelector('.clase-card:not(.is-clone)');
+  return (card ? card.offsetWidth : 300) + claseGetGap(track);
 }
-function claseGetCardStep() {
-  const track = document.getElementById('clasesTrack') || document.querySelector('.clases-track');
-  if (!track) return 320;
-  const card = track.querySelector('.clase-card');
-  return (card ? card.offsetWidth : 320) + claseGetGap(track);
+function claseGetPages(){
+  return Math.max(1, claseTotalReal - claseGetVisible() + 1);
 }
-function claseScrollTo(idx, smooth = true) {
-  const track = document.getElementById('clasesTrack') || document.querySelector('.clases-track');
-  if (!track) return;
-  const max = claseGetMaxIdx();
-  const clamped = Math.max(0, Math.min(max, idx));
-  claseIdx = clamped;
-  window._claseIdx = clamped;
-  track.scrollTo({ left: clamped * claseGetCardStep(), behavior: smooth ? 'smooth' : 'instant' });
-  claseSyncControls();
-}
-function claseCarouselPrev() {
-  if (typeof window._claseIdx === 'number') claseIdx = window._claseIdx;
-  const max = claseGetMaxIdx();
-  let next = claseIdx - 1;
-  if (next < 0) next = max; // loop circular — más práctico
-  claseScrollTo(next);
-}
-function claseCarouselNext() {
-  if (typeof window._claseIdx === 'number') claseIdx = window._claseIdx;
-  const max = claseGetMaxIdx();
-  let next = claseIdx + 1;
-  if (next > max) next = 0;
-  claseScrollTo(next);
-}
-function claseSyncControls() {
-  const track = document.getElementById('clasesTrack') || document.querySelector('.clases-track');
+function claseSyncUI(){
   const dotsWrap = document.getElementById('clasesDots');
-  const progress = document.getElementById('clasesProgress');
   const counter = document.getElementById('clasesCounter');
-  const prevBtn = document.getElementById('clasePrevBtn');
-  const nextBtn = document.getElementById('claseNextBtn');
-  const max = claseGetMaxIdx();
-  const totalPages = max + 1;
-  // dots
-  if (dotsWrap) {
-    dotsWrap.querySelectorAll('.dot').forEach((d, i) => {
-      d.classList.toggle('active', i === claseIdx);
-      d.setAttribute('aria-selected', i === claseIdx ? 'true' : 'false');
+  const track = document.getElementById('clasesTrack') || document.querySelector('.clases-track');
+  const pages = claseGetPages();
+  if (dotsWrap){
+    dotsWrap.querySelectorAll('.dot').forEach((d,i)=>{
+      const on = i === claseIdx;
+      d.classList.toggle('active', on);
+      d.setAttribute('aria-selected', on ? 'true' : 'false');
     });
   }
-  if (progress) {
-    const pct = totalPages <= 1 ? 100 : ((claseIdx + 1) / totalPages) * 100;
-    progress.style.width = pct + '%';
-  }
-  if (counter) counter.innerHTML = `<strong>${claseIdx + 1}</strong> / ${totalPages}`;
-  // en modo loop no deshabilitamos, pero si hay 1 página ocultar flechas
-  const singlePage = totalPages <= 1;
-  if (prevBtn) { prevBtn.style.display = singlePage ? 'none' : ''; prevBtn.disabled = false; }
-  if (nextBtn) { nextBtn.style.display = singlePage ? 'none' : ''; nextBtn.disabled = false; }
-  if (track) {
-    // accesibilidad: sólo el slide activo es tab-focusable
-    track.querySelectorAll('.clase-card').forEach((card, i) => {
-      const isActivePageStart = i >= claseIdx && i < claseIdx + claseGetVisible();
-      card.setAttribute('aria-hidden', isActivePageStart ? 'false' : 'true');
+  if (counter) counter.innerHTML = `<strong>${String(claseIdx+1).padStart(2,'0')}</strong> / ${String(pages).padStart(2,'0')}`;
+  if (track){
+    const realCards = track.querySelectorAll('.clase-card:not(.is-clone)');
+    realCards.forEach((c,i)=>{
+      const on = i >= claseIdx && i < claseIdx + claseGetVisible();
+      c.setAttribute('aria-hidden', on ? 'false' : 'true');
     });
   }
 }
-function claseSyncFromScroll() {
+function claseJumpWithoutAnim(track, newPos){
+  track.style.transition = 'none';
+  clasePos = newPos;
+  const step = claseGetStep(track);
+  track.style.transform = `translateX(-${clasePos * step}px)`;
+  void track.offsetHeight;
+  track.style.transition = '';
+}
+function claseGoToReal(n, fromAuto=false){
+  const track = document.getElementById('clasesTrack') || document.querySelector('.clases-track');
+  if (!track || claseIsAnimating) return;
+  const pages = claseGetPages();
+  const targetReal = ((n % pages) + pages) % pages;
+  // salto largo por dot clic directo
+  const isJump = !fromAuto && Math.abs(targetReal - claseIdx) > 1 && !(targetReal===0 && claseIdx===pages-1) && !(targetReal===pages-1 && claseIdx===0);
+  if (isJump){
+    claseIsAnimating = true;
+    track.style.transition = 'transform 0.45s cubic-bezier(0.33,1,0.68,1)';
+    claseIdx = targetReal;
+    clasePos = claseClonesCount + targetReal;
+    track.style.transform = `translateX(-${clasePos * claseGetStep(track)}px)`;
+    claseSyncUI();
+    setTimeout(()=>{ claseIsAnimating=false; }, 470);
+    if (!fromAuto) resetClasesTimer();
+    window._claseIdx = claseIdx;
+    return;
+  }
+  // secuencia infinita con clones
+  claseIsAnimating = true;
+  track.style.transition = 'transform 0.5s cubic-bezier(0.33,1,0.68,1)';
+  const step = claseGetStep(track);
+  if (n >= pages){ // más allá del final -> clone del inicio
+    clasePos = claseClonesCount + pages;
+    track.style.transform = `translateX(-${clasePos * step}px)`;
+    claseIdx = 0;
+    claseSyncUI();
+    setTimeout(()=>{ claseJumpWithoutAnim(track, claseClonesCount); claseSyncUI(); claseIsAnimating=false; }, 520);
+  } else if (n < 0){ // antes del inicio -> clone del final
+    clasePos = claseClonesCount - 1;
+    track.style.transform = `translateX(-${clasePos * step}px)`;
+    claseIdx = pages - 1;
+    claseSyncUI();
+    setTimeout(()=>{ claseJumpWithoutAnim(track, claseClonesCount + pages - 1); claseSyncUI(); claseIsAnimating=false; }, 520);
+  } else {
+    claseIdx = targetReal;
+    clasePos = claseClonesCount + targetReal;
+    track.style.transform = `translateX(-${clasePos * step}px)`;
+    claseSyncUI();
+    setTimeout(()=>{ claseIsAnimating=false; }, 510);
+  }
+  window._claseIdx = claseIdx;
+  if (!fromAuto) resetClasesTimer();
+}
+function claseCarouselPrev(){ claseGoToReal(claseIdx - 1); }
+function claseCarouselNext(){ claseGoToReal(claseIdx + 1); }
+
+let clasesTimer = null;
+let clasesPaused = false;
+let clasesRaf = null;
+let clasesContinuous = true; // continuo sin fin
+let clasesOffsetPx = 0;
+function resetClasesTimer(){
+  clearInterval(clasesTimer);
+  cancelAnimationFrame(clasesRaf);
+  const pages = claseGetPages();
+  if (pages <= 1){ // 3 cards en desktop = sin carrusel
+    const ctr = document.getElementById('clasesCounter');
+    const dots = document.getElementById('clasesDots');
+    if (ctr) ctr.style.display = 'none';
+    if (dots) dots.style.display = 'none';
+    document.getElementById('clasePrevBtn')?.style.setProperty('display','none');
+    document.getElementById('claseNextBtn')?.style.setProperty('display','none');
+    return;
+  }
+  // restaura controles si estaban ocultos
+  const ctr2 = document.getElementById('clasesCounter');
+  const dots2 = document.getElementById('clasesDots');
+  if (ctr2) ctr2.style.display = '';
+  if (dots2) dots2.style.display = '';
+  document.getElementById('clasePrevBtn')?.style.setProperty('display','');
+  document.getElementById('claseNextBtn')?.style.setProperty('display','');
+  if (clasesContinuous){
+    startClasesContinuous();
+    return;
+  }
+  const iv = window.innerWidth <= 768 ? 5000 : 4000;
+  clasesTimer = setInterval(()=>{ if(!clasesPaused && !claseIsAnimating) claseGoToReal(claseIdx+1, true); }, iv);
+}
+function startClasesContinuous(){
   const track = document.getElementById('clasesTrack') || document.querySelector('.clases-track');
   if (!track) return;
-  const step = claseGetCardStep();
-  if (step <= 0) return;
-  const idx = Math.round(track.scrollLeft / step);
-  const max = claseGetMaxIdx();
-  const clamped = Math.max(0, Math.min(max, idx));
-  if (clamped !== claseIdx) {
-    claseIdx = clamped;
-    window._claseIdx = clamped;
-    claseSyncControls();
+  cancelAnimationFrame(clasesRaf);
+  const pages = claseGetPages();
+  if (pages <= 1) return;
+  const step = claseGetStep(track);
+  const totalPx = pages * step;
+  let last = performance.now();
+  const speed = window.innerWidth <= 768 ? 0.028 : 0.035; // px/ms ~ 28-35 px/s
+  function tick(now){
+    if (clasesPaused || claseIsAnimating){ clasesRaf = requestAnimationFrame(tick); last = now; return; }
+    const delta = now - last;
+    last = now;
+    // avanza continuo
+    clasesOffsetPx += delta * speed;
+    // sincroniza idx según offset
+    const prog = clasesOffsetPx / step;
+    const newIdx = Math.floor(prog) % pages;
+    if (newIdx !== claseIdx){
+      claseIdx = newIdx;
+      window._claseIdx = claseIdx;
+      claseSyncUI();
+    }
+    // aplica transform continuo: pos base + offset fraccional
+    const basePos = claseClonesCount * step;
+    const x = basePos + clasesOffsetPx;
+    track.style.transition = 'none';
+    track.style.transform = `translateX(-${x}px)`;
+    if (clasesOffsetPx >= totalPx){
+      clasesOffsetPx -= totalPx;
+    }
+    clasesRaf = requestAnimationFrame(tick);
   }
+  clasesOffsetPx = claseIdx * step;
+  clasesRaf = requestAnimationFrame(tick);
 }
+function stopClasesContinuous(){ cancelAnimationFrame(clasesRaf); clearInterval(clasesTimer); }
+function pauseClases(){ clasesPaused=true; stopClasesContinuous(); }
+function resumeClases(){ clasesPaused=false; resetClasesTimer(); }
+
 function initClasesCarousel() {
   const track = document.getElementById('clasesTrack') || document.querySelector('.clases-track');
   if (!track) return;
@@ -1085,110 +1164,182 @@ function initClasesCarousel() {
   const prevBtn = document.getElementById('clasePrevBtn');
   const nextBtn = document.getElementById('claseNextBtn');
 
-  // generar dots
-  const total = track.querySelectorAll('.clase-card').length;
+  // guarda reales (solo visibles, excluye hidden) y limpia clones previos
+  track.querySelectorAll('.is-clone').forEach(n=>n.remove());
+  const realCards = Array.from(track.querySelectorAll('.clase-card:not([hidden])')).filter(c => c.style.display !== 'none');
+  claseTotalReal = realCards.length;
+  if (claseTotalReal === 0) return;
   const visible = claseGetVisible();
-  const pages = Math.max(1, total - visible + 1);
-  if (dotsWrap) {
-    dotsWrap.innerHTML = '';
-    for (let i = 0; i < pages; i++) {
-      const b = document.createElement('button');
-      b.className = 'dot' + (i === 0 ? ' active' : '');
-      b.type = 'button';
-      b.setAttribute('role', 'tab');
-      b.setAttribute('aria-label', `Ir a grupo ${i + 1} de ${pages}`);
-      b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
-      b.addEventListener('click', () => claseScrollTo(i));
+  claseClonesCount = visible;
+  const pages = claseGetPages();
+
+  // crea clones
+  const fragStart = document.createDocumentFragment();
+  const fragEnd = document.createDocumentFragment();
+  for (let i = claseTotalReal - visible; i < claseTotalReal; i++){
+    const idx = (i + claseTotalReal) % claseTotalReal;
+    const c = realCards[idx].cloneNode(true);
+    c.classList.add('is-clone'); c.setAttribute('aria-hidden','true');
+    fragStart.appendChild(c);
+  }
+  for (let i = 0; i < visible; i++){
+    const c = realCards[i % claseTotalReal].cloneNode(true);
+    c.classList.add('is-clone'); c.setAttribute('aria-hidden','true');
+    fragEnd.appendChild(c);
+  }
+  track.prepend(fragStart);
+  track.append(fragEnd);
+
+  // — interactividad: card clic + teclado + tilt sutil (sin info nueva) —
+  realCards.forEach(card=>{
+    card.setAttribute('tabindex','0');
+    card.setAttribute('role','button');
+    card.setAttribute('aria-label', `Reservar ${card.querySelector('h3')?.textContent?.trim() || 'clase'}`);
+    card.addEventListener('click', e=>{
+      if (e.target.closest('.btn-reservar-card')) return;
+      const tipo = card.dataset.clase;
+      if (tipo) openModal(tipo);
+    });
+    card.addEventListener('keydown', e=>{
+      if (e.key==='Enter' || e.key===' '){ e.preventDefault(); const t=card.dataset.clase; if(t) openModal(t); }
+    });
+    // tilt 3D sutil solo desktop con hover
+    if (window.matchMedia('(hover:hover)').matches){
+      card.addEventListener('mousemove', e=>{
+        const r=card.getBoundingClientRect();
+        const x=(e.clientX - r.left)/r.width - 0.5;
+        const y=(e.clientY - r.top)/r.height - 0.5;
+        card.style.transform=`translateY(-8px) rotateY(${x*5}deg) rotateX(${-y*5}deg) scale(1.015)`;
+      });
+      card.addEventListener('mouseleave', ()=>{ card.style.transform=''; });
+    }
+  });
+
+  // dots
+  if (dotsWrap){
+    dotsWrap.innerHTML='';
+    for(let i=0;i<pages;i++){
+      const b=document.createElement('button');
+      b.className='dot'+(i===0?' active':'');
+      b.type='button';
+      b.setAttribute('role','tab');
+      b.setAttribute('aria-label',`Grupo ${i+1} de ${pages}`);
+      b.setAttribute('aria-selected', i===0?'true':'false');
+      b.addEventListener('click', ()=> claseGoToReal(i));
       dotsWrap.appendChild(b);
     }
   }
 
-  // sync inicial
-  if (typeof window._claseIdx === 'number') claseIdx = Math.max(0, Math.min(claseGetMaxIdx(), window._claseIdx));
-  claseScrollTo(claseIdx, false);
+  // pos inicial
+  const startIdx = typeof window._claseIdx==='number' ? Math.max(0, Math.min(pages-1, window._claseIdx)) : 0;
+  claseIdx = startIdx;
+  clasePos = claseClonesCount + startIdx;
+  track.style.transition='none';
+  track.style.transform=`translateX(-${clasePos * claseGetStep(track)}px)`;
+  void track.offsetHeight;
+  track.style.transition='';
+  claseSyncUI();
 
-  // botones
   if (prevBtn) prevBtn.addEventListener('click', claseCarouselPrev);
   if (nextBtn) nextBtn.addEventListener('click', claseCarouselNext);
 
-  // teclado
-  if (carousel) {
-    carousel.setAttribute('tabindex', '0');
-    carousel.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') { e.preventDefault(); claseCarouselPrev(); }
-      if (e.key === 'ArrowRight') { e.preventDefault(); claseCarouselNext(); }
+  if (carousel){
+    carousel.setAttribute('tabindex','0');
+    carousel.addEventListener('keydown', e=>{
+      if(e.key==='ArrowLeft'){ e.preventDefault(); claseCarouselPrev(); }
+      if(e.key==='ArrowRight'){ e.preventDefault(); claseCarouselNext(); }
     });
+    carousel.addEventListener('mouseenter', pauseClases);
+    carousel.addEventListener('mouseleave', resumeClases);
   }
 
-  // scroll listener — sincroniza dots/progreso al arrastrar con dedo
-  let scrollRaf = null;
-  track.addEventListener('scroll', () => {
-    if (scrollRaf) return;
-    scrollRaf = requestAnimationFrame(() => {
-      claseSyncFromScroll();
-      scrollRaf = null;
-    });
-  }, { passive: true });
-
-  // drag con mouse (grab)
-  let isDown = false, startX = 0, startLeft = 0, moved = false;
-  track.addEventListener('pointerdown', (e) => {
-    if (e.pointerType === 'touch') return;
-    isDown = true; moved = false;
+  // drag
+  let isDown=false, startX=0, startPosPx=0, moved=false;
+  const getTx = ()=> clasePos * claseGetStep(track);
+  track.addEventListener('pointerdown', e=>{
+    if(e.pointerType==='touch') return;
+    isDown=true; moved=false;
     track.classList.add('is-dragging');
     track.setPointerCapture(e.pointerId);
-    startX = e.clientX;
-    startLeft = track.scrollLeft;
-    track.style.scrollSnapType = 'none';
-    track.style.scrollBehavior = 'auto';
+    startX=e.clientX;
+    startPosPx=getTx();
+    track.style.transition='none';
+    pauseClases();
   });
-  track.addEventListener('pointermove', (e) => {
-    if (!isDown) return;
-    const dx = e.clientX - startX;
-    if (Math.abs(dx) > 5) moved = true;
-    track.scrollLeft = startLeft - dx;
+  track.addEventListener('pointermove', e=>{
+    if(!isDown) return;
+    const dx=e.clientX - startX;
+    if(Math.abs(dx)>5) moved=true;
+    track.style.transform=`translateX(-${startPosPx - dx}px)`;
   });
-  const endDrag = (e) => {
-    if (!isDown) return;
-    isDown = false;
+  const endDrag = e=>{
+    if(!isDown) return;
+    isDown=false;
     track.classList.remove('is-dragging');
-    track.style.scrollSnapType = '';
-    track.style.scrollBehavior = '';
-    if (e) try { track.releasePointerCapture(e.pointerId); } catch(_){}
-    // snap al índice más cercano
-    requestAnimationFrame(() => claseSyncFromScroll());
+    track.style.transition='';
+    if(e) try{ track.releasePointerCapture(e.pointerId);}catch(_){}
+    const dx = e ? (e.clientX - startX) : 0;
+    if(Math.abs(dx) > 40){
+      if(dx < 0) claseGoToReal(claseIdx+1);
+      else claseGoToReal(claseIdx-1);
+    } else {
+      track.style.transition='transform 0.35s ease';
+      track.style.transform=`translateX(-${clasePos * claseGetStep(track)}px)`;
+    }
+    setTimeout(resumeClases, 2500);
   };
   track.addEventListener('pointerup', endDrag);
   track.addEventListener('pointercancel', endDrag);
-  track.addEventListener('click', (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+  track.addEventListener('click', e=>{ if(moved){ e.preventDefault(); e.stopPropagation(); moved=false; } }, true);
 
-  // touch swipe ya es nativo por scroll-snap; no hace falta lógica extra
+  // touch swipe
+  let tStart=0;
+  track.addEventListener('touchstart', e=>{ tStart=e.touches[0].clientX; pauseClases(); }, {passive:true});
+  track.addEventListener('touchend', e=>{
+    const diff=tStart - e.changedTouches[0].clientX;
+    if(Math.abs(diff)>48) claseGoToReal(diff>0?claseIdx+1:claseIdx-1);
+    setTimeout(resumeClases, 3000);
+  }, {passive:true});
 
-  // resize — recalcular step y re-snap
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      // regenerar dots si cambia número de páginas
-      const newPages = Math.max(1, track.querySelectorAll('.clase-card').length - claseGetVisible() + 1);
-      if (dotsWrap && dotsWrap.children.length !== newPages) {
-        dotsWrap.innerHTML = '';
-        for (let i = 0; i < newPages; i++) {
-          const b = document.createElement('button');
-          b.className = 'dot' + (i === claseIdx ? ' active' : '');
-          b.type = 'button';
-          b.setAttribute('role', 'tab');
-          b.setAttribute('aria-label', `Ir a grupo ${i + 1} de ${newPages}`);
-          b.addEventListener('click', () => claseScrollTo(i));
+  // autoplay + visibility
+  const obs=new IntersectionObserver(ents=>{
+    ents.forEach(en=>{ if(en.isIntersecting) resetClasesTimer(); else clearInterval(clasesTimer); });
+  },{threshold:0.3});
+  if(carousel) obs.observe(carousel);
+
+  // resize rebuild
+  let rT;
+  window.addEventListener('resize', ()=>{
+    clearTimeout(rT);
+    rT=setTimeout(()=>{
+      const newVisible = claseGetVisible();
+      if(newVisible !== claseClonesCount){
+        // rebuild clones si cambia visible
+        initClasesCarousel();
+        return;
+      }
+      track.style.transition='none';
+      track.style.transform=`translateX(-${clasePos * claseGetStep(track)}px)`;
+      void track.offsetHeight;
+      track.style.transition='';
+      // dots si cambió pages
+      const newPages = claseGetPages();
+      if(dotsWrap && dotsWrap.children.length !== newPages){
+        dotsWrap.innerHTML='';
+        for(let i=0;i<newPages;i++){
+          const b=document.createElement('button');
+          b.className='dot'+(i===claseIdx?' active':'');
+          b.type='button';
+          b.setAttribute('role','tab');
+          b.addEventListener('click', ()=> claseGoToReal(i));
           dotsWrap.appendChild(b);
         }
+        claseSyncUI();
       }
-      claseScrollTo(Math.min(claseIdx, claseGetMaxIdx()), false);
-    }, 120);
-  }, { passive: true });
+    },120);
+  }, {passive:true});
 
-  // sync inicial visual
-  claseSyncControls();
+  resetClasesTimer();
 }
 document.addEventListener('DOMContentLoaded', initClasesCarousel);
 

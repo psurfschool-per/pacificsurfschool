@@ -86,6 +86,7 @@ function serveHTML(req, res) {
 const PRECIOS = {
   individual: 150,
   grupal: 110,
+  videoanalisis: 180,
   paquete: 400,
   paquete8: 720,
   paquete12: 1020
