@@ -552,12 +552,14 @@ async function processCulqiPayment(token, email) {
       body: JSON.stringify({
         token,
         amount: amountInCentavos,
-        email: email || 'cliente@pacificsurfschool.com',
+        email: email || d.email || 'cliente@pacificsurfschool.com',
         tipo: d.tipo,
         personas: d.personas,
         fecha: d.fecha,
         horario: d.horario,
-        nombre: d.nombre
+        nombre: d.nombre,
+        telefono: d.wsp || '',
+        wsp: d.wsp || ''
       })
     });
 
@@ -569,9 +571,16 @@ async function processCulqiPayment(token, email) {
       btn.innerHTML = '<i class="fas fa-check"></i> ¡Pago exitoso!';
       btn.classList.add('btn-success');
       sendConfirmationEmail({ ...d, email, total: finalAmount });
+      // Si se compró un PACK, el backend crea/actualiza la cuenta del portal
+      if (data.cuenta && data.cuenta.email) {
+        const passInfo = data.cuenta.creada
+          ? `\n\n🎓 Tu cuenta del Portal Alumno fue creada:\nUsuario: ${data.cuenta.email}\nClave temporal: ${data.cuenta.passwordTemporal}\n\nEntra aquí: ${location.origin}/portal.html\nGuarda tu clave y marca tus días de clase.`
+          : `\n\n🎓 Tu Pack se activó en tu cuenta (${data.cuenta.email}).\nEntra aquí: ${location.origin}/portal.html`;
+        setTimeout(() => { alert('¡Pago exitoso!' + passInfo); }, 400);
+      }
       setTimeout(() => {
         confirmarReserva();
-      }, 1500);
+      }, data.cuenta ? 2500 : 1500);
     } else {
       const errorMsg = data.error || 'Error al procesar el pago. Intenta de nuevo.';
       console.error('[Culqi] Error del servidor:', errorMsg);
@@ -989,6 +998,7 @@ let clasePos = 0;
 let claseIsAnimating = false;
 let claseClonesCount = 0;
 let claseTotalReal = 0;
+let clasesUIBound = false; // listeners globales (botones/drag/resize) se enlazan una sola vez
 
 function claseGetVisible() {
   const w = window.innerWidth;
@@ -1086,7 +1096,9 @@ function claseCarouselNext(){ claseGoToReal(claseIdx + 1); }
 let clasesTimer = null;
 let clasesPaused = false;
 let clasesRaf = null;
-let clasesContinuous = true; // continuo sin fin
+// Desactivado: el desplazamiento continuo (~28px/s) hacía que tras la 3ª card
+// se tardara ~12s en cruzar el clon y se percibiera un vacío. Se usa autoplay por pasos.
+let clasesContinuous = false;
 let clasesOffsetPx = 0;
 function resetClasesTimer(){
   clearInterval(clasesTimer);
@@ -1112,7 +1124,7 @@ function resetClasesTimer(){
     startClasesContinuous();
     return;
   }
-  const iv = window.innerWidth <= 768 ? 5000 : 4000;
+  const iv = window.innerWidth <= 768 ? 3500 : 4000;
   clasesTimer = setInterval(()=>{ if(!clasesPaused && !claseIsAnimating) claseGoToReal(claseIdx+1, true); }, iv);
 }
 function startClasesContinuous(){
@@ -1166,7 +1178,7 @@ function initClasesCarousel() {
 
   // guarda reales (solo visibles, excluye hidden) y limpia clones previos
   track.querySelectorAll('.is-clone').forEach(n=>n.remove());
-  const realCards = Array.from(track.querySelectorAll('.clase-card:not([hidden])')).filter(c => c.style.display !== 'none');
+  const realCards = Array.from(track.querySelectorAll('.clase-card:not([hidden]):not([style*="display: none"])'));
   claseTotalReal = realCards.length;
   if (claseTotalReal === 0) return;
   const visible = claseGetVisible();
@@ -1179,12 +1191,14 @@ function initClasesCarousel() {
   for (let i = claseTotalReal - visible; i < claseTotalReal; i++){
     const idx = (i + claseTotalReal) % claseTotalReal;
     const c = realCards[idx].cloneNode(true);
-    c.classList.add('is-clone'); c.setAttribute('aria-hidden','true');
+    c.classList.add('is-clone', 'visible'); c.classList.remove('fade-up');
+    c.setAttribute('aria-hidden','true');
     fragStart.appendChild(c);
   }
   for (let i = 0; i < visible; i++){
     const c = realCards[i % claseTotalReal].cloneNode(true);
-    c.classList.add('is-clone'); c.setAttribute('aria-hidden','true');
+    c.classList.add('is-clone', 'visible'); c.classList.remove('fade-up');
+    c.setAttribute('aria-hidden','true');
     fragEnd.appendChild(c);
   }
   track.prepend(fragStart);
@@ -1240,10 +1254,10 @@ function initClasesCarousel() {
   track.style.transition='';
   claseSyncUI();
 
-  if (prevBtn) prevBtn.addEventListener('click', claseCarouselPrev);
-  if (nextBtn) nextBtn.addEventListener('click', claseCarouselNext);
+  if (prevBtn && !clasesUIBound) prevBtn.addEventListener('click', claseCarouselPrev);
+  if (nextBtn && !clasesUIBound) nextBtn.addEventListener('click', claseCarouselNext);
 
-  if (carousel){
+  if (carousel && !clasesUIBound){
     carousel.setAttribute('tabindex','0');
     carousel.addEventListener('keydown', e=>{
       if(e.key==='ArrowLeft'){ e.preventDefault(); claseCarouselPrev(); }
@@ -1253,7 +1267,8 @@ function initClasesCarousel() {
     carousel.addEventListener('mouseleave', resumeClases);
   }
 
-  // drag
+  // drag (solo una vez; usa step recalculado en cada gesto)
+  if (!clasesUIBound) {
   let isDown=false, startX=0, startPosPx=0, moved=false;
   const getTx = ()=> clasePos * claseGetStep(track);
   track.addEventListener('pointerdown', e=>{
@@ -1300,14 +1315,19 @@ function initClasesCarousel() {
     if(Math.abs(diff)>48) claseGoToReal(diff>0?claseIdx+1:claseIdx-1);
     setTimeout(resumeClases, 3000);
   }, {passive:true});
+  } // fin drag/touch (solo primera vez)
 
   // autoplay + visibility
-  const obs=new IntersectionObserver(ents=>{
-    ents.forEach(en=>{ if(en.isIntersecting) resetClasesTimer(); else clearInterval(clasesTimer); });
-  },{threshold:0.3});
-  if(carousel) obs.observe(carousel);
+  if (carousel && !carousel.dataset.clasesObs){
+    carousel.dataset.clasesObs = '1';
+    const obs=new IntersectionObserver(ents=>{
+      ents.forEach(en=>{ if(en.isIntersecting) resetClasesTimer(); else clearInterval(clasesTimer); });
+    },{threshold:0.3});
+    obs.observe(carousel);
+  }
 
   // resize rebuild
+  if (!clasesUIBound) {
   let rT;
   window.addEventListener('resize', ()=>{
     clearTimeout(rT);
@@ -1338,6 +1358,8 @@ function initClasesCarousel() {
       }
     },120);
   }, {passive:true});
+  } // fin guard clasesUIBound
+  clasesUIBound = true;
 
   resetClasesTimer();
 }

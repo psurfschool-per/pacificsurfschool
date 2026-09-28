@@ -9,6 +9,10 @@ export default defineConfig({
     emptyOutDir: true,
     minify: 'esbuild',
     rollupOptions: {
+      input: {
+        main: 'index.html',
+        portal: 'portal.html',
+      },
       output: {
         manualChunks: undefined
       }

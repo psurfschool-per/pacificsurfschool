@@ -19,6 +19,9 @@ dist-ssr
 # Test files
 test-payments.js
 
+# Portal alumno — base de datos local (contiene hashes de claves)
+data/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

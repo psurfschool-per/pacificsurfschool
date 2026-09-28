@@ -269,11 +269,17 @@ button{cursor:pointer;font-family:inherit}
 /* ===== STATS BAR ===== */
 .stats-bar { background: var(--white); padding: 32px 24px; box-shadow: var(--shadow); position: relative; z-index: 3; }
 .stats-inner {
-  max-width: 900px; margin: 0 auto;
-  display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; text-align: center;
+  max-width: 720px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; text-align: center;
+  align-items: center;
 }
-.stat-item strong { display: block; font-size: 2rem; font-weight: 900; color: var(--pink); }
-.stat-item span { font-size: 0.82rem; color: var(--gray); margin-top: 2px; display: block; }
+.stat-item { padding: 4px 16px; position: relative; }
+.stat-item + .stat-item::before {
+  content: ""; position: absolute; left: 0; top: 15%;
+  height: 70%; width: 1px; background: #f1f5f9;
+}
+.stat-item strong { display: block; font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 900; color: var(--pink); line-height: 1.1; }
+.stat-item span { font-size: 0.82rem; color: var(--gray); margin-top: 4px; display: block; line-height: 1.35; }
 
 /* ===== SHARED SECTION HEAD ===== */
 .section-head { text-align: center; max-width: 680px; margin: 0 auto 64px; }
@@ -327,7 +333,7 @@ button{cursor:pointer;font-family:inherit}
   will-change: transform;
   cursor: grab;
   user-select: none;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .clases-track.is-dragging { cursor: grabbing; transition: none !important; }
 .clases-track.is-dragging .clase-card { pointer-events: none; }
@@ -384,9 +390,10 @@ button{cursor:pointer;font-family:inherit}
 .popular-ribbon {
   position: absolute; top: 12px; right: 12px; z-index: 2;
   background: linear-gradient(135deg, var(--pink), #ff6b6b);
-  color: #fff; font-size: 0.70rem; font-weight: 800;
+  color: #fff; font-size: 0.70rem; font-weight: 800; line-height: 1;
   padding: 6px 12px; border-radius: 999px;
-  display: flex; align-items: center; gap: 5px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+  white-space: nowrap; max-width: calc(100% - 24px);
   box-shadow: 0 4px 14px rgba(235,43,142,0.35);
 }
 .popular-ribbon i { font-size: 0.62rem; }
@@ -937,6 +944,7 @@ button{cursor:pointer;font-family:inherit}
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
   transition: transform 0.5s;
 }
 .camden-product:hover .camden-product-img img {
@@ -1094,6 +1102,9 @@ button{cursor:pointer;font-family:inherit}
 [data-animate].visible {
   opacity: 1;
   transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-animate] { opacity: 1; transform: none; transition: none; }
 }
 
 /* ===== FOOTER ===== */
@@ -1446,9 +1457,10 @@ button{cursor:pointer;font-family:inherit}
   .hero-actions-clean { flex-direction: column; width: 100%; gap: var(--sp-3); }
   .btn-primary-clean, .btn-secondary-clean { width: 100%; justify-content: center; text-align: center; padding: var(--sp-3-5) var(--sp-5); }
 
-  /* Stats */
+  /* Stats — 3 items siempre en una fila */
   .stats-bar { padding: var(--sp-6) var(--sp-4); }
-  .stats-inner { grid-template-columns: repeat(2, 1fr); gap: var(--sp-4); }
+  .stats-inner { grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); max-width: 640px; }
+  .stat-item { padding: 4px 8px; }
   .stat-item strong { font-size: var(--text-3xl); }
   .stat-item span { font-size: var(--text-xs); }
 
@@ -1483,7 +1495,6 @@ button{cursor:pointer;font-family:inherit}
   .clases-controls { flex-wrap: wrap; gap: 10px; padding: 0 4px; }
   .clases-progress { max-width: none; }
   .clases-hint { display: none; }
-  .clase-card.featured.fade-up.visible { border-width: 2px; }
 
   /* Galería moderna — tablet */
   .galeria { padding: 64px 16px 40px; }
@@ -1564,8 +1575,9 @@ button{cursor:pointer;font-family:inherit}
   .day-card-metrics .bcm-val { font-size: 0.9rem; }
   .day-card-metrics .bcm-lbl { font-size: 0.65rem; }
 
-  .stats-inner { grid-template-columns: repeat(2, 1fr); gap: var(--sp-2); }
-  .stat-item strong { font-size: var(--text-3xl); }
+  .stats-inner { grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 100%; }
+  .stat-item { padding: 4px 6px; }
+  .stat-item strong { font-size: 1.35rem; }
 
   /* Clases carousel — móvil: peek 86% */
   .clases { padding: 40px 0 20px; }
@@ -1588,7 +1600,6 @@ button{cursor:pointer;font-family:inherit}
   .clase-nav-btn { width: 30px; height: 30px; font-size: 0.75rem; }
   .clase-nav-prev { left: 2px; }
   .clase-nav-next { right: 2px; }
-  .clase-card.featured.fade-up.visible { border-width: 2px; }
   .clase-precio .por { font-size: 0.7rem; }
   .popular-ribbon { font-size: 0.6rem; padding: 4px 10px; top: 8px; right: 8px; }
 
@@ -1900,8 +1911,9 @@ button{cursor:pointer;font-family:inherit}
   .hero-actions-clean { gap: var(--sp-3); }
   .btn-primary-clean, .btn-secondary-clean { padding: var(--sp-3) var(--sp-4); font-size: var(--text-sm); min-height: 48px; }
 
-  .stats-inner { gap: var(--sp-2); }
-  .stat-item strong { font-size: var(--text-xl); }
+  .stats-inner { gap: 8px; grid-template-columns: repeat(3, 1fr); }
+  .stat-item { padding: 2px 4px; }
+  .stat-item strong { font-size: 1.2rem; }
   .stat-item span { font-size: var(--text-2xs); }
 
   .clases { padding: 28px 0 16px; }
@@ -1923,7 +1935,6 @@ button{cursor:pointer;font-family:inherit}
   .clase-nav-btn { width: 28px; height: 28px; font-size: 0.75rem; }
   .clase-nav-prev { left: 2px; }
   .clase-nav-next { right: 2px; }
-  .clase-card.featured.fade-up.visible { border-width: 2px; }
 
   .camden-hero { padding: 24px 12px 18px; }
   .camden-tag { font-size: 0.55rem; }
@@ -2001,7 +2012,7 @@ button{cursor:pointer;font-family:inherit}
   .hero { min-height: 70svh; }
   .hero-text-box h1 { font-size: 2.2rem; }
   .hero-desc { font-size: 1rem; }
-  .stats-inner { grid-template-columns: repeat(4, 1fr); gap: var(--sp-3); }
+  .stats-inner { grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); }
   .days-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .blog-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .footer-inner { grid-template-columns: repeat(2, 1fr); gap: var(--sp-6); }
@@ -2011,7 +2022,7 @@ button{cursor:pointer;font-family:inherit}
 @media (min-width: 769px) and (max-width: 1024px) {
   .hero { min-height: 70svh; }
   .hero-text-box h1 { font-size: 2.8rem; }
-  .stats-inner { grid-template-columns: repeat(4, 1fr); gap: var(--sp-4); }
+  .stats-inner { grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); }
   .days-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; }
   .footer-inner { grid-template-columns: repeat(2, 1fr); gap: var(--sp-8); }
 }
