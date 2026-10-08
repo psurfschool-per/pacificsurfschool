@@ -370,7 +370,7 @@ function loadCachedHTML(name) {
 }
 
 const HTML_INDEX = loadCachedHTML('index.html');
-const HTML_ADMIN = loadCachedHTML('admin.html');
+const HTML_ADMIN = loadCachedHTML('mvba.html');
 
 /* ===== CACHE STRATEGY ===== */
 /* Hashed assets (JS, CSS, images in /assets/) → 1 year immutable */
@@ -431,8 +431,8 @@ function serveCached(cached) {
   };
 }
 
-app.get('/admin', serveCached(HTML_ADMIN));
-app.get('/admin.html', serveCached(HTML_ADMIN));
+app.get('/mvba', serveCached(HTML_ADMIN));
+app.get('/mvba.html', serveCached(HTML_ADMIN));
 app.get('*', serveCached(HTML_INDEX));
 
 app.listen(PORT, () => {
