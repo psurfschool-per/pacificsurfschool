@@ -475,12 +475,44 @@ function sendConfirmationEmail(data) {
     .catch(err => console.error('Error email:', err));
 }
 
+/* ===== GUARDAR RESERVA WEB → AGENDA ADMIN (no bloquea WhatsApp) ===== */
+function guardarReservaWeb() {
+  try {
+    const d = window._reservaData;
+    if (!d) return;
+    const fechaISO = document.getElementById('res-fecha')?.value || '';
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(fechaISO)) return;
+    fetch('/api/reservas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tipo: d.tipo,
+        fecha: fechaISO,
+        horario: d.horario,
+        nombre: d.nombre,
+        wsp: d.wsp,
+        email: d.email,
+        personas: d.personas,
+        experiencia: d.experiencia,
+        nivel: d.nivel,
+        pago: d.pago,
+        peso: d.peso,
+        altura: d.altura,
+        total: d.total,
+      }),
+    }).catch(() => {});
+  } catch (_) {}
+}
+
 /* ===== CONFIRMAR RESERVA → WHATSAPP ===== */
 function confirmarReserva() {
   const d = window._reservaData;
   if (!d) return;
 
   const finalPrice = d.total;
+
+  // Guarda en el calendario del admin (origen 'web') sin bloquear el flujo
+  guardarReservaWeb();
 
   const msg = encodeURIComponent(
     `Hola! Quiero reservar en Pacific Surf School\n\n` +

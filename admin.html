@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Admin · Calendario de clases — Pacific Surf School</title>
+  <meta name="description" content="Panel del instructor: calendario para agendar clases web y manuales." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=block" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" onload="this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /></noscript>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <nav class="admin-nav">
+    <a href="index.html" class="admin-brand">
+      <img src="img/logo.jpeg" alt="PSS" onerror="this.style.display='none'" />
+      <span>Pacific Surf School <small>Admin · Calendario</small></span>
+    </a>
+    <div class="admin-nav-actions">
+      <a href="index.html" class="link-ghost"><i class="fas fa-home"></i> Web</a>
+      <button id="btnLogout" class="btn-logout" hidden><i class="fas fa-sign-out-alt"></i> Salir</button>
+    </div>
+  </nav>
+
+  <main class="admin-wrap">
+    <!-- LOGIN -->
+    <section id="viewLogin" class="card login-card">
+      <h1><i class="fas fa-shield-halved"></i> Acceso instructor</h1>
+      <p class="muted">Ingresa la clave de administración para gestionar el calendario de clases.</p>
+      <form id="formLogin">
+        <label>Clave de administrador
+          <input type="password" id="loginPass" placeholder="••••••••" required autocomplete="current-password" />
+        </label>
+        <p id="loginError" class="error" hidden></p>
+        <button type="submit" class="btn-primary" id="btnLogin">Entrar <i class="fas fa-arrow-right"></i></button>
+      </form>
+      <p class="muted small">La clave se configura con la variable <code>ADMIN_PASSWORD</code> en el servidor.</p>
+    </section>
+
+    <!-- APP -->
+    <div id="viewApp" hidden>
+      <section class="stats-grid">
+        <div class="stat-card clickable" id="cardHoy" title="Ver hoy"><strong id="stHoy">0</strong><span>Hoy</span></div>
+        <div class="stat-card"><strong id="stManana">0</strong><span>Mañana</span></div>
+        <div class="stat-card"><strong id="stSemana">0</strong><span>Próx. 7 días</span></div>
+        <div class="stat-card clickable" id="cardPend" title="Ver por confirmar"><strong id="stPend">0</strong><span>Por confirmar</span></div>
+        <div class="stat-card action-card">
+          <button id="btnNueva" class="btn-primary"><i class="fas fa-plus"></i> Agendar clase</button>
+        </div>
+      </section>
+
+      <section class="card toolbar-card">
+        <div class="toolbar-row">
+          <div class="search-box"><i class="fas fa-search"></i><input type="search" id="fSearch" placeholder="Buscar alumno, teléfono o nota…" /></div>
+          <select id="fEstado" class="filter-sel" aria-label="Filtrar por estado">
+            <option value="">Todos los estados</option>
+            <option value="programada">Programada</option>
+            <option value="confirmada">Confirmada</option>
+            <option value="completada">Completada</option>
+            <option value="cancelada">Cancelada</option>
+            <option value="no-show">No-show</option>
+          </select>
+          <select id="fTipo" class="filter-sel" aria-label="Filtrar por tipo">
+            <option value="">Todos los tipos</option>
+            <option value="grupal">Grupal</option>
+            <option value="individual">Privada</option>
+            <option value="videoanalisis">Video análisis</option>
+            <option value="libre">Libre / bloqueo</option>
+          </select>
+          <select id="fOrigen" class="filter-sel" aria-label="Filtrar por origen">
+            <option value="">Todas las clases</option>
+            <option value="mias">Agendadas por mí</option>
+            <option value="web">Web (automáticas)</option>
+          </select>
+        </div>
+        <div class="toolbar-row">
+          <div class="view-toggle" role="tablist" aria-label="Vista calendario">
+            <button id="viewMes" class="toggle-btn active" role="tab" aria-selected="true"><i class="fas fa-calendar-days"></i> Mes</button>
+            <button id="viewSemana" class="toggle-btn" role="tab" aria-selected="false"><i class="fas fa-calendar-week"></i> Semana</button>
+          </div>
+          <div class="cal-nav">
+            <button id="calPrev" class="btn-mini" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+            <button id="calToday" class="btn-mini">Hoy</button>
+            <button id="calNext" class="btn-mini" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+            <strong id="calTitle" class="cal-title">—</strong>
+          </div>
+        </div>
+      </section>
+
+      <div class="cal-layout">
+        <section class="card cal-card">
+          <div id="calMes" class="cal-mes">
+            <div class="dow-row"><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span></div>
+            <div id="mesGrid" class="mes-grid"></div>
+          </div>
+          <div id="calSemana" class="cal-semana" hidden>
+            <div id="semGrid" class="sem-grid"></div>
+          </div>
+          <p class="muted small cal-hint"><i class="fas fa-hand-pointer"></i> Toca un día para ver el detalle · toca un horario vacío en semana para agendar ahí.</p>
+        </section>
+
+        <aside class="card day-card">
+          <div class="day-head">
+            <div>
+              <span class="tag">Detalle del día</span>
+              <h2 id="dayTitle">—</h2>
+              <p class="muted small" id="dayCount">—</p>
+            </div>
+            <button id="btnAgendarDia" class="btn-mini"><i class="fas fa-plus"></i> Agendar aquí</button>
+          </div>
+          <ul id="dayList" class="day-list"></ul>
+          <h3 class="up-title"><i class="fas fa-arrow-right"></i> Próximas (14 días)</h3>
+          <ul id="upList" class="day-list upcoming"></ul>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL CLASE -->
+  <div id="claseModal" class="modal-overlay" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <h3 id="modalTitle">Agendar clase</h3>
+        <button id="modalClose" class="btn-mini" aria-label="Cerrar">✕</button>
+      </div>
+      <form id="formClase">
+        <div class="form-grid">
+          <label>Alumno *<input type="text" id="cAlumno" placeholder="Ej: María Torres" required maxlength="80" /></label>
+          <label>WhatsApp / teléfono<input type="tel" id="cTelefono" placeholder="+51 999 999 999" maxlength="30" /></label>
+          <label>Fecha *<input type="date" id="cFecha" required /></label>
+          <label>Hora *
+            <select id="cHora" required>
+              <option value="6:00 am">6:00 am</option>
+              <option value="8:00 am" selected>8:00 am</option>
+              <option value="10:00 am">10:00 am</option>
+              <option value="11:30 am">11:30 am</option>
+              <option value="2:00 pm">2:00 pm</option>
+              <option value="4:00 pm">4:00 pm</option>
+            </select>
+          </label>
+          <label>Tipo de clase
+            <select id="cTipo">
+              <option value="grupal">Grupal</option>
+              <option value="individual">Privada</option>
+              <option value="videoanalisis">Video análisis</option>
+              <option value="libre">Libre / bloqueo</option>
+            </select>
+          </label>
+          <label>Personas
+            <select id="cPersonas">
+              <option value="1">1 persona</option>
+              <option value="2">2 personas</option>
+              <option value="3">3 personas</option>
+              <option value="4">4 personas</option>
+              <option value="5">5 personas</option>
+              <option value="6">6 personas</option>
+            </select>
+          </label>
+          <label>Instructor<input type="text" id="cInstructor" placeholder="Ej: Diego" maxlength="80" /></label>
+          <label>Estado
+            <select id="cEstado">
+              <option value="programada">Programada</option>
+              <option value="confirmada">Confirmada</option>
+              <option value="completada">Completada</option>
+              <option value="cancelada">Cancelada</option>
+              <option value="no-show">No-show</option>
+            </select>
+          </label>
+          <label class="full">Email (opcional)<input type="email" id="cEmail" placeholder="alumno@email.com" maxlength="120" /></label>
+          <label class="full">Notas<textarea id="cNotas" rows="2" placeholder="Nivel, tabla, wetsuit, saldo, etc." maxlength="500"></textarea></label>
+        </div>
+        <p id="formError" class="error" hidden></p>
+        <div class="modal-actions">
+          <button type="button" id="btnDelete" class="btn-danger" hidden><i class="fas fa-trash"></i> Eliminar</button>
+          <span class="spacer"></span>
+          <button type="button" id="modalCancel" class="btn-mini">Cancelar</button>
+          <button type="submit" class="btn-primary" id="btnSave"><i class="fas fa-save"></i> Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+  <footer class="admin-foot">
+    <p>© 2026 Pacific Surf School · Panel privado del instructor · <a href="https://wa.me/51915168620" target="_blank">WhatsApp</a></p>
+  </footer>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
