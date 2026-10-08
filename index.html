@@ -186,7 +186,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li><a href="#oleaje">Oleaje</a></li>
       <li><a href="#ubicacion">Ubicación</a></li>
       <li><a href="#faq">FAQ</a></li>
-      <li><a href="portal.html">Portal Alumno</a></li>
       <li class="nav-cta-item"><button class="btn-reservar-nav btn-reservar-nav--mobile" onclick="closeMobileMenu(); openModal()">Reservar Clase</button></li>
     </ul>
     <button class="btn-reservar-nav btn-reservar-nav--desktop" onclick="openModal()">Reservar Clase</button>
@@ -735,11 +734,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="form-field">
           <label for="res-pago">Medio de pago *</label>
           <select id="res-pago">
-            <option value="culqi">💳 Pagar con Tarjeta / Yape</option>
+            <option value="yape">Yape</option>
+            <option value="plin">Plin</option>
+            <option value="transferencia">Transferencia</option>
+            <option value="efectivo">Efectivo</option>
           </select>
         </div>
-        <div id="culqi-info" class="culqi-info">
-          <p><i class="fas fa-info-circle"></i> Se abrirá el formulario de Culqi para completar el pago de forma segura.</p>
+        <div id="pago-info" class="pago-info">
+          <p><i class="fas fa-info-circle"></i> Coordinas el pago por WhatsApp después de confirmar tu reserva.</p>
         </div>
         <div class="modal-nav">
           <button class="btn-back" onclick="nextStep(2)"><i class="fas fa-arrow-left"></i> Atrás</button>
@@ -751,14 +753,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="modal-step hidden" id="paso4">
         <h3>Confirma tu reserva</h3>
         <div class="resumen-box" id="resumenBox"></div>
-        <p class="resumen-nota" id="resumenNota">Haz clic en "Pagar ahora" para completar el pago de forma segura.</p>
-        <div id="culqiSection">
-          <button id="btnCulqiPay" class="btn-culqi-pay" onclick="payWithCulqi(); return false;">
-            <svg class="culqi-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-            <span>Pagar ahora</span>
-          </button>
-          <p class="culqi-seguro"><i class="fas fa-lock"></i> Pago seguro · Tarjeta y Yape</p>
-        </div>
+        <p class="resumen-nota" id="resumenNota">Confirma tu reserva por WhatsApp y coordina el pago.</p>
         <div class="modal-nav">
           <button class="btn-back" onclick="nextStep(3)"><i class="fas fa-arrow-left"></i> Atrás</button>
           <div class="modal-nav-actions">
@@ -776,26 +771,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="https://checkout.culqi.com/js/v4" defer></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    if (typeof Culqi !== 'undefined') {
-      Culqi.publicKey = 'pk_test_VfKYw1haKMh0Zqh0';
-      Culqi.options({
-        lang: 'es',
-        installments: false,
-        paymentMethods: {
-          tarjeta: true,
-          yape: true,
-          bancaMovil: false,
-          agente: false,
-          billetera: false,
-          cuotealo: false
-        }
-      });
-    }
-  });
-</script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
 <script type="module" src="app.js"></script>
 <!-- Google tag (gtag.js) -->

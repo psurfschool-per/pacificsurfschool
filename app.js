@@ -433,8 +433,7 @@ function buildResumen() {
     <p><span>Experiencia:</span> ${experienciaFmt}</p>
     <p><span>Nivel:</span> ${nivelFmt}</p>
     <p><span>Medio de pago:</span> ${pagoFmt}</p>
-    <p class="resumen-total"><span>Total a pagar:</span> <strong>S/ ${calculateTotalWithCommission(total)}</strong></p>
-    <p class="resumen-nota" style="font-size:0.75rem;color:#888;margin-top:4px;">Incluye comisión de procesamiento</p>
+    <p class="resumen-total"><span>Total a pagar:</span> <strong>S/ ${total}</strong></p>
   `;
 
   window._reservaData = {
@@ -444,28 +443,9 @@ function buildResumen() {
   };
 }
 
-/* ===== CULQI — CHECKOUT EMPEBIDO ===== */
-const CULQI_COMMISSION_RATE = 0.0344;
-const CULQI_FIXED_FEE = 0.77;
-
+/* ===== PAGO MANUAL — sin pasarela online ===== */
 function calculateTotalWithCommission(basePrice) {
-  return Math.ceil((basePrice + CULQI_FIXED_FEE) / (1 - CULQI_COMMISSION_RATE));
-}
-
-function payWithCulqi() {
-  const d = window._reservaData;
-  if (!d) return;
-
-  const totalWithCommission = calculateTotalWithCommission(d.total);
-  d.totalConComision = totalWithCommission;
-
-  Culqi.settings({
-    title: 'Pacific Surf School',
-    currency: 'PEN',
-    amount: totalWithCommission * 100,
-  });
-
-  Culqi.open();
+  return basePrice;
 }
 
 /* ===== ENVIAR EMAIL DE CONFIRMACIÓN (EmailJS) ===== */
@@ -495,117 +475,12 @@ function sendConfirmationEmail(data) {
     .catch(err => console.error('Error email:', err));
 }
 
-function culqiHandler() {
-  console.log('[Culqi] Callback recibido');
-
-  if (typeof Culqi === 'undefined') {
-    console.error('[Culqi] SDK no cargado');
-    alert('Error: El sistema de pago no se cargó correctamente. Recarga la página.');
-    return;
-  }
-
-  if (Culqi.token) {
-    console.log('[Culqi] Token recibido:', Culqi.token.id);
-    const token = Culqi.token.id;
-    const email = Culqi.token.email || '';
-    Culqi.close();
-
-    processCulqiPayment(token, email);
-  } else if (Culqi.error) {
-    console.error('[Culqi] Error:', Culqi.error);
-    const msg = Culqi.error.user_message || 'Error al procesar el pago. Intenta de nuevo.';
-    alert(msg);
-
-    const btn = document.getElementById('btnCulqiPay');
-    if (btn) {
-      btn.innerHTML = '<i class="fas fa-credit-card"></i> Pagar ahora';
-      btn.style.pointerEvents = '';
-    }
-  } else {
-    console.warn('[Culqi] Callback sin token ni error');
-  }
-}
-
-async function processCulqiPayment(token, email) {
-  const d = window._reservaData;
-  if (!d) {
-    console.error('[Culqi] No hay datos de reserva');
-    return;
-  }
-
-  const btn = document.getElementById('btnCulqiPay');
-  if (!btn) return;
-
-  const originalText = btn.innerHTML;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
-  btn.style.pointerEvents = 'none';
-
-  const finalAmount = d.totalConComision || calculateTotalWithCommission(d.total);
-  const amountInCentavos = finalAmount * 100;
-
-  console.log('[Culqi] Enviando pago:', { token, amount: amountInCentavos, email, tipo: d.tipo });
-
-  try {
-    const res = await fetch('/api/culqi-charge', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        token,
-        amount: amountInCentavos,
-        email: email || d.email || 'cliente@pacificsurfschool.com',
-        tipo: d.tipo,
-        personas: d.personas,
-        fecha: d.fecha,
-        horario: d.horario,
-        nombre: d.nombre,
-        telefono: d.wsp || '',
-        wsp: d.wsp || ''
-      })
-    });
-
-    console.log('[Culqi] Respuesta HTTP:', res.status);
-    const data = await res.json();
-    console.log('[Culqi] Datos respuesta:', data);
-
-    if (data.success) {
-      btn.innerHTML = '<i class="fas fa-check"></i> ¡Pago exitoso!';
-      btn.classList.add('btn-success');
-      sendConfirmationEmail({ ...d, email, total: finalAmount });
-      // Si se compró un PACK, el backend crea/actualiza la cuenta del portal
-      if (data.cuenta && data.cuenta.email) {
-        const passInfo = data.cuenta.creada
-          ? `\n\n🎓 Tu cuenta del Portal Alumno fue creada:\nUsuario: ${data.cuenta.email}\nClave temporal: ${data.cuenta.passwordTemporal}\n\nEntra aquí: ${location.origin}/portal.html\nGuarda tu clave y marca tus días de clase.`
-          : `\n\n🎓 Tu Pack se activó en tu cuenta (${data.cuenta.email}).\nEntra aquí: ${location.origin}/portal.html`;
-        setTimeout(() => { alert('¡Pago exitoso!' + passInfo); }, 400);
-      }
-      setTimeout(() => {
-        confirmarReserva();
-      }, data.cuenta ? 2500 : 1500);
-    } else {
-      const errorMsg = data.error || 'Error al procesar el pago. Intenta de nuevo.';
-      console.error('[Culqi] Error del servidor:', errorMsg);
-      alert(errorMsg);
-      btn.innerHTML = originalText;
-      btn.style.pointerEvents = '';
-    }
-  } catch (err) {
-    console.error('[Culqi] Error de conexión:', err);
-    alert('Error de conexión con el servidor. Intenta de nuevo.');
-    btn.innerHTML = originalText;
-    btn.style.pointerEvents = '';
-  }
-}
-
-window.culqi = culqiHandler;
-window.payWithCulqi = payWithCulqi;
-console.log('[Culqi] Handler registrado en window.culqi');
-
 /* ===== CONFIRMAR RESERVA → WHATSAPP ===== */
 function confirmarReserva() {
   const d = window._reservaData;
   if (!d) return;
 
-  const finalPrice = d.totalConComision || calculateTotalWithCommission(d.total);
+  const finalPrice = d.total;
 
   const msg = encodeURIComponent(
     `Hola! Quiero reservar en Pacific Surf School\n\n` +
@@ -620,8 +495,8 @@ function confirmarReserva() {
     (d.altura ? `*Altura:* ${d.altura} cm\n` : '') +
     `*Experiencia:* ${d.experiencia}\n` +
     `*Nivel:* ${d.nivel}\n` +
-    `*Medio de pago:* Culqi (tarjeta)\n` +
-    `*Total pagado:* S/ ${finalPrice}`
+    `*Medio de pago:* ${d.pago}\n` +
+    `*Total:* S/ ${finalPrice}`
   );
 
   const btn = document.getElementById('btnWhatsapp');
