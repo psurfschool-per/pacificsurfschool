@@ -53,6 +53,12 @@
         </div>
       </section>
 
+      <div class="main-tabs" role="tablist" aria-label="Secciones">
+        <button id="tabBtnCal" class="main-tab active" role="tab" aria-selected="true"><i class="fas fa-calendar-days"></i> Calendario</button>
+        <button id="tabBtnAlu" class="main-tab" role="tab" aria-selected="false"><i class="fas fa-users"></i> Alumnos <span id="aluCount" class="count-badge"></span></button>
+      </div>
+
+      <div id="tabCal">
       <section class="card toolbar-card">
         <div class="toolbar-row">
           <div class="search-box"><i class="fas fa-search"></i><input type="search" id="fSearch" placeholder="Buscar alumno, teléfono o nota…" /></div>
@@ -117,6 +123,17 @@
           <ul id="upList" class="day-list upcoming"></ul>
         </aside>
       </div>
+      </div><!-- /tabCal -->
+
+      <div id="tabAlu" hidden>
+        <section class="card toolbar-card">
+          <div class="toolbar-row">
+            <div class="search-box"><i class="fas fa-search"></i><input type="search" id="aSearch" placeholder="Buscar alumno…" /></div>
+            <button id="btnNuevoAlumno" class="btn-primary"><i class="fas fa-user-plus"></i> Nuevo alumno</button>
+          </div>
+        </section>
+        <div id="aluList" class="alu-list"></div>
+      </div>
     </div>
   </main>
 
@@ -172,6 +189,13 @@
           </label>
           <label class="full">Email (opcional)<input type="email" id="cEmail" placeholder="alumno@email.com" maxlength="120" /></label>
           <label class="full">Notas<textarea id="cNotas" rows="2" placeholder="Nivel, tabla, wetsuit, saldo, etc." maxlength="500"></textarea></label>
+          <div class="full vinc-box">
+            <div class="vinc-head">
+              <span><i class="fas fa-users"></i> Alumnos vinculados <small class="muted">· cuentan asistencia y consumen paquete al completar</small></span>
+            </div>
+            <div class="search-box small"><i class="fas fa-search"></i><input type="search" id="vincSearch" placeholder="Buscar para vincular…" /></div>
+            <div id="vincList" class="vinc-list"></div>
+          </div>
         </div>
         <p id="formError" class="error" hidden></p>
         <div class="modal-actions">
@@ -179,6 +203,78 @@
           <span class="spacer"></span>
           <button type="button" id="modalCancel" class="btn-mini">Cancelar</button>
           <button type="submit" class="btn-primary" id="btnSave"><i class="fas fa-save"></i> Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL ALUMNO -->
+  <div id="aluModal" class="modal-overlay" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="aluModalTitle">
+      <div class="modal-head">
+        <h3 id="aluModalTitle">Nuevo alumno</h3>
+        <button id="aluModalClose" class="btn-mini" aria-label="Cerrar">✕</button>
+      </div>
+      <form id="formAlumno">
+        <div class="form-grid">
+          <label>Nombre completo *<input type="text" id="aNombre" placeholder="Ej: María Torres" required maxlength="80" /></label>
+          <label>WhatsApp<input type="tel" id="aTelefono" placeholder="+51 999 999 999" maxlength="30" /></label>
+          <label class="full">Email<input type="email" id="aEmail" placeholder="alumno@email.com" maxlength="120" /></label>
+          <label>Nivel
+            <select id="aNivel">
+              <option value="principiante">Principiante</option>
+              <option value="basico">Básico</option>
+              <option value="intermedio">Intermedio</option>
+              <option value="avanzado">Avanzado</option>
+            </select>
+          </label>
+          <label>Fecha de nacimiento<input type="date" id="aFechaNac" /></label>
+          <label class="full">Notas<textarea id="aNotas" rows="2" placeholder="Alergias, objetivos, tabla que usa…" maxlength="500"></textarea></label>
+          <label class="check-row"><input type="checkbox" id="aActivo" checked /> Alumno activo</label>
+        </div>
+        <p id="aluFormError" class="error" hidden></p>
+        <div class="modal-actions">
+          <button type="button" id="btnAluDelete" class="btn-danger" hidden><i class="fas fa-user-slash"></i> Dar de baja</button>
+          <span class="spacer"></span>
+          <button type="button" id="aluModalCancel" class="btn-mini">Cancelar</button>
+          <button type="submit" class="btn-primary" id="btnAluSave"><i class="fas fa-save"></i> Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL PAQUETE -->
+  <div id="paqModal" class="modal-overlay" hidden>
+    <div class="modal-box modal-sm" role="dialog" aria-modal="true" aria-labelledby="paqModalTitle">
+      <div class="modal-head">
+        <h3 id="paqModalTitle">Asignar paquete</h3>
+        <button id="paqModalClose" class="btn-mini" aria-label="Cerrar">✕</button>
+      </div>
+      <form id="formPaquete">
+        <div class="form-grid">
+          <label class="full">Alumno<input type="text" id="pAlumnoNombre" disabled /></label>
+          <label>Modelo
+            <select id="pModelo">
+              <option value="sesiones">Por sesiones (x4 / x8 / x12)</option>
+              <option value="mensual">Mensual ilimitado</option>
+            </select>
+          </label>
+          <label>Plan
+            <select id="pPlan">
+              <option value="x4">Pack x4 (60 días)</option>
+              <option value="x8">Pack x8 (90 días)</option>
+              <option value="x12">Pack x12 (120 días)</option>
+              <option value="mensual">Mensual (30 días)</option>
+            </select>
+          </label>
+          <label class="full">Inicio<input type="date" id="pInicio" required /></label>
+          <p class="muted small full" id="pPreview">—</p>
+        </div>
+        <p id="paqFormError" class="error" hidden></p>
+        <div class="modal-actions">
+          <span class="spacer"></span>
+          <button type="button" id="paqModalCancel" class="btn-mini">Cancelar</button>
+          <button type="submit" class="btn-primary" id="btnPaqSave"><i class="fas fa-save"></i> Asignar</button>
         </div>
       </form>
     </div>

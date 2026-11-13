@@ -30,11 +30,20 @@ const TIPOS = ['grupal', 'individual', 'videoanalisis', 'paquete', 'paquete8', '
 const ESTADOS = ['programada', 'confirmada', 'completada', 'cancelada', 'no-show'];
 const ORIGENES = ['manual', 'whatsapp', 'web', 'instagram', 'presencial', 'otro'];
 
+const NIVELES = ['principiante', 'basico', 'intermedio', 'avanzado'];
+const PLANES_SESIONES = {
+  x4: { sesiones: 4, dias: 60, nombre: 'Pack x4' },
+  x8: { sesiones: 8, dias: 90, nombre: 'Pack x8' },
+  x12: { sesiones: 12, dias: 120, nombre: 'Pack x12' },
+};
+const PLAN_MENSUAL = { dias: 30, nombre: 'Plan mensual' };
+const PAQ_ESTADOS = ['activo', 'pausado', 'vencido'];
+
 function loadDB() {
   try {
     if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
     if (!existsSync(DB_PATH)) {
-      const fresh = { users: [], clases: [], agenda: [], sessions: {} };
+      const fresh = { users: [], clases: [], agenda: [], alumnos: [], paquetes: [], sessions: {} };
       writeFileSync(DB_PATH, JSON.stringify(fresh, null, 2));
       return fresh;
     }
@@ -43,11 +52,13 @@ function loadDB() {
     if (!Array.isArray(db.users)) db.users = [];
     if (!Array.isArray(db.clases)) db.clases = [];
     if (!Array.isArray(db.agenda)) db.agenda = [];
+    if (!Array.isArray(db.alumnos)) db.alumnos = [];
+    if (!Array.isArray(db.paquetes)) db.paquetes = [];
     if (!db.sessions || typeof db.sessions !== 'object') db.sessions = {};
     return db;
   } catch (e) {
     console.error('[Admin] Error leyendo DB:', e.message);
-    return { users: [], clases: [], agenda: [], sessions: {} };
+    return { users: [], clases: [], agenda: [], alumnos: [], paquetes: [], sessions: {} };
   }
 }
 
@@ -129,6 +140,100 @@ function horaAMinutos(h) {
   const mm = parseInt(m[2] || '0', 10);
   if (/p/i.test(m[3])) hh += 12;
   return hh * 60 + mm;
+}
+
+function addDaysISO(iso, days) {
+  const d = new Date(iso + 'T12:00:00');
+  d.setDate(d.getDate() + days);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function todayISO() {
+  return addDaysISO(
+    `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`,
+    0,
+  );
+}
+
+/* Resuelve lista de vinculados [{alumnoId}] → [{alumnoId, nombre, presente}] */
+function resolveVinculados(db, raw, prev) {
+  if (!Array.isArray(raw)) return null; // null = no tocar
+  const prevMap = {};
+  (prev || []).forEach((p) => { prevMap[p.alumnoId] = p; });
+  const out = [];
+  const seen = new Set();
+  raw.forEach((r) => {
+    const id = typeof r === 'string' ? r : r?.alumnoId;
+    if (!id || seen.has(id)) return;
+    seen.add(id);
+    const alu = (db.alumnos || []).find((a) => a.id === id);
+    if (!alu) return;
+    const presente = typeof r?.presente === 'boolean' ? r.presente : (prevMap[id]?.presente || false);
+    out.push({ alumnoId: id, nombre: alu.nombre, presente });
+  });
+  return out;
+}
+
+/* Uso de un paquete: asistencias presente en clases no canceladas dentro de vigencia */
+function paqueteUso(db, paq) {
+  const ini = paq.fechaInicio;
+  const fin = paq.fechaFin || '9999-12-31';
+  let usadas = 0;
+  (db.agenda || []).forEach((c) => {
+    if (c.estado === 'cancelada') return;
+    if (c.fecha < ini || c.fecha > fin) return;
+    (c.alumnos || []).forEach((a) => {
+      if (a.alumnoId === paq.alumnoId && a.presente) usadas++;
+    });
+  });
+  const restantes = paq.modelo === 'mensual' ? null : Math.max(0, (paq.sesionesTotales || 0) - usadas);
+  const vencidoPorFecha = paq.fechaFin && paq.fechaFin < todayISO();
+  const agotado = paq.modelo === 'sesiones' && restantes === 0 && usadas > 0;
+  const estadoCalc = paq.estado === 'pausado' ? 'pausado' : (vencidoPorFecha || agotado ? 'vencido' : 'activo');
+  return { usadas, restantes, estadoCalc };
+}
+
+function sanitizeAlumno(body) {
+  const errors = [];
+  const nombre = String(body.nombre || '').trim().slice(0, 80);
+  const telefono = String(body.telefono || '').trim().slice(0, 30);
+  const email = String(body.email || '').trim().slice(0, 120);
+  const nivel = String(body.nivel || 'principiante').trim();
+  const fechaNac = String(body.fechaNac || '').trim();
+  const notas = String(body.notas || '').trim().slice(0, 500);
+  const activo = body.activo === undefined ? true : body.activo === true || body.activo === 'true';
+
+  if (nombre.length < 2) errors.push('Nombre requerido (mín. 2 caracteres).');
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push('Email inválido.');
+  if (!NIVELES.includes(nivel)) errors.push('Nivel inválido.');
+  if (fechaNac && !isValidDate(fechaNac)) errors.push('Fecha de nacimiento inválida.');
+  if (fechaNac && fechaNac > todayISO()) errors.push('Fecha de nacimiento futura.');
+  return { errors, data: { nombre, telefono, email, nivel, fechaNac, notas, activo } };
+}
+
+function sanitizePaquete(db, body, isNew) {
+  const errors = [];
+  const alumnoId = String(body.alumnoId || '').trim();
+  const modelo = String(body.modelo || 'sesiones').trim();
+  const plan = String(body.plan || '').trim();
+  const fechaInicio = String(body.fechaInicio || todayISO()).trim();
+  const estado = String(body.estado || 'activo').trim();
+
+  const alu = (db.alumnos || []).find((a) => a.id === alumnoId);
+  if (!alu) errors.push('Alumno no encontrado.');
+  else if (alu.activo === false) errors.push('El alumno está inactivo.');
+  if (!['sesiones', 'mensual'].includes(modelo)) errors.push('Modelo inválido.');
+  let planKey = plan, sesionesTotales = null, dias = 30;
+  if (modelo === 'sesiones') {
+    if (!PLANES_SESIONES[plan]) errors.push('Plan inválido (x4, x8, x12).');
+    else { planKey = plan; sesionesTotales = PLANES_SESIONES[plan].sesiones; dias = PLANES_SESIONES[plan].dias; }
+  } else {
+    planKey = 'mensual';
+  }
+  if (!isValidDate(fechaInicio)) errors.push('Fecha de inicio inválida.');
+  if (!PAQ_ESTADOS.includes(estado)) errors.push('Estado inválido.');
+  const fechaFin = addDaysISO(fechaInicio, modelo === 'mensual' ? PLAN_MENSUAL.dias : dias);
+  return { errors, data: { alumnoId, modelo, plan: planKey, sesionesTotales, fechaInicio, fechaFin, estado } };
 }
 
 function sanitizeAgendaInput(body) {
@@ -284,20 +389,23 @@ app.post('/api/admin/logout', (req, res) => {
 /* ================= ADMIN — AGENDA CRUD ================= */
 app.get('/api/admin/agenda', requireAdmin, (req, res) => {
   const db = req.db;
-  const { from, to, q, estado, tipo, origen } = req.query || {};
+  const { from, to, q, estado, tipo, origen, alumnoId } = req.query || {};
   let items = [...(db.agenda || []), ...legacyWebItems(db)];
+  if (!Array.isArray(items[0]?.alumnos)) items = items.map((i) => ({ ...i, alumnos: Array.isArray(i.alumnos) ? i.alumnos : [] }));
 
   if (from && isValidDate(String(from))) items = items.filter((i) => i.fecha >= String(from));
   if (to && isValidDate(String(to))) items = items.filter((i) => i.fecha <= String(to));
   if (estado) items = items.filter((i) => i.estado === String(estado));
   if (tipo) items = items.filter((i) => i.tipo === String(tipo));
   if (origen) items = items.filter((i) => i.origen === String(origen));
+  if (alumnoId) items = items.filter((i) => (i.alumnos || []).some((a) => a.alumnoId === String(alumnoId)));
   if (q) {
     const needle = String(q).toLowerCase();
     items = items.filter((i) =>
       (i.alumno || '').toLowerCase().includes(needle) ||
       (i.telefono || '').toLowerCase().includes(needle) ||
-      (i.notas || '').toLowerCase().includes(needle),
+      (i.notas || '').toLowerCase().includes(needle) ||
+      (i.alumnos || []).some((a) => (a.nombre || '').toLowerCase().includes(needle)),
     );
   }
 
@@ -306,6 +414,7 @@ app.get('/api/admin/agenda', requireAdmin, (req, res) => {
     if (a.fecha !== b.fecha) return a.fecha < b.fecha ? -1 : 1;
     return horaAMinutos(a.hora) - horaAMinutos(b.hora);
   });
+  if (items.length > 500) items = items.slice(0, 500);
   res.json({ success: true, clases: items, total: items.length });
 });
 
@@ -313,10 +422,12 @@ app.post('/api/admin/agenda', requireAdmin, (req, res) => {
   const { errors, data } = sanitizeAgendaInput(req.body || {});
   if (errors.length) return res.status(400).json({ error: errors[0], errors });
   const db = req.db;
+  const vinculados = resolveVinculados(db, req.body?.alumnos, []) || [];
   const now = new Date().toISOString();
   const item = {
     id: 'ag_' + randomBytes(6).toString('hex'),
     ...data,
+    alumnos: vinculados,
     createdAt: now,
     updatedAt: now,
   };
@@ -332,6 +443,19 @@ app.put('/api/admin/agenda/:id', requireAdmin, (req, res) => {
   const { errors, data } = sanitizeAgendaInput({ ...item, ...(req.body || {}) });
   if (errors.length) return res.status(400).json({ error: errors[0], errors });
   Object.assign(item, data, { updatedAt: new Date().toISOString() });
+  const vinc = resolveVinculados(db, req.body?.alumnos, item.alumnos);
+  if (vinc) item.alumnos = vinc;
+  /* Asistencia auto al completar: vinculados sin marca explícita cuentan como presentes */
+  if (data.estado === 'completada') {
+    const explicitFalse = new Set(
+      (Array.isArray(req.body?.alumnos) ? req.body.alumnos : [])
+        .filter((a) => a && a.presente === false)
+        .map((a) => a.alumnoId),
+    );
+    item.alumnos = (item.alumnos || []).map((a) =>
+      explicitFalse.has(a.alumnoId) ? a : { ...a, presente: true },
+    );
+  }
   saveDB(db);
   res.json({ success: true, clase: item });
 });
@@ -345,9 +469,122 @@ app.delete('/api/admin/agenda/:id', requireAdmin, (req, res) => {
   res.json({ success: true });
 });
 
+/* ================= ADMIN — ALUMNOS ================= */
+app.get('/api/admin/alumnos', requireAdmin, (req, res) => {
+  const db = req.db;
+  const { q, soloActivos } = req.query || {};
+  let list = [...(db.alumnos || [])];
+  if (soloActivos === '1') list = list.filter((a) => a.activo !== false);
+  if (q) {
+    const needle = String(q).toLowerCase();
+    list = list.filter((a) =>
+      (a.nombre || '').toLowerCase().includes(needle) ||
+      (a.telefono || '').toLowerCase().includes(needle) ||
+      (a.email || '').toLowerCase().includes(needle),
+    );
+  }
+  list.sort((a, b) => (a.nombre || '').localeCompare(b.nombre || '', 'es'));
+  const paquetes = db.paquetes || [];
+  const out = list.map((a) => {
+    const paqs = paquetes
+      .filter((p) => p.alumnoId === a.id)
+      .map((p) => ({ ...p, ...paqueteUso(db, p) }))
+      .sort((x, y) => (y.fechaInicio || '').localeCompare(x.fechaInicio || ''));
+    return { ...a, paquetes: paqs, paqueteActivo: paqs.find((p) => p.estadoCalc === 'activo') || null };
+  });
+  res.json({ success: true, alumnos: out, total: out.length });
+});
+
+app.post('/api/admin/alumnos', requireAdmin, (req, res) => {
+  const { errors, data } = sanitizeAlumno(req.body || {});
+  if (errors.length) return res.status(400).json({ error: errors[0], errors });
+  const db = req.db;
+  const now = new Date().toISOString();
+  const alu = { id: 'al_' + randomBytes(6).toString('hex'), ...data, createdAt: now, updatedAt: now };
+  db.alumnos.push(alu);
+  saveDB(db);
+  res.json({ success: true, alumno: alu });
+});
+
+app.put('/api/admin/alumnos/:id', requireAdmin, (req, res) => {
+  const db = req.db;
+  const alu = (db.alumnos || []).find((a) => a.id === req.params.id);
+  if (!alu) return res.status(404).json({ error: 'Alumno no encontrado.' });
+  const { errors, data } = sanitizeAlumno({ ...alu, ...(req.body || {}) });
+  if (errors.length) return res.status(400).json({ error: errors[0], errors });
+  Object.assign(alu, data, { updatedAt: new Date().toISOString() });
+  saveDB(db);
+  res.json({ success: true, alumno: alu });
+});
+
+app.delete('/api/admin/alumnos/:id', requireAdmin, (req, res) => {
+  const db = req.db;
+  const alu = (db.alumnos || []).find((a) => a.id === req.params.id);
+  if (!alu) return res.status(404).json({ error: 'Alumno no encontrado.' });
+  alu.activo = false; // baja lógica: se conserva historial y paquetes
+  alu.updatedAt = new Date().toISOString();
+  saveDB(db);
+  res.json({ success: true });
+});
+
+/* ================= ADMIN — PAQUETES ================= */
+app.get('/api/admin/paquetes', requireAdmin, (req, res) => {
+  const db = req.db;
+  const { alumnoId } = req.query || {};
+  let list = [...(db.paquetes || [])];
+  if (alumnoId) list = list.filter((p) => p.alumnoId === String(alumnoId));
+  const out = list
+    .map((p) => {
+      const alu = (db.alumnos || []).find((a) => a.id === p.alumnoId);
+      return { ...p, alumnoNombre: alu?.nombre || '(eliminado)', ...paqueteUso(db, p) };
+    })
+    .sort((a, b) => (b.fechaInicio || '').localeCompare(a.fechaInicio || ''));
+  res.json({ success: true, paquetes: out, total: out.length });
+});
+
+app.post('/api/admin/paquetes', requireAdmin, (req, res) => {
+  const db = req.db;
+  const { errors, data } = sanitizePaquete(db, req.body || {}, true);
+  if (errors.length) return res.status(400).json({ error: errors[0], errors });
+  const now = new Date().toISOString();
+  const paq = { id: 'pq_' + randomBytes(6).toString('hex'), ...data, createdAt: now, updatedAt: now };
+  db.paquetes.push(paq);
+  saveDB(db);
+  res.json({ success: true, paquete: { ...paq, ...paqueteUso(db, paq) } });
+});
+
+app.put('/api/admin/paquetes/:id', requireAdmin, (req, res) => {
+  const db = req.db;
+  const paq = (db.paquetes || []).find((p) => p.id === req.params.id);
+  if (!paq) return res.status(404).json({ error: 'Paquete no encontrado.' });
+  const merged = { ...paq, ...(req.body || {}) };
+  // Si cambia modelo/plan/inicio, recalcular sesiones y fin
+  if (req.body?.modelo || req.body?.plan || req.body?.fechaInicio) {
+    const { errors, data } = sanitizePaquete(db, { ...merged, estado: merged.estado }, false);
+    if (errors.length) return res.status(400).json({ error: errors[0], errors });
+    Object.assign(paq, data);
+  }
+  if (req.body?.estado) {
+    if (!PAQ_ESTADOS.includes(req.body.estado)) return res.status(400).json({ error: 'Estado inválido.' });
+    paq.estado = req.body.estado;
+  }
+  paq.updatedAt = new Date().toISOString();
+  saveDB(db);
+  res.json({ success: true, paquete: { ...paq, ...paqueteUso(db, paq) } });
+});
+
 /* Meta: horarios y catálogos para el frontend */
 app.get('/api/admin/meta', requireAdmin, (req, res) => {
-  res.json({ success: true, horarios: HORARIOS, tipos: TIPOS, estados: ESTADOS, origenes: ORIGENES });
+  res.json({
+    success: true,
+    horarios: HORARIOS,
+    tipos: TIPOS,
+    estados: ESTADOS,
+    origenes: ORIGENES,
+    niveles: NIVELES,
+    planesSesiones: PLANES_SESIONES,
+    planMensual: PLAN_MENSUAL,
+  });
 });
 
 /* ===== CACHE HTML IN MEMORY (index + admin, tolerante si falta dist) ===== */
