@@ -2293,3 +2293,159 @@ button{cursor:pointer;font-family:inherit}
   body { font-size: 12pt; }
   section { page-break-inside: avoid; }
 }
+
+/* ============================================================
+   ⭐ ESTILO D — "POP ESCOLAR" (rediseño transferido desde el mockup)
+   Bordes gruesos · sombras sólicas · pills · colores de la escuela
+   ============================================================ */
+
+/* --- Fondo con puntos rosa; las secciones claras se vuelven transparentes --- */
+body {
+  background-color: var(--light);
+  background-image: radial-gradient(rgba(235,43,142,0.09) 2px, transparent 2px);
+  background-size: 30px 30px;
+  background-attachment: fixed;
+}
+.clases, .nosotros, .galeria, .resenas, .equipo, .surf-forecast, .ubicacion-faq {
+  background: transparent; border-top: none;
+}
+.stats-bar { background: transparent; box-shadow: none; }
+
+/* --- Tipografía más contundente + hero con sombra --- */
+.section-head h2 { font-weight: 900; letter-spacing: -0.02em; }
+.hero-text-box h1 { text-shadow: 4px 4px 0 rgba(22,35,43,0.55); }
+
+/* --- Tags tipo sticker --- */
+.tag {
+  background: var(--white); color: var(--pink);
+  border: 3px solid var(--dark); box-shadow: 4px 4px 0 var(--dark);
+}
+
+/* --- Botones: borde grueso + sombra sólida --- */
+.btn-primary-clean, .btn-reservar-nav, .btn-reservar-card, .btn-secondary-clean, .btn-ig,
+.camden-btn, .camden-btn-white, .btn-whatsapp, .btn-calendar, .btn-next, .btn-back,
+.btn-retry, .mem-cta, .lang-btn {
+  border: 3px solid var(--dark); border-radius: 99px;
+  box-shadow: 5px 5px 0 var(--dark); font-weight: 800;
+}
+.btn-primary-clean:hover, .btn-reservar-nav:hover, .btn-reservar-card:hover,
+.btn-secondary-clean:hover, .btn-ig:hover, .camden-btn:hover, .camden-btn-white:hover,
+.btn-whatsapp:hover, .btn-calendar:hover, .btn-next:hover, .btn-back:hover,
+.btn-retry:hover, .mem-cta:hover, .lang-btn:hover {
+  transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--dark);
+}
+.btn-primary-clean:active, .btn-reservar-nav:active, .btn-reservar-card:active,
+.mem-cta:active, .lang-btn:active {
+  transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--dark);
+}
+.carousel-btn, .clase-nav-btn {
+  border: 3px solid var(--dark); border-radius: 50%;
+  background: var(--white); color: var(--dark);
+  box-shadow: 4px 4px 0 var(--dark);
+}
+
+/* --- Cards: borde + sombra sólida --- */
+.clase-card, .team-card, .review-bubble, .stat-item, .reason,
+.day-card, .faq-item, .camden-product, .mem-panel {
+  border: 3px solid var(--dark); border-radius: 24px;
+  box-shadow: 7px 7px 0 var(--dark);
+}
+.stat-item { background: var(--white); padding: 18px 12px; text-align: center; }
+.stat-item + .stat-item::before { display: none; }
+.stat-item:hover { transform: scale(1.03); }
+.reason { background: var(--white); }
+.faq-item { background: var(--white); margin-bottom: 12px; }
+.clase-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 11px 11px 0 var(--dark);
+  border-color: var(--dark);
+}
+.clase-card.featured {
+  border: 3px solid var(--pink); box-shadow: 7px 7px 0 var(--pink);
+  animation: none;
+}
+.clase-card.featured:hover {
+  border-color: var(--pink); box-shadow: 11px 11px 0 var(--pink);
+  animation: none; transform: translateY(-6px);
+}
+.team-card:hover { transform: translateY(-6px); box-shadow: 11px 11px 0 var(--pink); }
+.day-card--today { background: var(--yellow); }
+.clase-badge, .popular-ribbon { border: 2.5px solid var(--dark); box-shadow: 3px 3px 0 var(--dark); }
+.popular-ribbon { background: var(--pink); color: var(--white); }
+.camden-product { border-radius: 22px; box-shadow: 7px 7px 0 var(--yellow); }
+.camden-product:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 var(--yellow); }
+
+/* --- Reseñas en cuadrícula ordenada (feedback del cliente) --- */
+.reviews-grid { columns: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+.review-bubble { margin: 0; background: var(--white); }
+.review-bubble::after { background: var(--white); border-right: 3px solid var(--dark); border-bottom: 3px solid var(--dark); }
+@media (max-width: 1024px) { .reviews-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .reviews-grid { grid-template-columns: 1fr; } .review-bubble::after { display: none; } }
+
+/* --- Galería: captions sticker + dots con borde --- */
+.slide-caption {
+  background: var(--white); color: var(--dark);
+  border: 2.5px solid var(--dark); border-radius: 99px;
+  box-shadow: 3px 3px 0 var(--dark);
+  font-weight: 800; font-size: 0.75rem; padding: 5px 12px;
+}
+.carousel-slide { border-radius: 18px; }
+.carousel-dots .dot, .clases-dots .dot { border: 2px solid var(--dark); background: var(--white); }
+.carousel-dots .dot.active, .clases-dots .dot.active { background: var(--pink); border-color: var(--dark); }
+
+/* --- Oleaje --- */
+.quality-dot { border: 2px solid var(--dark); box-shadow: 2px 2px 0 var(--dark); }
+
+/* --- Membresía estilo ticket --- */
+.mem-panel {
+  border: 3px solid var(--dark); border-radius: 28px;
+  box-shadow: 12px 12px 0 var(--pink); overflow: visible; position: relative;
+}
+.mem-price-box { background: var(--yellow); color: var(--dark); border-right: 3px solid var(--dark); }
+.mem-badge { background: rgba(255,255,255,0.65); border: 2.5px solid var(--dark); color: var(--dark); }
+.mem-amount { color: var(--dark); }
+.mem-per { color: #8a7c10; }
+.mem-vigencia { background: rgba(255,255,255,0.55); border: 2.5px solid var(--dark); color: var(--dark); }
+.mem-cta { background: var(--pink); color: var(--white); }
+.mem-benefits h3 { font-weight: 900; }
+.mb-icon { border: 2.5px solid var(--dark); box-shadow: 3px 3px 0 var(--dark); border-radius: 12px; }
+.mem-sticker {
+  position: absolute; top: -20px; left: 36px; z-index: 5;
+  background: var(--yellow); color: var(--dark);
+  border: 3px solid var(--dark); border-radius: 99px;
+  padding: 8px 18px; font-weight: 900; font-size: 0.8rem;
+  transform: rotate(-3deg); box-shadow: 5px 5px 0 var(--dark);
+}
+@media (max-width: 860px) { .mem-price-box { border-right: none; border-bottom: 3px solid var(--dark); } }
+
+/* --- Ubicación + modal --- */
+.mapa-wrap { border: 3px solid var(--dark); border-radius: 18px; box-shadow: 6px 6px 0 var(--ocean); overflow: hidden; }
+.modal { border: 3px solid var(--dark); }
+.opt-card { border: 2.5px solid var(--border); border-radius: 16px; }
+.opt-card.selected { border-color: var(--pink); box-shadow: 4px 4px 0 var(--pink); }
+
+/* --- Menú hamburguesa estilo sticker (móvil) --- */
+.nav-inner.open .nav-links {
+  border: 3px solid var(--dark); border-radius: 20px;
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.45); border-bottom: 3px solid var(--pink);
+}
+
+/* --- Responsive del rediseño --- */
+@media (max-width: 640px) {
+  .clase-card, .team-card, .review-bubble, .stat-item, .reason,
+  .day-card, .faq-item, .camden-product { border-radius: 20px; box-shadow: 5px 5px 0 var(--dark); }
+  .clase-card:hover, .team-card:hover { box-shadow: 8px 8px 0 var(--pink); }
+  .clase-card.featured { box-shadow: 5px 5px 0 var(--pink); }
+  .clase-card.featured:hover { box-shadow: 8px 8px 0 var(--pink); }
+  .mem-panel { box-shadow: 8px 8px 0 var(--pink); border-radius: 22px; }
+  .mem-sticker { left: 14px; top: -16px; font-size: 0.72rem; padding: 6px 13px; }
+  .tag { box-shadow: 3px 3px 0 var(--dark); }
+  .btn-primary-clean, .btn-reservar-nav, .mem-cta, .lang-btn { box-shadow: 4px 4px 0 var(--dark); }
+  .slide-caption { box-shadow: 2px 2px 0 var(--dark); font-size: 0.68rem; }
+  .stat-item:hover { transform: none; }
+}
+@media (max-width: 400px) {
+  .clase-card, .team-card, .review-bubble, .stat-item, .reason,
+  .day-card, .faq-item, .mem-panel { box-shadow: 4px 4px 0 var(--dark); }
+  .mem-sticker { font-size: 0.68rem; padding: 5px 11px; }
+}
