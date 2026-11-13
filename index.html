@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Pacific Surf School – Playa Barranquito, Lima</title>
-  <meta name="description" content="Aprende a surfear desde cero en Lima con Pacific Surf School. Ofrecemos una experiencia 100% segura, divertida y personalizada en Playa Barranquito, Costa Verde (Lima). Incluimos todo el equipo de alta calidad (tabla y wetsuit) e instructores dedicados para clases individuales o grupales. Nos enfocamos en la mejor técnica, la máxima diversión y en que vivas una experiencia inolvidable en el mar, sin importar si es tu primera vez." />
+  <title data-i18n="meta.title">Pacific Surf School – Playa Barranquito, Lima</title>
+  <meta name="description" data-i18n-content="meta.desc" content="Aprende a surfear desde cero en Lima con Pacific Surf School. Ofrecemos una experiencia 100% segura, divertida y personalizada en Playa Barranquito, Costa Verde (Lima). Incluimos todo el equipo de alta calidad (tabla y wetsuit) e instructores dedicados para clases individuales o grupales. Nos enfocamos en la mejor técnica, la máxima diversión y en que vivas una experiencia inolvidable en el mar, sin importar si es tu primera vez." />
   <meta name="keywords" content="clases de surf, surf Lima, Playa Barranquito, escuela de surf, aprender a surfear, Pacific Surf School, surf Barranco, clases surf Peru" />
   <meta name="author" content="Pacific Surf School" />
   <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.scrollTo(0, 0);</script>
-  <meta property="og:title" content="Pacific Surf School – Clases de Surf en Playa Barranquito, Lima" />
-  <meta property="og:description" content="Aprende a surfear desde cero en Lima con Pacific Surf School. Experiencia 100% segura, divertida y personalizada en Playa Barranquito. Equipo incluido. Clases individuales o grupales." />
+  <meta property="og:title" data-i18n-content="meta.ogTitle" content="Pacific Surf School – Clases de Surf en Playa Barranquito, Lima" />
+  <meta property="og:description" data-i18n-content="meta.ogDesc" content="Aprende a surfear desde cero en Lima con Pacific Surf School. Experiencia 100% segura, divertida y personalizada en Playa Barranquito. Equipo incluido. Clases individuales o grupales." />
   <meta property="og:image" content="https://pacificsurfschool.com.pe/img/galeria6.webp" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pacificsurfschool.com.pe/" />
   <meta property="og:locale" content="es_PE" />
   <meta property="og:site_name" content="Pacific Surf School" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Pacific Surf School – Clases de Surf en Playa Barranquito, Lima" />
-  <meta name="twitter:description" content="Clases de surf individuales, grupales y packs en Playa Barranquito, Lima. Instructores certificados ISA." />
+  <meta name="twitter:title" data-i18n-content="meta.twTitle" content="Pacific Surf School – Clases de Surf en Playa Barranquito, Lima" />
+  <meta name="twitter:description" data-i18n-content="meta.twDesc" content="Clases de surf individuales, grupales y packs en Playa Barranquito, Lima. Instructores certificados ISA." />
   <meta name="twitter:image" content="https://pacificsurfschool.com.pe/img/galeria6.webp" />
   <link rel="canonical" href="https://pacificsurfschool.com.pe/" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -179,17 +179,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="logo-text">Pacific Surf School</span>
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#inicio">Inicio</a></li>
-      <li><a href="#clases">Clases</a></li>
-      <li><a href="#nosotros">Nosotros</a></li>
-      <li><a href="#galeria">Galería</a></li>
-      <li><a href="#oleaje">Oleaje</a></li>
-      <li><a href="#ubicacion">Ubicación</a></li>
-      <li><a href="#faq">FAQ</a></li>
-      <li class="nav-cta-item"><button class="btn-reservar-nav btn-reservar-nav--mobile" onclick="closeMobileMenu(); openModal()">Reservar Clase</button></li>
+      <li><a href="#inicio" data-i18n="nav.inicio">Inicio</a></li>
+      <li><a href="#clases" data-i18n="nav.clases">Clases</a></li>
+      <li><a href="#nosotros" data-i18n="nav.nosotros">Nosotros</a></li>
+      <li><a href="#galeria" data-i18n="nav.galeria">Galería</a></li>
+      <li><a href="#oleaje" data-i18n="nav.oleaje">Oleaje</a></li>
+      <li><a href="#ubicacion" data-i18n="nav.ubicacion">Ubicación</a></li>
+      <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+      <li class="nav-cta-item"><button class="btn-reservar-nav btn-reservar-nav--mobile" onclick="closeMobileMenu(); openModal()"><span data-i18n="nav.reservar">Reservar Clase</span></button></li>
     </ul>
-    <button class="btn-reservar-nav btn-reservar-nav--desktop" onclick="openModal()">Reservar Clase</button>
-    <button class="hamburger" id="hamburger" aria-label="Menú" aria-expanded="false" aria-controls="navLinks">
+    <div class="lang-switcher" id="langSwitcher">
+      <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-label="Idioma" data-i18n-aria="lang.label">
+        <i class="fas fa-globe"></i><span id="langCurrent">ES</span><i class="fas fa-chevron-down lang-caret"></i>
+      </button>
+      <ul class="lang-menu" id="langMenu" role="listbox">
+        <li data-lang="es" role="option"><span class="lang-flag">🇪🇸</span> <span data-i18n="lang.es">Español</span></li>
+        <li data-lang="en" role="option"><span class="lang-flag">🇬🇧</span> <span data-i18n="lang.en">English</span></li>
+        <li data-lang="de" role="option"><span class="lang-flag">🇩🇪</span> <span data-i18n="lang.de">Deutsch</span></li>
+      </ul>
+    </div>
+    <button class="btn-reservar-nav btn-reservar-nav--desktop" onclick="openModal()"><span data-i18n="nav.reservar">Reservar Clase</span></button>
+    <button class="hamburger" id="hamburger" aria-label="Menú" aria-expanded="false" aria-controls="navLinks" data-i18n-aria="nav.menu">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -207,13 +217,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
   <div class="hero-content-clean">
     <div class="hero-text-box">
-      <h1>Clases de Surf<br/>en <span class="highlight-yellow">Lima</span></h1>
-      <p class="hero-desc"><strong>Surfing por primera vez?</strong> Aprende con instructores capacitados. Desde cero hasta el nivel avanzado en la costa verde, Lima.</p>
+      <h1 data-i18n-html="hero.title">Clases de Surf<br/>en <span class="highlight-yellow">Lima</span></h1>
+      <p class="hero-desc"><strong data-i18n="hero.strong">Surfing por primera vez?</strong> <span data-i18n="hero.desc">Aprende con instructores capacitados. Desde cero hasta el nivel avanzado en la costa verde, Lima.</span></p>
       <div class="hero-actions-clean">
-        <button class="btn-primary-clean" onclick="openModal()">Reservar Clase</button>
+        <button class="btn-primary-clean" onclick="openModal()"><span data-i18n="nav.reservar">Reservar Clase</span></button>
         <a href="https://wa.me/51915168620" target="_blank" class="btn-secondary-clean">
           <i class="fab fa-whatsapp"></i> WhatsApp
         </a>
+      </div>
+      <div class="hero-langs">
+        <span class="hero-langs-label" data-i18n="hero.langsLabel">Clases en</span>
+        <span class="lang-pill">🇪🇸 <span data-i18n="lang.es">Español</span></span>
+        <span class="lang-pill">🇬🇧 <span data-i18n="lang.en">English</span></span>
+        <span class="lang-pill">🇩🇪 <span data-i18n="lang.de">Deutsch</span></span>
       </div>
     </div>
   </div>
@@ -222,22 +238,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- STATS -->
 <section class="stats-bar">
   <div class="stats-inner">
-    <div class="stat-item"><strong>+800</strong><span>Alumnos formados</span></div>
-    <div class="stat-item"><strong>5★</strong><span>Calificación Google</span></div>
-    <div class="stat-item"><strong>10+</strong><span>Años de experiencia</span></div>
+    <div class="stat-item"><strong>+800</strong><span data-i18n="stats.alumnos">Alumnos formados</span></div>
+    <div class="stat-item"><strong>5★</strong><span data-i18n="stats.google">Calificación Google</span></div>
+    <div class="stat-item"><strong>10+</strong><span data-i18n="stats.experiencia">Años de experiencia</span></div>
   </div>
 </section>
 
 <!-- CLASES -->
 <section class="clases" id="clases">
   <div class="section-head">
-    <span class="tag">Nuestras clases</span>
-    <h2>Elige tu experiencia</h2>
-    <p>Desde tu primera ola hasta maniobras avanzadas. Equipamiento completo incluido en todas las clases.</p>
+    <span class="tag" data-i18n="clases.tag">Nuestras clases</span>
+    <h2 data-i18n="clases.h2">Elige tu experiencia</h2>
+    <p data-i18n="clases.desc">Desde tu primera ola hasta maniobras avanzadas. Equipamiento completo incluido en todas las clases.</p>
   </div>
 
-  <div class="clases-carousel" role="region" aria-roledescription="carrusel" aria-label="Clases de surf">
-    <button class="clase-nav-btn clase-nav-prev" id="clasePrevBtn" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+  <div class="clases-carousel" role="region" aria-roledescription="carrusel" aria-label="Clases de surf" data-i18n-aria="clases.carouselLabel">
+    <button class="clase-nav-btn clase-nav-prev" id="clasePrevBtn" aria-label="Anterior" data-i18n-aria="clases.prev"><i class="fas fa-chevron-left"></i></button>
     <div class="clases-viewport">
       <div class="clases-track" id="clasesTrack">
 
@@ -245,22 +261,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="clase-img">
           <picture>
             <source srcset="img/card.grupal.webp" type="image/webp" />
-            <img src="img/card.grupal.webp" alt="Clase Grupal de Surf" width="800" height="533" loading="lazy" decoding="async" />
+            <img src="img/card.grupal.webp" alt="Clase Grupal de Surf" data-i18n-alt="clases.altGrupal" width="800" height="533" loading="lazy" decoding="async" />
           </picture>
-          <span class="clase-badge">Grupal</span>
-          <div class="popular-ribbon"><i class="fas fa-star"></i> Más popular</div>
+          <span class="clase-badge" data-i18n="clases.badgeGrupal">Grupal</span>
+          <div class="popular-ribbon"><i class="fas fa-star"></i> <span data-i18n="clases.masPopular">Más popular</span></div>
         </div>
         <div class="clase-body">
-          <h3>Clase Grupal</h3>
-          <p>Aprende en un ambiente divertido. Grupos de 2 a 5 personas. Mín. 2.</p>
+          <h3 data-i18n="clases.g_h3">Clase Grupal</h3>
+          <p data-i18n="clases.g_desc">Aprende en un ambiente divertido. Grupos de 2 a 5 personas. Mín. 2.</p>
           <ul>
-            <li><i class="fas fa-check-circle"></i> 1.5 horas con instructor</li>
-            <li><i class="fas fa-check-circle"></i> Tabla + traje de neopreno</li>
-            <li><i class="fas fa-check-circle"></i> Todos los niveles</li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_horas">1.5 horas con instructor</span></li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_equipo">Tabla + traje de neopreno</span></li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_niveles">Todos los niveles</span></li>
           </ul>
           <div class="clase-footer">
-            <div class="clase-precio"><span class="precio">S/ 110</span><span class="por">/ persona</span></div>
-            <button class="btn-reservar-card" onclick="openModal('grupal')">Reservar</button>
+            <div class="clase-precio"><span class="precio">S/ 110</span><span class="por" data-i18n="clases.perPersona">/ persona</span></div>
+            <button class="btn-reservar-card" onclick="openModal('grupal')"><span data-i18n="clases.reservar">Reservar</span></button>
           </div>
         </div>
       </div>
@@ -269,21 +285,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="clase-img">
           <picture>
             <source srcset="img/card.individual.webp" type="image/webp" />
-            <img src="img/card.individual.webp" alt="Clase Privada de Surf" width="800" height="533" loading="lazy" decoding="async" />
+            <img src="img/card.individual.webp" alt="Clase Privada de Surf" data-i18n-alt="clases.altPrivada" width="800" height="533" loading="lazy" decoding="async" />
           </picture>
-          <span class="clase-badge">Privada</span>
+          <span class="clase-badge" data-i18n="clases.badgePrivada">Privada</span>
         </div>
         <div class="clase-body">
-          <h3>Clase Privada</h3>
-          <p>Atención 100% personalizada. Ideal para avanzar rápido o corregir técnica.</p>
+          <h3 data-i18n="clases.i_h3">Clase Privada</h3>
+          <p data-i18n="clases.i_desc">Atención 100% personalizada. Ideal para avanzar rápido o corregir técnica.</p>
           <ul>
-            <li><i class="fas fa-check-circle"></i> 1.5 horas con instructor</li>
-            <li><i class="fas fa-check-circle"></i> Tabla + traje de neopreno</li>
-            <li><i class="fas fa-check-circle"></i> Todos los niveles</li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_horas">1.5 horas con instructor</span></li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_equipo">Tabla + traje de neopreno</span></li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_niveles">Todos los niveles</span></li>
           </ul>
           <div class="clase-footer">
-            <div class="clase-precio"><span class="precio">S/ 150</span><span class="por">/ persona</span></div>
-            <button class="btn-reservar-card" onclick="openModal('individual')">Reservar</button>
+            <div class="clase-precio"><span class="precio">S/ 150</span><span class="por" data-i18n="clases.perPersona">/ persona</span></div>
+            <button class="btn-reservar-card" onclick="openModal('individual')"><span data-i18n="clases.reservar">Reservar</span></button>
           </div>
         </div>
       </div>
@@ -292,22 +308,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="clase-img">
           <picture>
             <source srcset="img/card.progreso.webp" type="image/webp" />
-            <img src="img/card.progreso.webp" alt="Plan Surf Video Análisis" width="800" height="533" loading="lazy" decoding="async" />
+            <img src="img/card.progreso.webp" alt="Plan Surf Video Análisis" data-i18n-alt="clases.altVideo" width="800" height="533" loading="lazy" decoding="async" />
           </picture>
-          <span class="clase-badge paquete">Video Análisis</span>
+          <span class="clase-badge paquete" data-i18n="clases.badgeVideo">Video Análisis</span>
         </div>
         <div class="clase-body">
-          <h3>Plan Surf + Video Análisis</h3>
-          <p>1 clase + análisis de video frame a frame para pulir tu técnica.</p>
+          <h3 data-i18n="clases.v_h3">Plan Surf + Video Análisis</h3>
+          <p data-i18n="clases.v_desc">1 clase + análisis de video frame a frame para pulir tu técnica.</p>
           <ul>
-            <li><i class="fas fa-check-circle"></i> 1.5 horas con instructor</li>
-            <li><i class="fas fa-check-circle"></i> Video análisis personalizado</li>
-            <li><i class="fas fa-check-circle"></i> Tabla + traje de neopreno</li>
-            <li><i class="fas fa-check-circle"></i> Todos los niveles</li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_horas">1.5 horas con instructor</span></li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_video">Video análisis personalizado</span></li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_equipo">Tabla + traje de neopreno</span></li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_niveles">Todos los niveles</span></li>
           </ul>
           <div class="clase-footer">
-            <div class="clase-precio"><span class="precio">S/ 180</span><span class="por">/ sesión</span></div>
-            <button class="btn-reservar-card" onclick="openModal('videoanalisis')">Reservar</button>
+            <div class="clase-precio"><span class="precio">S/ 180</span><span class="por" data-i18n="clases.sesion">/ sesión</span></div>
+            <button class="btn-reservar-card" onclick="openModal('videoanalisis')"><span data-i18n="clases.reservar">Reservar</span></button>
           </div>
         </div>
       </div>
@@ -317,22 +333,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="clase-img">
           <picture>
             <source srcset="img/card.fullgrupal.webp" type="image/webp" />
-            <img src="img/card.fullgrupal.webp" alt="Pack Full Grupal x8" width="800" height="533" loading="lazy" decoding="async" />
+            <img src="img/card.fullgrupal.webp" alt="Pack Full Grupal x8" data-i18n-alt="clases.altP8" width="800" height="533" loading="lazy" decoding="async" />
           </picture>
-          <span class="clase-badge paquete">Paquete x8</span>
+          <span class="clase-badge paquete" data-i18n="clases.badgeP8">Paquete x8</span>
         </div>
         <div class="clase-body">
-          <h3>Pack Full Grupal</h3>
-          <p>8 clases grupales para una transformación completa. Ahorra significativo.</p>
+          <h3 data-i18n="clases.p8_h3">Pack Full Grupal</h3>
+          <p data-i18n="clases.p8_desc">8 clases grupales para una transformación completa. Ahorra significativo.</p>
           <ul>
-            <li><i class="fas fa-check-circle"></i> 8 clases grupales</li>
-            <li><i class="fas fa-check-circle"></i> 1.5 horas con instructor</li>
-            <li><i class="fas fa-check-circle"></i> Tabla + traje de neopreno</li>
-            <li><i class="fas fa-check-circle"></i> Todos los niveles</li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_8">8 clases grupales</span></li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_horas">1.5 horas con instructor</span></li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_equipo">Tabla + traje de neopreno</span></li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_niveles">Todos los niveles</span></li>
           </ul>
           <div class="clase-footer">
-            <div class="clase-precio"><span class="precio">S/ 720</span><span class="por">/ pack</span></div>
-            <button class="btn-reservar-card" onclick="openModal('paquete8')">Reservar</button>
+            <div class="clase-precio"><span class="precio">S/ 720</span><span class="por" data-i18n="clases.pack">/ pack</span></div>
+            <button class="btn-reservar-card" onclick="openModal('paquete8')"><span data-i18n="clases.reservar">Reservar</span></button>
           </div>
         </div>
       </div>
@@ -341,34 +357,84 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="clase-img">
           <picture>
             <source srcset="img/card.fullgrupal.2.webp" type="image/webp" />
-            <img src="img/card.fullgrupal.2.webp" alt="Pack Full Grupal x12" width="800" height="533" loading="lazy" decoding="async" />
+            <img src="img/card.fullgrupal.2.webp" alt="Pack Full Grupal x12" data-i18n-alt="clases.altP12" width="800" height="533" loading="lazy" decoding="async" />
           </picture>
-          <span class="clase-badge paquete">Paquete x12</span>
+          <span class="clase-badge paquete" data-i18n="clases.badgeP12">Paquete x12</span>
         </div>
         <div class="clase-body">
-          <h3>Pack Full Grupal</h3>
-          <p>12 clases grupales. La mejor inversión para dominar el surf.</p>
+          <h3 data-i18n="clases.p8_h3">Pack Full Grupal</h3>
+          <p data-i18n="clases.p12_desc">12 clases grupales. La mejor inversión para dominar el surf.</p>
           <ul>
-            <li><i class="fas fa-check-circle"></i> 12 clases grupales</li>
-            <li><i class="fas fa-check-circle"></i> 1.5 horas con instructor</li>
-            <li><i class="fas fa-check-circle"></i> Tabla + traje de neopreno</li>
-            <li><i class="fas fa-check-circle"></i> Todos los niveles</li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_12">12 clases grupales</span></li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_horas">1.5 horas con instructor</span></li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_equipo">Tabla + traje de neopreno</span></li>
+            <li><i class="fas fa-check-circle"></i> <span data-i18n="clases.li_niveles">Todos los niveles</span></li>
           </ul>
           <div class="clase-footer">
-            <div class="clase-precio"><span class="precio">S/ 1020</span><span class="por">/ pack</span></div>
-            <button class="btn-reservar-card" onclick="openModal('paquete12')">Reservar</button>
+            <div class="clase-precio"><span class="precio">S/ 1020</span><span class="por" data-i18n="clases.pack">/ pack</span></div>
+            <button class="btn-reservar-card" onclick="openModal('paquete12')"><span data-i18n="clases.reservar">Reservar</span></button>
           </div>
         </div>
       </div>
 
       </div>
     </div>
-    <button class="clase-nav-btn clase-nav-next" id="claseNextBtn" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+    <button class="clase-nav-btn clase-nav-next" id="claseNextBtn" aria-label="Siguiente" data-i18n-aria="clases.next"><i class="fas fa-chevron-right"></i></button>
     <div class="clases-controls">
-      <div class="clases-dots" id="clasesDots" role="tablist" aria-label="Paginación de clases"></div>
+      <div class="clases-dots" id="clasesDots" role="tablist" aria-label="Paginación de clases" data-i18n-aria="clases.dotsLabel"></div>
       <div class="clases-progress" aria-hidden="true"><div class="clases-progress-bar" id="clasesProgress"></div></div>
       <div class="clases-counter" id="clasesCounter" aria-live="polite"><strong>1</strong> / 5</div>
-      <span class="clases-hint"><i class="fas fa-arrows-left-right"></i> Desliza o arrastra</span>
+      <span class="clases-hint"><i class="fas fa-arrows-left-right"></i> <span data-i18n="clases.hint">Desliza o arrastra</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBRESÍA PACIFIC -->
+<!-- NOTA: el precio (S/ 470) y los beneficios son PLACEHOLDERS — validar con el cliente -->
+<section class="membresia" id="membresia">
+  <div class="section-head">
+    <span class="tag" data-i18n="membresia.tag">Membresía Pacific</span>
+    <h2 data-i18n="membresia.h2">Surfea más, paga menos</h2>
+    <p data-i18n="membresia.desc">Un solo precio al mes con clases y beneficios extra para que vivas el surf toda la semana.</p>
+  </div>
+  <div class="mem-panel">
+    <div class="mem-price-box">
+      <span class="mem-badge" data-i18n="membresia.tag">Membresía Pacific</span>
+      <div class="mem-price">
+        <span class="mem-amount">S/ 470</span>
+        <span class="mem-per" data-i18n="membresia.perMonth">al mes</span>
+      </div>
+      <span class="mem-vigencia" data-i18n="membresia.v30">Vigencia: 30 días</span>
+      <a class="mem-cta" href="https://wa.me/51915168620?text=Hola!%20Quiero%20informaci%C3%B3n%20de%20la%20Membres%C3%ADa%20Pacific" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> <span data-i18n="membresia.cta">Reservar por WhatsApp</span></a>
+    </div>
+    <div class="mem-benefits">
+      <h3 data-i18n="membresia.incTitle">Incluido en tu membresía</h3>
+      <div class="mem-benefits-grid">
+        <div class="mem-benefit">
+          <div class="mb-icon"><i class="fas fa-water"></i></div>
+          <div><strong data-i18n="membresia.b1t">4 clases grupales al mes</strong><p data-i18n="membresia.b1d">Con instructor certificado y equipo incluido.</p></div>
+        </div>
+        <div class="mem-benefit">
+          <div class="mb-icon"><i class="fas fa-camera"></i></div>
+          <div><strong data-i18n="membresia.b2t">Fotos y video de tus olas</strong><p data-i18n="membresia.b2d">Grabamos tus mejores sesiones para que las compartas.</p></div>
+        </div>
+        <div class="mem-benefit">
+          <div class="mb-icon"><i class="fas fa-tags"></i></div>
+          <div><strong data-i18n="membresia.b3t">10% de descuento en Camden</strong><p data-i18n="membresia.b3d">En ponchos y accesorios de nuestro partner oficial.</p></div>
+        </div>
+        <div class="mem-benefit">
+          <div class="mb-icon"><i class="fas fa-calendar-check"></i></div>
+          <div><strong data-i18n="membresia.b4t">Reserva prioritaria</strong><p data-i18n="membresia.b4d">Elige tus horarios antes que nadie cada semana.</p></div>
+        </div>
+        <div class="mem-benefit">
+          <div class="mb-icon"><i class="fas fa-user-friends"></i></div>
+          <div><strong data-i18n="membresia.b5t">Invitado del mes</strong><p data-i18n="membresia.b5d">Trae a un amigo a una clase sin costo adicional.</p></div>
+        </div>
+        <div class="mem-benefit">
+          <div class="mb-icon"><i class="fas fa-heart"></i></div>
+          <div><strong data-i18n="membresia.b6t">Comunidad PSS</strong><p data-i18n="membresia.b6d">Acceso a paseos de surf y eventos para miembros.</p></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -379,69 +445,216 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="nosotros-img">
       <picture>
         <source srcset="img/galeria2.webp" type="image/webp" />
-        <img src="img/galeria2.jpg" alt="Equipo Pacific Surf School en la playa" class="nosotros-photo" width="800" height="1000" loading="lazy" decoding="async"/>
+        <img src="img/galeria2.jpg" alt="Equipo Pacific Surf School en la playa" data-i18n-alt="nosotros.altImg" class="nosotros-photo" width="800" height="1000" loading="lazy" decoding="async"/>
       </picture>
     </div>
     <div class="nosotros-texto">
-      <span class="tag">¿Por qué elegirnos?</span>
-      <h2>Surf seguro, divertido y profesional</h2>
-      <p>En Pacific Surf School combinamos seguridad, técnica y pasión por el océano. Cada clase está diseñada para que salgas del agua con una sonrisa y ganas de volver.</p>
+      <span class="tag" data-i18n="nosotros.tag">¿Por qué elegirnos?</span>
+      <h2 data-i18n="nosotros.h2">Surf seguro, divertido y profesional</h2>
+      <p data-i18n="nosotros.desc">En Pacific Surf School combinamos seguridad, técnica y pasión por el océano. Cada clase está diseñada para que salgas del agua con una sonrisa y ganas de volver.</p>
       <div class="reasons-grid">
-        <div class="reason"><i class="fas fa-user-shield"></i><div><strong>Instructores certificados</strong><p>Instructores capacitados. Tu seguridad es primero.</p></div></div>
-        <div class="reason"><i class="fas fa-users"></i><div><strong>Grupos reducidos</strong><p>Máximo 5 alumnos por instructor para atención real.</p></div></div>
-        <div class="reason"><i class="fas fa-water"></i><div><strong>Equipo de primera</strong><p>Tablas de foam, neoprenos de calidad y leashes certificados.</p></div></div>
-        <div class="reason"><i class="fas fa-camera"></i><div><strong>Fotos y video</strong><p>Capturamos tus mejores olas para que las recuerdes siempre.</p></div></div>
-        <div class="reason"><i class="fas fa-map-marker-alt"></i><div><strong>Playa Barranquito</strong><p>La playa ideal para aprender: olas perfectas para todos los niveles.</p></div></div>
-        <div class="reason"><i class="fas fa-heart"></i><div><strong>Comunidad surf</strong><p>Únete a cientos de alumnos que ya forman parte de la familia PSS.</p></div></div>
+        <div class="reason"><i class="fas fa-user-shield"></i><div><strong data-i18n="nosotros.r1s">Instructores certificados</strong><p data-i18n="nosotros.r1p">Instructores capacitados. Tu seguridad es primero.</p></div></div>
+        <div class="reason"><i class="fas fa-users"></i><div><strong data-i18n="nosotros.r2s">Grupos reducidos</strong><p data-i18n="nosotros.r2p">Máximo 5 alumnos por instructor para atención real.</p></div></div>
+        <div class="reason"><i class="fas fa-water"></i><div><strong data-i18n="nosotros.r3s">Equipo de primera</strong><p data-i18n="nosotros.r3p">Tablas de foam, neoprenos de calidad y leashes certificados.</p></div></div>
+        <div class="reason"><i class="fas fa-camera"></i><div><strong data-i18n="nosotros.r4s">Fotos y video</strong><p data-i18n="nosotros.r4p">Capturamos tus mejores olas para que las recuerdes siempre.</p></div></div>
+        <div class="reason"><i class="fas fa-map-marker-alt"></i><div><strong data-i18n="nosotros.r5s">Playa Barranquito</strong><p data-i18n="nosotros.r5p">La playa ideal para aprender: olas perfectas para todos los niveles.</p></div></div>
+        <div class="reason"><i class="fas fa-heart"></i><div><strong data-i18n="nosotros.r6s">Comunidad surf</strong><p data-i18n="nosotros.r6p">Únete a cientos de alumnos que ya forman parte de la familia PSS.</p></div></div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<!-- NOTA: nombres, roles, bios e idiomas son PLACEHOLDERS — reemplazar con los datos reales del equipo -->
+<section class="equipo" id="equipo">
+  <div class="section-head">
+    <span class="tag" data-i18n="equipo.tag">Nuestro equipo</span>
+    <h2 data-i18n="equipo.h2">Conoce a quien te enseña a surfear</h2>
+    <p data-i18n="equipo.desc">Detrás de cada clase hay personas reales de Barranquito que viven por el surf. Este es el equipo que te espera en la arena.</p>
+  </div>
+  <div class="equipo-grid">
+    <article class="team-card">
+      <div class="team-photo">
+        <img src="img/instructor.rodri.jpeg" alt="Rodri, instructor de Pacific Surf School" data-i18n-alt="equipo.alt1" width="600" height="750" loading="lazy" decoding="async" />
+      </div>
+      <div class="team-body">
+        <h3>Rodri</h3>
+        <span class="team-role" data-i18n="equipo.role1">Instructor certificado</span>
+        <p data-i18n="equipo.bio1">Surfea en Barranquito desde que tiene memoria. Especialista en principiantes: te hace reír en cada caída y te levanta con ganas de seguir.</p>
+      </div>
+    </article>
+    <article class="team-card">
+      <div class="team-photo">
+        <img src="img/instructor.miky.jpeg" alt="Miky, instructora de Pacific Surf School" data-i18n-alt="equipo.alt2" width="600" height="750" loading="lazy" decoding="async" />
+      </div>
+      <div class="team-body">
+        <h3>Miky</h3>
+        <span class="team-role" data-i18n="equipo.role2">Instructora</span>
+        <p data-i18n="equipo.bio2">Formada en técnica y seguridad en el agua. Su clase es la favorita de los grupos: energía, paciencia y muchas fotos de tus mejores olas.</p>
+      </div>
+    </article>
+    <article class="team-card">
+      <div class="team-photo">
+        <img src="img/instructor.elias.jpeg" alt="Elias, instructor de Pacific Surf School" data-i18n-alt="equipo.alt3" width="600" height="750" loading="lazy" decoding="async" />
+      </div>
+      <div class="team-body">
+        <h3>Elias</h3>
+        <span class="team-role" data-i18n="equipo.role3">Instructor y fundador</span>
+        <p data-i18n="equipo.bio3">Fundó Pacific Surf School con una idea simple: que cualquiera pueda aprender a surfear de forma segura y divertida. Todavía da clase todas las semanas.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- RESEÑAS — citas reales de Google (5.0★ · 21 reseñas) -->
+<section class="resenas" id="resenas">
+  <div class="section-head">
+    <span class="tag" data-i18n="resenas.tag">Reseñas</span>
+    <h2 data-i18n="resenas.h2">Lo que dicen nuestros alumnos</h2>
+    <p data-i18n="resenas.desc">Experiencias reales de quienes ya se atrevieron a dar su primera ola con nosotros.</p>
+    <a class="google-badge" href="https://www.google.com/maps/search/?api=1&query=Pacific+surf+school+Playa+Barranquito" target="_blank" rel="noopener">
+      <span class="gb-stars" aria-hidden="true">★★★★★</span>
+      <strong>5.0</strong>
+      <span data-i18n="resenas.googleCount">21 reseñas en Google</span>
+      <i class="fas fa-external-link-alt"></i>
+    </a>
+  </div>
+  <div class="reviews-grid">
+    <figure class="review-bubble">
+      <div class="rb-head">
+        <span class="rb-avatar" aria-hidden="true"><i class="fab fa-google"></i></span>
+        <div class="rb-meta">
+          <strong class="rb-name" data-i18n="resenas.srcGoogle">Reseña de Google</strong>
+          <span class="rb-date" data-i18n="resenas.date1">Abr 2025</span>
+        </div>
+        <span class="rb-stars" aria-label="5 de 5 estrellas">★★★★★</span>
+      </div>
+      <blockquote data-i18n="resenas.q1">We had the best experience with pacific!! Gabriel and all the coaches were very attentive and skilled. We always felt super safe and made progress pretty quickly. We would totally recommend it! Thank youu we had so much fun!</blockquote>
+    </figure>
+    <figure class="review-bubble">
+      <div class="rb-head">
+        <span class="rb-avatar" aria-hidden="true"><i class="fab fa-google"></i></span>
+        <div class="rb-meta">
+          <strong class="rb-name" data-i18n="resenas.srcGoogle">Reseña de Google</strong>
+          <span class="rb-date" data-i18n="resenas.date2">Jun 2024</span>
+        </div>
+        <span class="rb-stars" aria-label="5 de 5 estrellas">★★★★★</span>
+      </div>
+      <blockquote data-i18n="resenas.q2">La mejor escuela de la costa verde con precios cómodos y variados, los coaches son los mejores y te paras en la primera clase. RECOMENDADO!!!</blockquote>
+    </figure>
+    <figure class="review-bubble">
+      <div class="rb-head">
+        <span class="rb-avatar" aria-hidden="true"><i class="fab fa-google"></i></span>
+        <div class="rb-meta">
+          <strong class="rb-name" data-i18n="resenas.srcGoogle">Reseña de Google</strong>
+          <span class="rb-date" data-i18n="resenas.date2">Jun 2024</span>
+        </div>
+        <span class="rb-stars" aria-label="5 de 5 estrellas">★★★★★</span>
+      </div>
+      <blockquote data-i18n="resenas.q3">Con Pacific no solo aprendi a surfear de una manera segura con coach altamente calificados, tambien encontre una comunidad compuestas por profes y alumnos, que nos ayudamos y compartimos tanto dentro como fuera del agua, Pacific Surf School 100% recomendada</blockquote>
+    </figure>
+    <figure class="review-bubble">
+      <div class="rb-head">
+        <span class="rb-avatar" aria-hidden="true"><i class="fab fa-google"></i></span>
+        <div class="rb-meta">
+          <strong class="rb-name" data-i18n="resenas.srcGoogle">Reseña de Google</strong>
+          <span class="rb-date" data-i18n="resenas.date2">Jun 2024</span>
+        </div>
+        <span class="rb-stars" aria-label="5 de 5 estrellas">★★★★★</span>
+      </div>
+      <blockquote data-i18n="resenas.q4">Una excelente escuela! Los coaches son super capos, y saben como llegar al alumno. Un excelente deporte para que todos disfruten.</blockquote>
+    </figure>
+    <figure class="review-bubble">
+      <div class="rb-head">
+        <span class="rb-avatar" aria-hidden="true"><i class="fab fa-google"></i></span>
+        <div class="rb-meta">
+          <strong class="rb-name" data-i18n="resenas.srcGoogle">Reseña de Google</strong>
+          <span class="rb-date" data-i18n="resenas.date2">Jun 2024</span>
+        </div>
+        <span class="rb-stars" aria-label="5 de 5 estrellas">★★★★★</span>
+      </div>
+      <blockquote data-i18n="resenas.q5">Muy recomendable!. Gabriel, el coach, siempre muy atento con sus alumnos y se preocupa porque estén y se sientan seguros en el mar. Incluso es un excelente profesor para niños.</blockquote>
+    </figure>
+    <figure class="review-bubble">
+      <div class="rb-head">
+        <span class="rb-avatar" aria-hidden="true"><i class="fab fa-google"></i></span>
+        <div class="rb-meta">
+          <strong class="rb-name" data-i18n="resenas.srcGoogle">Reseña de Google</strong>
+          <span class="rb-date" data-i18n="resenas.date2">Jun 2024</span>
+        </div>
+        <span class="rb-stars" aria-label="5 de 5 estrellas">★★★★★</span>
+      </div>
+      <blockquote data-i18n="resenas.q6">La mejor escuela, te hacen surfear desde el día 1, los profesores son amigables y super profesionales, lleven toalla y chanclas 😎 el resto te lo da la escuela incluido en el pago.</blockquote>
+    </figure>
+    <figure class="review-bubble">
+      <div class="rb-head">
+        <span class="rb-avatar" aria-hidden="true"><i class="fab fa-google"></i></span>
+        <div class="rb-meta">
+          <strong class="rb-name" data-i18n="resenas.srcGoogle">Reseña de Google</strong>
+          <span class="rb-date" data-i18n="resenas.date2">Jun 2024</span>
+        </div>
+        <span class="rb-stars" aria-label="5 de 5 estrellas">★★★★★</span>
+      </div>
+      <blockquote data-i18n="resenas.q7">Un éxito… me encantan las clases dan sigan así por favor. Que el frío no los detenga!!</blockquote>
+    </figure>
+    <figure class="review-bubble">
+      <div class="rb-head">
+        <span class="rb-avatar" aria-hidden="true"><i class="fab fa-google"></i></span>
+        <div class="rb-meta">
+          <strong class="rb-name" data-i18n="resenas.srcGoogle">Reseña de Google</strong>
+          <span class="rb-date" data-i18n="resenas.date2">Jun 2024</span>
+        </div>
+        <span class="rb-stars" aria-label="5 de 5 estrellas">★★★★★</span>
+      </div>
+      <blockquote data-i18n="resenas.q8">The perfect activity if you are visiting Lima: you could go surfing in the morning, enjoy a nice lunch, and explore the city in the afternoon / evening. The school will provide you with the full equipment, so you just need to wear comfortable clothes and bring a small water bottle. The coaches are very friendly, patient, and professional. The perfect choice for both beginners and experienced surfers.</blockquote>
+    </figure>
   </div>
 </section>
 
 <!-- GALERÍA -->
 <section class="galeria" id="galeria">
   <div class="section-head">
-    <span class="tag">Galería</span>
-    <h2>La experiencia en imágenes</h2>
-    <p>¿Listo para tu primera ola? Síguenos en <a href="https://www.instagram.com/pacific_surfschool/" target="_blank">@pacific_surfschool</a></p>
+    <span class="tag" data-i18n="galeria.tag">Galería</span>
+    <h2 data-i18n="galeria.h2">La experiencia en imágenes</h2>
+    <p><span data-i18n="galeria.descPrefix">¿Listo para tu primera ola? Síguenos en </span><a href="https://www.instagram.com/pacific_surfschool/" target="_blank">@pacific_surfschool</a></p>
   </div>
   <div class="gallery-shell">
     <div class="gallery-main">
-      <div class="gallery-carousel" role="region" aria-roledescription="carrusel" aria-label="Galería Pacific Surf School">
+      <div class="gallery-carousel" role="region" aria-roledescription="carrusel" aria-label="Galería Pacific Surf School" data-i18n-aria="galeria.carouselLabel">
         <div class="gallery-progress" aria-hidden="true"><div class="gallery-progress-bar" id="galleryProgress"></div></div>
         <div class="carousel-track" id="galleryTrack">
-          <div class="carousel-slide"><img src="img/galeria1.webp" alt="Clase grupal de surf en Barranquito" loading="lazy" decoding="async"/><span class="slide-caption">Clase grupal · Barranquito</span></div>
-          <div class="carousel-slide"><img src="img/galeria2.webp" alt="Alumno aprendiendo surf" loading="lazy" decoding="async"/><span class="slide-caption">Tu primera parada</span></div>
-          <div class="carousel-slide"><img src="img/galeria3.webp" alt="Alumna celebrando su primera ola" loading="lazy" decoding="async"/><span class="slide-caption">Primera ola desbloqueada</span></div>
-          <div class="carousel-slide"><img src="img/galeria4.jpg" alt="Niña surfeando en Barranquito" loading="lazy" decoding="async"/><span class="slide-caption">Surf para peques · 7+ años</span></div>
-          <div class="carousel-slide"><img src="img/galeria5.webp" alt="Instructor mirando el mar" loading="lazy" decoding="async"/><span class="slide-caption">Instructores certificados ISA</span></div>
-          <div class="carousel-slide"><img src="img/galeria11.jpeg" alt="Surfista en la ola" loading="lazy" decoding="async"/><span class="slide-caption">Olas de la Costa Verde</span></div>
-          <div class="carousel-slide"><img src="img/galeria10.jpeg" alt="Grupo surfista en la playa" loading="lazy" decoding="async"/><span class="slide-caption">La familia PSS</span></div>
-          <div class="carousel-slide"><img src="img/galeria7.jpeg" alt="Alumnos Pacific Surf School" loading="lazy" decoding="async"/><span class="slide-caption">Comunidad que te impulsa</span></div>
+          <div class="carousel-slide"><img src="img/galeria1.webp" alt="Clase grupal de surf en Barranquito" data-i18n-alt="galeria.alt1" loading="lazy" decoding="async"/><span class="slide-caption" data-i18n="galeria.cap1">Clase grupal · Barranquito</span></div>
+          <div class="carousel-slide"><img src="img/galeria2.webp" alt="Alumno aprendiendo surf" data-i18n-alt="galeria.alt2" loading="lazy" decoding="async"/><span class="slide-caption" data-i18n="galeria.cap2">Tu primera parada</span></div>
+          <div class="carousel-slide"><img src="img/galeria3.webp" alt="Alumna celebrando su primera ola" data-i18n-alt="galeria.alt3" loading="lazy" decoding="async"/><span class="slide-caption" data-i18n="galeria.cap3">Primera ola desbloqueada</span></div>
+          <div class="carousel-slide"><img src="img/galeria4.jpg" alt="Niña surfeando en Barranquito" data-i18n-alt="galeria.alt4" loading="lazy" decoding="async"/><span class="slide-caption" data-i18n="galeria.cap4">Surf para peques · 7+ años</span></div>
+          <div class="carousel-slide"><img src="img/galeria5.webp" alt="Instructor mirando el mar" data-i18n-alt="galeria.alt5" loading="lazy" decoding="async"/><span class="slide-caption" data-i18n="galeria.cap5">Instructores certificados ISA</span></div>
+          <div class="carousel-slide"><img src="img/galeria11.jpeg" alt="Surfista en la ola" data-i18n-alt="galeria.alt6" loading="lazy" decoding="async"/><span class="slide-caption" data-i18n="galeria.cap6">Olas de la Costa Verde</span></div>
+          <div class="carousel-slide"><img src="img/galeria10.jpeg" alt="Grupo surfista en la playa" data-i18n-alt="galeria.alt7" loading="lazy" decoding="async"/><span class="slide-caption" data-i18n="galeria.cap7">La familia PSS</span></div>
+          <div class="carousel-slide"><img src="img/galeria7.jpeg" alt="Alumnos Pacific Surf School" data-i18n-alt="galeria.alt8" loading="lazy" decoding="async"/><span class="slide-caption" data-i18n="galeria.cap8">Comunidad que te impulsa</span></div>
         </div>
-        <button class="carousel-btn carousel-prev" id="galleryPrevBtn" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
-        <button class="carousel-btn carousel-next" id="galleryNextBtn" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
-        <button class="gallery-expand" id="galleryExpand" aria-label="Ver en pantalla completa"><i class="fas fa-expand"></i></button>
+        <button class="carousel-btn carousel-prev" id="galleryPrevBtn" aria-label="Anterior" data-i18n-aria="galeria.prev"><i class="fas fa-chevron-left"></i></button>
+        <button class="carousel-btn carousel-next" id="galleryNextBtn" aria-label="Siguiente" data-i18n-aria="galeria.next"><i class="fas fa-chevron-right"></i></button>
+        <button class="gallery-expand" id="galleryExpand" aria-label="Ver en pantalla completa" data-i18n-aria="galeria.expand"><i class="fas fa-expand"></i></button>
         <div class="gallery-meta">
-          <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Paginación galería"></div>
+          <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Paginación galería" data-i18n-aria="galeria.dotsLabel"></div>
           <div class="gallery-counter" id="galleryCounter" aria-live="polite"><strong>01</strong> / 08</div>
         </div>
       </div>
-      <div class="gallery-thumbs" id="galleryThumbs" aria-label="Miniaturas"></div>
+      <div class="gallery-thumbs" id="galleryThumbs" aria-label="Miniaturas" data-i18n-aria="galeria.thumbsLabel"></div>
     </div>
   </div>
   <div class="galeria-cta">
     <a href="https://www.instagram.com/pacific_surfschool/" target="_blank" class="btn-ig">
-      <i class="fab fa-instagram"></i> Ver más en Instagram
+      <i class="fab fa-instagram"></i> <span data-i18n="galeria.ig">Ver más en Instagram</span>
     </a>
-    <span class="galeria-cta-note">+800 alumnos · 5★ en Google</span>
+    <span class="galeria-cta-note" data-i18n="galeria.note">+800 alumnos · 5★ en Google</span>
   </div>
 
   <!-- Lightbox -->
-  <div class="gallery-lightbox" id="galleryLightbox" role="dialog" aria-modal="true" aria-label="Galería ampliada" hidden>
-    <button class="lb-close" id="lbClose" aria-label="Cerrar"><i class="fas fa-times"></i></button>
-    <button class="lb-nav lb-prev" id="lbPrev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
-    <button class="lb-nav lb-next" id="lbNext" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+  <div class="gallery-lightbox" id="galleryLightbox" role="dialog" aria-modal="true" aria-label="Galería ampliada" data-i18n-aria="galeria.lightbox" hidden>
+    <button class="lb-close" id="lbClose" aria-label="Cerrar" data-i18n-aria="galeria.close"><i class="fas fa-times"></i></button>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="Anterior" data-i18n-aria="galeria.prev"><i class="fas fa-chevron-left"></i></button>
+    <button class="lb-nav lb-next" id="lbNext" aria-label="Siguiente" data-i18n-aria="galeria.next"><i class="fas fa-chevron-right"></i></button>
     <div class="lb-stage"><img id="lbImg" alt="" /><p class="lb-caption" id="lbCaption"></p><span class="lb-counter" id="lbCounter"></span></div>
   </div>
 </section>
@@ -449,27 +662,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- CONDICIONES DEL MAR — PRONÓSTICO 4 DÍAS -->
 <section class="surf-forecast" id="oleaje">
   <div class="section-head">
-    <span class="tag">Costa Verde</span>
-    <h2>Pronóstico de Surf</h2>
-    <p>Condiciones del mar en Playa Barranquito — Pronóstico 4 días.</p>
-    <p class="last-update-text">Última actualización: <span id="lastUpdated">--:--</span></p>
+    <span class="tag" data-i18n="forecast.tag">Costa Verde</span>
+    <h2 data-i18n="forecast.h2">Pronóstico de Surf</h2>
+    <p data-i18n="forecast.desc">Condiciones del mar en Playa Barranquito — Pronóstico 4 días.</p>
+    <p class="last-update-text"><span data-i18n="forecast.updatePrefix">Última actualización:</span> <span id="lastUpdated">--:--</span></p>
   </div>
 
   <div class="days-grid" id="daysGrid">
     <div class="beach-loading">
       <div class="forecast-spinner"></div>
-      <p>Cargando datos del océano...</p>
+      <p data-i18n="forecast.loading">Cargando datos del océano...</p>
     </div>
   </div>
 
   <div class="forecast-error" id="forecastError" style="display:none;">
     <i class="fas fa-exclamation-triangle"></i>
-    <p>No se pudieron cargar los datos. Intenta de nuevo más tarde.</p>
-    <button class="btn-retry" onclick="loadBeachData()"><i class="fas fa-redo"></i> Reintentar</button>
+    <p data-i18n="forecast.error">No se pudieron cargar los datos. Intenta de nuevo más tarde.</p>
+    <button class="btn-retry" onclick="loadBeachData()"><i class="fas fa-redo"></i> <span data-i18n="forecast.retry">Reintentar</span></button>
   </div>
 
   <p class="forecast-disclaimer">
-    <i class="fas fa-info-circle"></i> Estimación basada en datos de <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>. Las condiciones reales pueden variar. Consulta a tus instructores.
+    <i class="fas fa-info-circle"></i> <span data-i18n="forecast.disclaimerPrefix">Estimación basada en datos de </span><a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a><span data-i18n="forecast.disclaimerSuffix">. Las condiciones reales pueden variar. Consulta a tus instructores.</span>
   </p>
 </section>
 
@@ -477,41 +690,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="sponsor-camden" id="camden">
   <div class="camden-hero">
     <div class="camden-hero-inner">
-      <span class="camden-tag">Partner Oficial</span>
+      <span class="camden-tag" data-i18n="camden.tag">Partner Oficial</span>
       <h2 class="camden-title" data-animate="fade-up">CAMDEN</h2>
-      <p class="camden-desc" data-animate="fade-up">Ponchos de playa 100% peruanos. Te cambias con estilo después del surf.</p>
-      <a href="https://camdenperu.com/" target="_blank" rel="noopener" class="camden-btn" data-animate="fade-up">Visitar tienda <i class="fas fa-arrow-right"></i></a>
+      <p class="camden-desc" data-animate="fade-up" data-i18n="camden.desc">Ponchos de playa 100% peruanos. Te cambias con estilo después del surf.</p>
+      <a href="https://camdenperu.com/" target="_blank" rel="noopener" class="camden-btn" data-animate="fade-up"><span data-i18n="camden.visit">Visitar tienda</span> <i class="fas fa-arrow-right"></i></a>
     </div>
   </div>
 
   <div class="camden-products">
     <div class="camden-product" data-animate="fade-up">
       <div class="camden-product-img">
-        <img src="https://camdenperu.com/cdn/shop/files/IMG_4158_c007b32b-9276-4b3c-9c87-8bfddd9bcc00.webp" alt="Poncho Camden Azul Marino" loading="lazy" decoding="async"/>
+        <img src="https://camdenperu.com/cdn/shop/files/IMG_4158_c007b32b-9276-4b3c-9c87-8bfddd9bcc00.webp" alt="Poncho Camden Azul Marino" data-i18n-alt="camden.altPoncho" loading="lazy" decoding="async"/>
       </div>
       <div class="camden-product-info">
-        <h3>Azul Marino - Lila</h3>
-        <p>Elegancia que abriga, comodidad y color que acompaña.</p>
+        <h3 data-i18n="camden.p1t">Azul Marino - Lila</h3>
+        <p data-i18n="camden.p1d">Elegancia que abriga, comodidad y color que acompaña.</p>
         <span class="camden-price">S/ 200</span>
       </div>
     </div>
     <div class="camden-product" data-animate="fade-up">
       <div class="camden-product-img">
-        <img src="https://camdenperu.com/cdn/shop/files/IMG_5315.webp" alt="Poncho Camden Rojo" loading="lazy" decoding="async"/>
+        <img src="https://camdenperu.com/cdn/shop/files/IMG_5315.webp" alt="Poncho Camden Rojo" data-i18n-alt="camden.altPonchoRojo" loading="lazy" decoding="async"/>
       </div>
       <div class="camden-product-info">
-        <h3>Rojo - Azul Marino</h3>
-        <p>Diseño relajado, corte amplio para una sensación de libertad total.</p>
+        <h3 data-i18n="camden.p2t">Rojo - Azul Marino</h3>
+        <p data-i18n="camden.p2d">Diseño relajado, corte amplio para una sensación de libertad total.</p>
         <span class="camden-price">S/ 200</span>
       </div>
     </div>
     <div class="camden-product" data-animate="fade-up">
       <div class="camden-product-img">
-        <img src="https://camdenperu.com/cdn/shop/files/IMG_62362_a0e47542-7b24-45aa-b325-8298febc25ba.webp" alt="Poncho Camden Turquesa" loading="lazy" decoding="async"/>
+        <img src="https://camdenperu.com/cdn/shop/files/IMG_62362_a0e47542-7b24-45aa-b325-8298febc25ba.webp" alt="Poncho Camden Turquesa" data-i18n-alt="camden.altPonchoTurquesa" loading="lazy" decoding="async"/>
       </div>
       <div class="camden-product-info">
-        <h3>Azul Marino - Turquesa</h3>
-        <p>El color que te define. Sabemos que cada persona es única.</p>
+        <h3 data-i18n="camden.p3t">Azul Marino - Turquesa</h3>
+        <p data-i18n="camden.p3d">El color que te define. Sabemos que cada persona es única.</p>
         <span class="camden-price">S/ 200</span>
       </div>
     </div>
@@ -520,41 +733,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="camden-features">
     <div class="camden-feature" data-animate="fade-up">
       <div class="camden-feature-icon"><i class="fas fa-hand-holding-water"></i></div>
-      <h4>Mangas amplias</h4>
-      <p>Libertad al moverte mientras te protegen del viento y mantienen tu cuerpo seco.</p>
+      <h4 data-i18n="camden.f1t">Mangas amplias</h4>
+      <p data-i18n="camden.f1d">Libertad al moverte mientras te protegen del viento y mantienen tu cuerpo seco.</p>
     </div>
     <div class="camden-feature" data-animate="fade-up">
       <div class="camden-feature-icon"><i class="fas fa-star"></i></div>
-      <h4>Cambiador premium</h4>
-      <p>Comodidad, carácter y funcionalidad para los que viven entre el agua y la ciudad.</p>
+      <h4 data-i18n="camden.f2t">Cambiador premium</h4>
+      <p data-i18n="camden.f2d">Comodidad, carácter y funcionalidad para los que viven entre el agua y la ciudad.</p>
     </div>
     <div class="camden-feature" data-animate="fade-up">
       <div class="camden-feature-icon"><i class="fas fa-palette"></i></div>
-      <h4>Tu color</h4>
-      <p>Muchos colores para que encuentres el que más te representa.</p>
+      <h4 data-i18n="camden.f3t">Tu color</h4>
+      <p data-i18n="camden.f3d">Muchos colores para que encuentres el que más te representa.</p>
     </div>
     <div class="camden-feature" data-animate="fade-up">
       <div class="camden-feature-icon"><i class="fas fa-heart"></i></div>
-      <h4>Calidad que se siente</h4>
-      <p>Elegir bien es sentirse cómodo y moverse con libertad.</p>
+      <h4 data-i18n="camden.f4t">Calidad que se siente</h4>
+      <p data-i18n="camden.f4d">Elegir bien es sentirse cómodo y moverse con libertad.</p>
     </div>
   </div>
 
   <div class="camden-cta" data-animate="fade-up">
-    <img src="https://camdenperu.com/cdn/shop/files/DSC08946.webp" alt="Persona usando poncho Camden en la playa" class="camden-cta-img" loading="lazy" decoding="async"/>
+    <img src="https://camdenperu.com/cdn/shop/files/DSC08946.webp" alt="Persona usando poncho Camden en la playa" data-i18n-alt="camden.altCta" class="camden-cta-img" loading="lazy" decoding="async"/>
     <div class="camden-cta-overlay">
-      <h3>Te acompaña desde el agua hasta casa</h3>
-      <p>Absorbente, práctico y tan ligero que puedes ir con él hasta casa sin preocuparte por nada.</p>
-      <a href="https://camdenperu.com/collections/all" target="_blank" rel="noopener" class="camden-btn-white">Ver colección <i class="fas fa-arrow-right"></i></a>
+      <h3 data-i18n="camden.ctaH">Te acompaña desde el agua hasta casa</h3>
+      <p data-i18n="camden.ctaP">Absorbente, práctico y tan ligero que puedes ir con él hasta casa sin preocuparte por nada.</p>
+      <a href="https://camdenperu.com/#productos" target="_blank" rel="noopener" class="camden-btn-white"><span data-i18n="camden.ctaBtn">Ver colección</span> <i class="fas fa-arrow-right"></i></a>
     </div>
   </div>
 
   <div class="camden-footer">
     <a href="https://camdenperu.com/" target="_blank" rel="noopener">www.camdenperu.com</a>
     <div class="camden-social">
-      <a href="https://www.facebook.com/camden.peru.2025" target="_blank" rel="noopener" aria-label="Camden en Facebook"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://www.instagram.com/camdenperu/" target="_blank" rel="noopener" aria-label="Camden en Instagram"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.tiktok.com/@camden_peru" target="_blank" rel="noopener" aria-label="Camden en TikTok"><i class="fab fa-tiktok"></i></a>
+      <a href="https://www.facebook.com/camden.peru.2025" target="_blank" rel="noopener" aria-label="Camden en Facebook" data-i18n-aria="camden.fb"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.instagram.com/camdenperu/" target="_blank" rel="noopener" aria-label="Camden en Instagram" data-i18n-aria="camden.ig"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.tiktok.com/@camden_peru" target="_blank" rel="noopener" aria-label="Camden en TikTok" data-i18n-aria="camden.tt"><i class="fab fa-tiktok"></i></a>
     </div>
   </div>
 </section>
@@ -563,46 +776,46 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="ubicacion-faq" id="ubicacion">
   <div class="ubicacion-faq-inner">
     <div class="ubicacion">
-      <span class="tag">¿Dónde encontrarnos?</span>
-      <h2>Playa Barranquito, Lima</h2>
-      <p><i class="fas fa-map-marker-alt"></i> Costa Verde, Barranco – Lima, Perú</p>
-      <p><i class="fas fa-clock"></i> Lunes a Domingo · 7:00 am – 6:00 pm</p>
+      <span class="tag" data-i18n="ubicacion.tag">¿Dónde encontrarnos?</span>
+      <h2 data-i18n="ubicacion.h2">Playa Barranquito, Lima</h2>
+      <p><i class="fas fa-map-marker-alt"></i> <span data-i18n="ubicacion.dir">Costa Verde, Barranco – Lima, Perú</span></p>
+      <p><i class="fas fa-clock"></i> <span data-i18n="ubicacion.horario">Lunes a Domingo · 7:00 am – 6:00 pm</span></p>
       <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/message/Z3HDXG2KB5VZL1" target="_blank">+51 915 168 620</a></p>
       <div class="mapa-wrap">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3900.5280145439274!2d-77.02839632490426!3d-12.144412543726622!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105b71199055c0b%3A0x3656ba8fec3a64a5!2sPacific%20surf%20school%20Playa%20Barranquito!5e0!3m2!1sen!2spe!4v1785181364219!5m2!1sen!2spe"
           width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"
-          title="Ubicación Pacific Surf School en Playa Barranquito">
+          title="Ubicación Pacific Surf School en Playa Barranquito" data-i18n-title="ubicacion.mapTitle">
         </iframe>
       </div>
     </div>
     <div class="faq" id="faq">
-      <span class="tag">Preguntas frecuentes</span>
+      <span class="tag" data-i18n="faq.tag">Preguntas frecuentes</span>
       <h2>FAQ</h2>
       <div class="faq-list">
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">¿Necesito saber nadar para tomar clases? <i class="fas fa-chevron-down"></i></button>
-          <div class="faq-a"><p>No es obligatorio ser nadador experto. Nuestros instructores te enseñan técnicas de seguridad y siempre estamos contigo en el agua. Eso sí, debes sentirte cómodo/a en el mar.</p></div>
+          <button class="faq-q" aria-expanded="false"><span data-i18n="faq.q1">¿Necesito saber nadar para tomar clases?</span> <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-a"><p data-i18n="faq.a1">No es obligatorio ser nadador experto. Nuestros instructores te enseñan técnicas de seguridad y siempre estamos contigo en el agua. Eso sí, debes sentirte cómodo/a en el mar.</p></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">¿Qué debo llevar a la clase? <i class="fas fa-chevron-down"></i></button>
-          <div class="faq-a"><p>Traje de baño, bloqueador solar resistente al agua, agua para hidratarte y muchas ganas. Todo el equipo de surf (tabla, neopreno, leash) está incluido en el precio.</p></div>
+          <button class="faq-q" aria-expanded="false"><span data-i18n="faq.q2">¿Qué debo llevar a la clase?</span> <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-a"><p data-i18n="faq.a2">Traje de baño, bloqueador solar resistente al agua, agua para hidratarte y muchas ganas. Todo el equipo de surf (tabla, neopreno, leash) está incluido en el precio.</p></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">¿Cuáles son los horarios disponibles? <i class="fas fa-chevron-down"></i></button>
-          <div class="faq-a"><p>Ofrecemos turnos de mañana (6am, 8am, 10am) y tarde (4pm, 6pm) de lunes a domingo. Los horarios exactos se confirman al reservar según disponibilidad y condición del mar.</p></div>
+          <button class="faq-q" aria-expanded="false"><span data-i18n="faq.q3">¿Cuáles son los horarios disponibles?</span> <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-a"><p data-i18n="faq.a3">Ofrecemos turnos de mañana (6am, 8am, 10am) y tarde (4pm, 6pm) de lunes a domingo. Los horarios exactos se confirman al reservar según disponibilidad y condición del mar.</p></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">¿Puedo cancelar o reprogramar mi clase? <i class="fas fa-chevron-down"></i></button>
-          <div class="faq-a"><p>Sí. Puedes cancelar o reprogramar sin costo hasta 48 horas antes de tu clase. Después de ese plazo se aplica una penalidad del 50%.</p></div>
+          <button class="faq-q" aria-expanded="false"><span data-i18n="faq.q4">¿Puedo cancelar o reprogramar mi clase?</span> <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-a"><p data-i18n="faq.a4">Sí. Puedes cancelar o reprogramar sin costo hasta 48 horas antes de tu clase. Después de ese plazo se aplica una penalidad del 50%.</p></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">¿Qué pasa si el mar está muy picado? <i class="fas fa-chevron-down"></i></button>
-          <div class="faq-a"><p>La seguridad es lo primero. Si las condiciones del mar no son aptas, reprogramamos tu clase sin ningún costo adicional.</p></div>
+          <button class="faq-q" aria-expanded="false"><span data-i18n="faq.q5">¿Qué pasa si el mar está muy picado?</span> <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-a"><p data-i18n="faq.a5">La seguridad es lo primero. Si las condiciones del mar no son aptas, reprogramamos tu clase sin ningún costo adicional.</p></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">¿Hay clases para niños? <i class="fas fa-chevron-down"></i></button>
-          <div class="faq-a"><p>¡Sí! Tenemos clases para niños desde los 7 años con instructores especializados en surf infantil y medidas de seguridad adicionales.</p></div>
+          <button class="faq-q" aria-expanded="false"><span data-i18n="faq.q6">¿Hay clases para niños?</span> <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-a"><p data-i18n="faq.a6">¡Sí! Tenemos clases para niños desde los 7 años con instructores especializados en surf infantil y medidas de seguridad adicionales.</p></div>
         </div>
       </div>
     </div>
@@ -621,27 +834,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </picture>
       </div>
       <span>Pacific Surf School</span>
-      <p>Playa Barranquito, Lima, Perú</p>
+      <p data-i18n="footer.lugar">Playa Barranquito, Lima, Perú</p>
     </div>
     <div class="footer-links">
-      <strong>Navegación</strong>
-      <a href="#inicio">Inicio</a>
-      <a href="#clases">Clases</a>
-      <a href="#nosotros">Nosotros</a>
-      <a href="#galeria">Galería</a>
-      <a href="#ubicacion">Ubicación</a>
-      <a href="#faq">FAQ</a>
+      <strong data-i18n="footer.nav">Navegación</strong>
+      <a href="#inicio" data-i18n="footer.inicio">Inicio</a>
+      <a href="#clases" data-i18n="nav.clases">Clases</a>
+      <a href="#nosotros" data-i18n="nav.nosotros">Nosotros</a>
+      <a href="#equipo" data-i18n="equipo.nav">Equipo</a>
+      <a href="#resenas" data-i18n="resenas.nav">Reseñas</a>
+      <a href="#membresia" data-i18n="membresia.nav">Membresía</a>
+      <a href="#galeria" data-i18n="footer.galeria">Galería</a>
+      <a href="#ubicacion" data-i18n="footer.ubicacion">Ubicación</a>
+      <a href="#faq" data-i18n="nav.faq">FAQ</a>
     </div>
     <div class="footer-links">
-      <strong>Clases</strong>
-      <a href="#" onclick="openModal('individual')">Clase Individual</a>
-      <a href="#" onclick="openModal('grupal')">Clase Grupal</a>
-      <a href="#" onclick="openModal('paquete')">Pack x4</a>
-      <a href="#" onclick="openModal('paquete8')">Pack x8</a>
-      <a href="#" onclick="openModal('paquete12')">Pack x12</a>
+      <strong data-i18n="footer.clases">Clases</strong>
+      <a href="#" onclick="openModal('individual')" data-i18n="footer.individual">Clase Individual</a>
+      <a href="#" onclick="openModal('grupal')" data-i18n="footer.grupal">Clase Grupal</a>
+      <a href="#" onclick="openModal('paquete')" data-i18n="footer.p4">Pack x4</a>
+      <a href="#" onclick="openModal('paquete8')" data-i18n="footer.p8">Pack x8</a>
+      <a href="#" onclick="openModal('paquete12')" data-i18n="footer.p12">Pack x12</a>
     </div>
     <div class="footer-contact">
-      <strong>Contacto</strong>
+      <strong data-i18n="footer.contacto">Contacto</strong>
       <a href="https://wa.me/message/Z3HDXG2KB5VZL1" target="_blank"><i class="fab fa-whatsapp"></i> +51 915 168 620</a>
       <a href="mailto:info@pacificsurfschool.com.pe"><i class="fas fa-envelope"></i> info@pacificsurfschool.com.pe</a>
       <a href="https://www.instagram.com/pacific_surfschool/" target="_blank"><i class="fab fa-instagram"></i> @pacific_surfschool</a>
@@ -649,45 +865,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 Pacific Surf School · RUC: 20613070142 · Todos los derechos reservados</p>
-    <p><a href="terminos.html">Términos y condiciones</a> · <a href="privacidad.html">Política de privacidad</a> · <a href="cambios.html">Políticas de cambio/devolución</a> · <a href="reclamos.html">Libro de reclamaciones</a> · <a href="/mvba" rel="nofollow">Admin</a></p>
+    <p data-i18n="footer.rights">© 2026 Pacific Surf School · RUC: 20613070142 · Todos los derechos reservados</p>
+    <p><a href="terminos.html" data-i18n="footer.terms">Términos y condiciones</a> · <a href="privacidad.html" data-i18n="footer.privacy">Política de privacidad</a> · <a href="cambios.html" data-i18n="footer.changes">Políticas de cambio/devolución</a> · <a href="reclamos.html" data-i18n="footer.book">Libro de reclamaciones</a> · <a href="/mvba" rel="nofollow" data-i18n="footer.admin">Admin</a></p>
   </div>
 </footer>
 
 <!-- MODAL RESERVAS (4 pasos) -->
 <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()" aria-label="Cerrar">&times;</button>
+    <button class="modal-close" onclick="closeModal()" aria-label="Cerrar" data-i18n-aria="modal.close">&times;</button>
     <div class="modal-header">
-      <h2 id="modalTitle">Reservar Clase</h2>
+      <h2 id="modalTitle" data-i18n="modal.title">Reservar Clase</h2>
       <div class="stepper">
-        <div class="step active" id="step-dot-1"><span>1</span><small>Clase</small></div>
+        <div class="step active" id="step-dot-1"><span>1</span><small data-i18n="modal.stepClase">Clase</small></div>
         <div class="step-line"></div>
-        <div class="step" id="step-dot-2"><span>2</span><small>Horario</small></div>
+        <div class="step" id="step-dot-2"><span>2</span><small data-i18n="modal.stepHorario">Horario</small></div>
         <div class="step-line"></div>
-        <div class="step" id="step-dot-3"><span>3</span><small>Datos</small></div>
+        <div class="step" id="step-dot-3"><span>3</span><small data-i18n="modal.stepDatos">Datos</small></div>
         <div class="step-line"></div>
-        <div class="step" id="step-dot-4"><span>4</span><small>Confirmar</small></div>
+        <div class="step" id="step-dot-4"><span>4</span><small data-i18n="modal.stepConfirmar">Confirmar</small></div>
       </div>
     </div>
     <div class="modal-body">
 
       <!-- PASO 1: TIPO DE CLASE -->
       <div class="modal-step" id="paso1">
-        <h3>¿Qué tipo de clase quieres?</h3>
+        <h3 data-i18n="modal.h3tipo">¿Qué tipo de clase quieres?</h3>
         <div class="clase-options">
-          <label class="clase-opt"><input type="radio" name="tipoClase" value="grupal"/><div class="opt-card"><span class="opt-icon">🌊</span><strong>Grupal</strong><small>S/ 110 c/u · mín. 2</small></div></label>
-          <label class="clase-opt"><input type="radio" name="tipoClase" value="individual"/><div class="opt-card"><span class="opt-icon">🏄</span><strong>Privada</strong><small>S/ 150</small></div></label>
-          <label class="clase-opt"><input type="radio" name="tipoClase" value="videoanalisis"/><div class="opt-card"><span class="opt-icon">🎥</span><strong>Video Análisis</strong><small>S/ 180</small></div></label>
+          <label class="clase-opt"><input type="radio" name="tipoClase" value="grupal"/><div class="opt-card"><span class="opt-icon">🌊</span><strong data-i18n="modal.optGrupal">Grupal</strong><small data-i18n="modal.optGrupalSmall">S/ 110 c/u · mín. 2</small></div></label>
+          <label class="clase-opt"><input type="radio" name="tipoClase" value="individual"/><div class="opt-card"><span class="opt-icon">🏄</span><strong data-i18n="modal.optPrivada">Privada</strong><small>S/ 150</small></div></label>
+          <label class="clase-opt"><input type="radio" name="tipoClase" value="videoanalisis"/><div class="opt-card"><span class="opt-icon">🎥</span><strong data-i18n="modal.optVideo">Video Análisis</strong><small>S/ 180</small></div></label>
         </div>
-        <button class="btn-next" onclick="nextStep(2)">Siguiente <i class="fas fa-arrow-right"></i></button>
+        <button class="btn-next" onclick="nextStep(2)"><span data-i18n="modal.next">Siguiente</span> <i class="fas fa-arrow-right"></i></button>
       </div>
 
       <!-- PASO 2: FECHA Y HORARIO -->
       <div class="modal-step hidden" id="paso2">
-        <h3>¿Cuándo quieres surfear?</h3>
+        <h3 data-i18n="modal.h3cuando">¿Cuándo quieres surfear?</h3>
         <div class="form-field">
-          <label for="res-fecha">Fecha</label>
+          <label for="res-fecha" data-i18n="modal.fecha">Fecha</label>
           <input type="date" id="res-fecha" />
         </div>
         <div id="horarios-wrap" style="display:none;">
@@ -695,73 +911,73 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="horarios-grid" id="horarios-grid"></div>
         </div>
         <div class="modal-nav">
-          <button class="btn-back" onclick="nextStep(1)"><i class="fas fa-arrow-left"></i> Atrás</button>
-          <button class="btn-next" onclick="nextStep(3)">Siguiente <i class="fas fa-arrow-right"></i></button>
+          <button class="btn-back" onclick="nextStep(1)"><i class="fas fa-arrow-left"></i> <span data-i18n="modal.back">Atrás</span></button>
+          <button class="btn-next" onclick="nextStep(3)"><span data-i18n="modal.next">Siguiente</span> <i class="fas fa-arrow-right"></i></button>
         </div>
       </div>
 
       <!-- PASO 3: DATOS PERSONALES -->
       <div class="modal-step hidden" id="paso3">
-        <h3>Tus datos</h3>
-        <div class="form-field"><label for="res-nombre">Nombre completo *</label><input type="text" id="res-nombre" placeholder="Tu nombre completo" /></div>
-        <div class="form-field"><label for="res-wsp">WhatsApp *</label><input type="tel" id="res-wsp" placeholder="+51 999 999 999" /></div>
-        <div class="form-field"><label for="res-email">Correo electrónico *</label><input type="email" id="res-email" placeholder="tu@email.com" /></div>
+        <h3 data-i18n="modal.h3datos">Tus datos</h3>
+        <div class="form-field"><label for="res-nombre" data-i18n="modal.nombre">Nombre completo *</label><input type="text" id="res-nombre" placeholder="Tu nombre completo" data-i18n-placeholder="modal.nombrePh" /></div>
+        <div class="form-field"><label for="res-wsp" data-i18n="modal.wsp">WhatsApp *</label><input type="tel" id="res-wsp" placeholder="+51 999 999 999" /></div>
+        <div class="form-field"><label for="res-email" data-i18n="modal.email">Correo electrónico *</label><input type="email" id="res-email" placeholder="tu@email.com" data-i18n-placeholder="modal.emailPh" /></div>
         <div class="form-row-2">
-          <div class="form-field"><label for="res-peso">Peso (kg)</label><input type="number" id="res-peso" placeholder="Ej: 70" min="30" max="200" /></div>
-          <div class="form-field"><label for="res-altura">Altura (cm)</label><input type="number" id="res-altura" placeholder="Ej: 170" min="100" max="220" /></div>
+          <div class="form-field"><label for="res-peso" data-i18n="modal.peso">Peso (kg)</label><input type="number" id="res-peso" placeholder="Ej: 70" data-i18n-placeholder="modal.pesoPh" min="30" max="200" /></div>
+          <div class="form-field"><label for="res-altura" data-i18n="modal.altura">Altura (cm)</label><input type="number" id="res-altura" placeholder="Ej: 170" data-i18n-placeholder="modal.alturaPh" min="100" max="220" /></div>
         </div>
         <div class="form-field">
-          <label for="res-experiencia">¿Has hecho surf antes? *</label>
+          <label for="res-experiencia" data-i18n="modal.expLabel">¿Has hecho surf antes? *</label>
           <select id="res-experiencia">
-            <option value="">Seleccionar</option>
-            <option value="nunca">Nunca he surfeado</option>
-            <option value="pocas">Pocas veces (1-3)</option>
-            <option value="algunas">Algunas veces (4-10)</option>
-            <option value="frecuente">Surfeo frecuentemente</option>
+            <option value="" data-i18n="modal.expSel">Seleccionar</option>
+            <option value="nunca" data-i18n="modal.expNunca">Nunca he surfeado</option>
+            <option value="pocas" data-i18n="modal.expPocas">Pocas veces (1-3)</option>
+            <option value="algunas" data-i18n="modal.expAlgunas">Algunas veces (4-10)</option>
+            <option value="frecuente" data-i18n="modal.expFrecuente">Surfeo frecuentemente</option>
           </select>
         </div>
         <div class="form-field">
-          <label for="res-nivel">Nivel de surf *</label>
+          <label for="res-nivel" data-i18n="modal.nivelLabel">Nivel de surf *</label>
           <select id="res-nivel">
-            <option value="">Seleccionar</option>
-            <option value="principiante">Principiante</option>
-            <option value="basico">Básico</option>
-            <option value="intermedio">Intermedio</option>
-            <option value="avanzado">Avanzado</option>
+            <option value="" data-i18n="modal.expSel">Seleccionar</option>
+            <option value="principiante" data-i18n="modal.nivelPrincipiante">Principiante</option>
+            <option value="basico" data-i18n="modal.nivelBasico">Básico</option>
+            <option value="intermedio" data-i18n="modal.nivelIntermedio">Intermedio</option>
+            <option value="avanzado" data-i18n="modal.nivelAvanzado">Avanzado</option>
           </select>
         </div>
-        <div class="form-field" id="personas-field" style="display:none;"><label for="res-personas">N° de personas * — Grupal: 2 a 5</label><select id="res-personas"><option value="2">2 personas</option><option value="3">3 personas</option><option value="4">4 personas</option><option value="5">5 personas</option></select><small class="field-hint" style="color:var(--gray);font-size:0.72rem;margin-top:4px;display:block">Mínimo 2 personas para clase grupal.</small></div>
+        <div class="form-field" id="personas-field" style="display:none;"><label for="res-personas" data-i18n="modal.personasLabel">N° de personas * — Grupal: 2 a 5</label><select id="res-personas"><option value="2" data-i18n="modal.personas2">2 personas</option><option value="3" data-i18n="modal.personas3">3 personas</option><option value="4" data-i18n="modal.personas4">4 personas</option><option value="5" data-i18n="modal.personas5">5 personas</option></select><small class="field-hint" style="color:var(--gray);font-size:0.72rem;margin-top:4px;display:block" data-i18n="modal.personasHint">Mínimo 2 personas para clase grupal.</small></div>
         <div class="form-field">
-          <label for="res-pago">Medio de pago *</label>
+          <label for="res-pago" data-i18n="modal.pagoLabel">Medio de pago *</label>
           <select id="res-pago">
             <option value="yape">Yape</option>
             <option value="plin">Plin</option>
-            <option value="transferencia">Transferencia</option>
-            <option value="efectivo">Efectivo</option>
+            <option value="transferencia" data-i18n="modal.pagoTransferencia">Transferencia</option>
+            <option value="efectivo" data-i18n="modal.pagoEfectivo">Efectivo</option>
           </select>
         </div>
         <div id="pago-info" class="pago-info">
-          <p><i class="fas fa-info-circle"></i> Coordinas el pago por WhatsApp después de confirmar tu reserva.</p>
+          <p><i class="fas fa-info-circle"></i> <span data-i18n="modal.pagoInfo">Coordinas el pago por WhatsApp después de confirmar tu reserva.</span></p>
         </div>
         <div class="modal-nav">
-          <button class="btn-back" onclick="nextStep(2)"><i class="fas fa-arrow-left"></i> Atrás</button>
-          <button class="btn-next" onclick="nextStep(4)">Ver resumen <i class="fas fa-arrow-right"></i></button>
+          <button class="btn-back" onclick="nextStep(2)"><i class="fas fa-arrow-left"></i> <span data-i18n="modal.back">Atrás</span></button>
+          <button class="btn-next" onclick="nextStep(4)"><span data-i18n="modal.resumen">Ver resumen</span> <i class="fas fa-arrow-right"></i></button>
         </div>
       </div>
 
       <!-- PASO 4: CONFIRMAR -->
       <div class="modal-step hidden" id="paso4">
-        <h3>Confirma tu reserva</h3>
+        <h3 data-i18n="modal.h3confirma">Confirma tu reserva</h3>
         <div class="resumen-box" id="resumenBox"></div>
-        <p class="resumen-nota" id="resumenNota">Confirma tu reserva por WhatsApp y coordina el pago.</p>
+        <p class="resumen-nota" id="resumenNota" data-i18n="modal.resumenNota">Confirma tu reserva por WhatsApp y coordina el pago.</p>
         <div class="modal-nav">
-          <button class="btn-back" onclick="nextStep(3)"><i class="fas fa-arrow-left"></i> Atrás</button>
+          <button class="btn-back" onclick="nextStep(3)"><i class="fas fa-arrow-left"></i> <span data-i18n="modal.back">Atrás</span></button>
           <div class="modal-nav-actions">
             <button class="btn-calendar" id="btnCalendar" onclick="addToCalendar()">
-              <i class="fas fa-calendar-plus"></i> Agregar a mi calendario
+              <i class="fas fa-calendar-plus"></i> <span data-i18n="modal.calendar">Agregar a mi calendario</span>
             </button>
             <button class="btn-whatsapp" id="btnWhatsapp" onclick="confirmarReserva()">
-              <i class="fab fa-whatsapp"></i> Confirmar por WhatsApp
+              <i class="fab fa-whatsapp"></i> <span data-i18n="modal.whatsapp">Confirmar por WhatsApp</span>
             </button>
           </div>
         </div>

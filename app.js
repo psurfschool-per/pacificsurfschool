@@ -1,3 +1,5 @@
+import { t, getLang, getLocale, onLangChange } from './i18n.js';
+
 window.scrollTo(0, 0);
 
 /* ===== WHATSAPP FLOAT (JS — inline styles for mobile reliability) ===== */
@@ -5,7 +7,7 @@ window.scrollTo(0, 0);
   var wa = document.createElement('a');
   wa.href = 'https://wa.me/message/Z3HDXG2KB5VZL1';
   wa.target = '_blank';
-  wa.setAttribute('aria-label', 'Contactar por WhatsApp');
+  wa.setAttribute('aria-label', t('wa.float'));
   wa.setAttribute('role', 'button');
   wa.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:99999;width:58px;height:58px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 4px 20px rgba(37,211,102,0.5);text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;will-change:transform;transform:translateZ(0);-webkit-transform:translateZ(0);';
   wa.innerHTML = '<i class="fab fa-whatsapp"></i>';
@@ -154,7 +156,7 @@ document.querySelectorAll('.stat-item').forEach(el => statObserver.observe(el));
 
 /* ===== FADE-UP ON SCROLL ===== */
 const fadeEls = document.querySelectorAll(
-  '.clase-card, .reason, .gal-item, .stat-item, .faq-item'
+  '.clase-card, .reason, .gal-item, .stat-item, .faq-item, .team-card, .review-bubble, .mem-panel'
 );
 fadeEls.forEach(el => el.classList.add('fade-up'));
 const fadeObserver = new IntersectionObserver((entries) => {
@@ -188,7 +190,10 @@ const modal = overlay.querySelector('.modal');
 let currentStep = 1;
 
 const precios = { individual: 150, grupal: 110, videoanalisis: 180, paquete: 400, paquete8: 720, paquete12: 1020 };
+// Nombres en español: se usan para el mensaje de WhatsApp y el email (los recibe la escuela, que opera en español)
 const nombres = { individual: 'Clase Privada', grupal: 'Clase Grupal', videoanalisis: 'Plan Surf + Video Análisis', paquete: 'Pack x4 Clases', paquete8: 'Pack x8 Clases', paquete12: 'Pack x12 Clases' };
+// Nombre de la clase traducido al idioma activo (UI)
+function nombreClase(tipo) { return t('classes.' + tipo); }
 
 /* ===== HORARIOS POR DÍA ===== */
 const horariosLunesASabado = ['6:00 am', '8:00 am', '10:00 am', '11:30 am', '2:00 pm', '4:00 pm'];
@@ -204,7 +209,7 @@ function openModal(tipo) {
     const radio = document.querySelector(`input[name="tipoClase"][value="${tipo}"]`);
     if (radio) {
       radio.checked = true;
-      radio.closest('.opt-card').classList.add('selected');
+      radio.closest('.clase-opt')?.querySelector('.opt-card')?.classList.add('selected');
       const personasField = document.getElementById('personas-field');
       const personasSel = document.getElementById('res-personas');
       if (personasField) {
@@ -223,7 +228,7 @@ function closeModal() {
 function resetModal() {
   overlay.querySelectorAll('input[type="radio"]').forEach(r => {
     r.checked = false;
-    r.closest('.opt-card')?.classList.remove('selected');
+    r.closest('.clase-opt')?.querySelector('.opt-card')?.classList.remove('selected');
   });
   overlay.querySelectorAll('input[type="text"], input[type="tel"], input[type="date"], input[type="number"]').forEach(i => i.value = '');
   overlay.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
@@ -302,7 +307,7 @@ function nextStep(n) {
 
   if (n === 3) {
     const fecha = document.getElementById('res-fecha');
-    if (!fecha.value) { showError(fecha, 'Selecciona una fecha'); return; }
+    if (!fecha.value) { showError(fecha, t('modal.errFecha')); return; }
     if (!window._horarioSeleccionado) {
       const grid = document.getElementById('horarios-grid');
       if (grid) { grid.classList.add('shake'); setTimeout(() => grid.classList.remove('shake'), 500); }
@@ -320,20 +325,20 @@ function nextStep(n) {
     const nivel = document.getElementById('res-nivel');
     const pago = document.getElementById('res-pago');
 
-    if (!nombre.value.trim()) { showError(nombre, 'Ingresa tu nombre'); return; }
-    if (!wsp.value.trim()) { showError(wsp, 'Ingresa tu WhatsApp'); return; }
-    if (!wsp.value.match(/^[\d\s\+\-]{7,15}$/)) { showError(wsp, 'Formato inválido'); return; }
-    if (!email.value.trim()) { showError(email, 'Ingresa tu correo electrónico'); return; }
-    if (!email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) { showError(email, 'Correo electrónico inválido'); return; }
-    if (!experiencia.value) { showError(experiencia, 'Selecciona tu experiencia'); return; }
-    if (!nivel.value) { showError(nivel, 'Selecciona tu nivel'); return; }
+    if (!nombre.value.trim()) { showError(nombre, t('modal.errNombre')); return; }
+    if (!wsp.value.trim()) { showError(wsp, t('modal.errWsp')); return; }
+    if (!wsp.value.match(/^[\d\s\+\-]{7,15}$/)) { showError(wsp, t('modal.errFormato')); return; }
+    if (!email.value.trim()) { showError(email, t('modal.errEmail')); return; }
+    if (!email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) { showError(email, t('modal.errEmailInvalid')); return; }
+    if (!experiencia.value) { showError(experiencia, t('modal.errExp')); return; }
+    if (!nivel.value) { showError(nivel, t('modal.errNivel')); return; }
     // Validación grupal: mínimo 2 personas
     const tipoSel = document.querySelector('input[name="tipoClase"]:checked')?.value;
     const personasSel = document.getElementById('res-personas');
     if (tipoSel === 'grupal') {
       const n = parseInt(personasSel?.value || '0', 10);
-      if (isNaN(n) || n < 2) { showError(personasSel, 'Mínimo 2 personas para grupal'); return; }
-      if (n > 5) { showError(personasSel, 'Máximo 5 personas para grupal'); return; }
+      if (isNaN(n) || n < 2) { showError(personasSel, t('modal.errMin')); return; }
+      if (n > 5) { showError(personasSel, t('modal.errMax')); return; }
     }
     buildResumen();
   }
@@ -358,15 +363,16 @@ if (fechaInput) {
     const dayOfWeek = date.getDay();
     const esDomingo = dayOfWeek === 0;
     const horarios = esDomingo ? horariosDomingo : horariosLunesASabado;
-    const nombreDia = dias[dayOfWeek];
+    window._horarioDiaIdx = dayOfWeek;
+    const nombreDia = t('dias.' + dayOfWeek);
 
     const horariosWrap = document.getElementById('horarios-wrap');
     const horariosLabel = document.getElementById('horarios-label');
     const horariosGrid = document.getElementById('horarios-grid');
 
-    horariosLabel.textContent = esDomingo
-      ? `Horarios disponibles — ${nombreDia.charAt(0).toUpperCase() + nombreDia.slice(1)}`
-      : `Horarios disponibles — ${nombreDia.charAt(0).toUpperCase() + nombreDia.slice(1)}`;
+    horariosLabel.textContent = t('modal.horarios', {
+      dia: nombreDia.charAt(0).toUpperCase() + nombreDia.slice(1)
+    });
     horariosGrid.innerHTML = horarios.map(h =>
       `<button type="button" class="horario-btn" data-hora="${h}">${h}</button>`
     ).join('');
@@ -389,7 +395,7 @@ overlay.querySelectorAll('.clase-opt input').forEach(radio => {
   radio.addEventListener('change', () => {
     const group = radio.closest('.clase-options');
     group.querySelectorAll('.opt-card').forEach(c => c.classList.remove('selected'));
-    radio.closest('.opt-card').classList.add('selected');
+    radio.closest('.clase-opt')?.querySelector('.opt-card')?.classList.add('selected');
   });
 });
 
@@ -408,7 +414,11 @@ function buildResumen() {
   const personas = document.getElementById('res-personas').value;
   const pago = document.getElementById('res-pago').value;
 
-  const fechaFmt = fecha ? new Date(fecha + 'T12:00:00').toLocaleDateString('es-PE', {
+  const fechaFmt = fecha ? new Date(fecha + 'T12:00:00').toLocaleDateString(getLocale(), {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  }) : '';
+  // Fecha en español: la usan WhatsApp y el email (los recibe la escuela)
+  const fechaEs = fecha ? new Date(fecha + 'T12:00:00').toLocaleDateString('es-PE', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
   }) : '';
 
@@ -416,28 +426,30 @@ function buildResumen() {
   const numPersonas = parseInt(personas) || 1;
   const total = precioUnit * numPersonas;
 
-  const experienciaFmt = { nunca: 'Nunca', pocas: '1-3 veces', algunas: '4-10 veces', frecuente: 'Frecuente' }[experiencia] || experiencia;
-  const nivelFmt = { principiante: 'Principiante', basico: 'Básico', intermedio: 'Intermedio', avanzado: 'Avanzado' }[nivel] || nivel;
-  const pagoFmt = { efectivo: 'Efectivo', yape: 'Yape', plin: 'Plin', transferencia: 'Transferencia', tarjeta: 'Tarjeta' }[pago] || pago;
+  const expKey = { nunca: 'expN', pocas: 'exp1', algunas: 'exp2', frecuente: 'expF' }[experiencia];
+  const experienciaFmt = expKey ? t('modal.' + expKey) : (experiencia || '');
+  const nivKey = { principiante: 'nivelPrincipiante', basico: 'nivelBasico', intermedio: 'nivelIntermedio', avanzado: 'nivelAvanzado' }[nivel];
+  const nivelFmt = nivKey ? t('modal.' + nivKey) : (nivel || '');
+  const pagoFmt = ({ efectivo: () => t('modal.pagoEfectivoS'), transferencia: () => t('modal.pagoTransferenciaS'), tarjeta: () => t('modal.pagoTarjeta'), yape: () => 'Yape', plin: () => 'Plin' }[pago] || (() => pago))();
 
   document.getElementById('resumenBox').innerHTML = `
-    <p><span>Clase:</span> <strong>${nombres[tipo] || tipo}</strong></p>
-    <p><span>Fecha:</span> ${fechaFmt}</p>
-    <p><span>Horario:</span> ${horario}</p>
-    <p><span>Personas:</span> ${personas}</p>
-    <p><span>Nombre:</span> ${nombre}</p>
+    <p><span>${t('modal.rClase')}:</span> <strong>${nombreClase(tipo) || tipo}</strong></p>
+    <p><span>${t('modal.rFecha')}:</span> ${fechaFmt}</p>
+    <p><span>${t('modal.rHorario')}:</span> ${horario}</p>
+    <p><span>${t('modal.rPersonas')}:</span> ${personas}</p>
+    <p><span>${t('modal.rNombre')}:</span> ${nombre}</p>
     <p><span>WhatsApp:</span> ${wsp}</p>
-    <p><span>Correo:</span> ${email}</p>
-    ${peso ? `<p><span>Peso:</span> ${peso} kg</p>` : ''}
-    ${altura ? `<p><span>Altura:</span> ${altura} cm</p>` : ''}
-    <p><span>Experiencia:</span> ${experienciaFmt}</p>
-    <p><span>Nivel:</span> ${nivelFmt}</p>
-    <p><span>Medio de pago:</span> ${pagoFmt}</p>
-    <p class="resumen-total"><span>Total a pagar:</span> <strong>S/ ${total}</strong></p>
+    <p><span>${t('modal.rCorreo')}:</span> ${email}</p>
+    ${peso ? `<p><span>${t('modal.rPeso')}:</span> ${peso} kg</p>` : ''}
+    ${altura ? `<p><span>${t('modal.rAltura')}:</span> ${altura} cm</p>` : ''}
+    <p><span>${t('modal.rExperiencia')}:</span> ${experienciaFmt}</p>
+    <p><span>${t('modal.rNivel')}:</span> ${nivelFmt}</p>
+    <p><span>${t('modal.rPago')}:</span> ${pagoFmt}</p>
+    <p class="resumen-total"><span>${t('modal.rTotal')}:</span> <strong>S/ ${total}</strong></p>
   `;
 
   window._reservaData = {
-    tipo, fecha: fechaFmt, horario, nombre, wsp, email, peso, altura,
+    tipo, fecha: fechaFmt, fechaEs, fechaISO: fecha, horario, nombre, wsp, email, peso, altura,
     experiencia: experienciaFmt, nivel: nivelFmt, personas, pago: pagoFmt,
     precioUnit, total
   };
@@ -464,7 +476,7 @@ function sendConfirmationEmail(data) {
     nombre: data.nombre,
     email: data.email,
     clase: classNames[data.tipo] || data.tipo,
-    fecha: data.fecha,
+    fecha: data.fechaEs || data.fecha,
     horario: data.horario,
     precio: data.total,
     reserva: reservationId
@@ -517,7 +529,7 @@ function confirmarReserva() {
   const msg = encodeURIComponent(
     `Hola! Quiero reservar en Pacific Surf School\n\n` +
     `*Clase:* ${nombres[d.tipo]}\n` +
-    `*Fecha:* ${d.fecha}\n` +
+    `*Fecha:* ${d.fechaEs || d.fecha}\n` +
     `*Horario:* ${d.horario}\n` +
     `*Personas:* ${d.personas}\n` +
     `*Nombre:* ${d.nombre}\n` +
@@ -532,14 +544,14 @@ function confirmarReserva() {
   );
 
   const btn = document.getElementById('btnWhatsapp');
-  btn.innerHTML = '<i class="fas fa-check"></i> ¡Redirigiendo...';
+  btn.innerHTML = '<i class="fas fa-check"></i> ' + t('modal.redirect');
   btn.classList.add('btn-success');
 
   setTimeout(() => {
     window.open(`https://wa.me/51915168620?text=${msg}`, '_blank');
     setTimeout(() => {
       closeModal();
-      btn.innerHTML = '<i class="fab fa-whatsapp"></i> Confirmar por WhatsApp';
+      btn.innerHTML = '<i class="fab fa-whatsapp"></i> <span data-i18n="modal.whatsapp">' + t('modal.whatsapp') + '</span>';
       btn.classList.remove('btn-success');
     }, 1500);
   }, 600);
@@ -550,11 +562,8 @@ function addToCalendar() {
   const d = window._reservaData;
   if (!d) return;
 
-  const dateStr = d.fecha.replace(/(\d+).*?(\d+).*?(\d+)/, (_, y, m, day) => {
-    const months = { enero:'01', febrero:'02', marzo:'03', abril:'04', mayo:'05', junio:'06',
-      julio:'07', agosto:'08', septiembre:'09', octubre:'10', noviembre:'11', diciembre:'12' };
-    return `${y}-${months[m] || '01'}-${day.padStart(2,'0')}`;
-  });
+  // Usa la fecha ISO directamente (evita parsear la fecha formateada en cualquier idioma)
+  const dateStr = (d.fechaISO && /^\d{4}-\d{2}-\d{2}$/.test(d.fechaISO)) ? d.fechaISO : d.fecha;
 
   const timeMap = { '6:00 am':'0600', '8:00 am':'0800', '10:00 am':'1000', '11:30 am':'1130',
     '2:00 pm':'1400', '4:00 pm':'1600' };
@@ -566,10 +575,15 @@ function addToCalendar() {
 
   const params = new URLSearchParams({
     action: 'TEMPLATE',
-    text: `Clase de Surf - ${nombres[d.tipo]}`,
+    text: t('modal.calTitle', { clase: nombreClase(d.tipo) }),
     dates,
     location: 'Playa Barranquito, Lima, Peru',
-    details: `Reserva en Pacific Surf School\nClase: ${nombres[d.tipo]}\nHorario: ${d.horario}\nPersonas: ${d.personas}\nNombre: ${d.nombre}`
+    details: t('modal.calDetails', {
+      clase: nombreClase(d.tipo),
+      horario: d.horario,
+      personas: d.personas,
+      nombre: d.nombre
+    })
   });
 
   window.open(`https://calendar.google.com/calendar/render?${params.toString()}`, '_blank');
@@ -583,9 +597,7 @@ window.addToCalendar = addToCalendar;
 
 /* ===== SURF FORECAST — 4 DAY CARDS — MANUAL DATA ===== */
 
-const DAYS_ES = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-const DAYS_SHORT = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-const MONTHS_ES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+/* Días/meses traducidos vía i18n (t('diasCortos'), t('meses'), t('dias.N')) */
 
 function degToCardinal(deg) {
   if (deg == null || isNaN(deg)) return '--';
@@ -594,7 +606,7 @@ function degToCardinal(deg) {
 }
 
 function evalSurfQuality(waveH, wavePeriod) {
-  if (waveH == null || wavePeriod == null) return { level: 'fair', label: 'Sin datos', emoji: '❓', css: 'q-fair' };
+  if (waveH == null || wavePeriod == null) return { level: 'fair', label: t('forecast.q_nodata'), emoji: '❓', css: 'q-fair' };
   let score = 0;
   if (waveH >= 0.5 && waveH <= 1.0) score += 3;
   else if (waveH > 1.0 && waveH <= 1.8) score += 4;
@@ -605,10 +617,10 @@ function evalSurfQuality(waveH, wavePeriod) {
   else if (wavePeriod >= 11) score += 3;
   else if (wavePeriod >= 8) score += 2;
   else score += 1;
-  if (score >= 10) return { level: 'excellent', label: 'Excelente', emoji: '🤙', css: 'q-excellent' };
-  if (score >= 7) return { level: 'good', label: 'Buenas', emoji: '🏄', css: 'q-good' };
-  if (score >= 4) return { level: 'fair', label: 'Regular', emoji: '🌊', css: 'q-fair' };
-  return { level: 'poor', label: 'Difícil', emoji: '⚠️', css: 'q-poor' };
+  if (score >= 10) return { level: 'excellent', label: t('forecast.q_excellent'), emoji: '🤙', css: 'q-excellent' };
+  if (score >= 7) return { level: 'good', label: t('forecast.q_good'), emoji: '🏄', css: 'q-good' };
+  if (score >= 4) return { level: 'fair', label: t('forecast.q_fair'), emoji: '🌊', css: 'q-fair' };
+  return { level: 'poor', label: t('forecast.q_poor'), emoji: '⚠️', css: 'q-poor' };
 }
 
 /* ===== DATOS MANUALES — EDITAR AQUÍ ===== */
@@ -623,9 +635,9 @@ const FORECAST_DATA = [
 /* ===== FIN DATOS MANUALES ===== */
 
 function buildDayCard(date, data, isToday) {
-  const dayName = isToday ? 'Hoy' : DAYS_SHORT[date.getDay()];
+  const dayName = isToday ? t('forecast.hoy') : t('diasCortos')[date.getDay()];
   const dayNum = date.getDate();
-  const month = MONTHS_ES[date.getMonth()];
+  const month = t('meses')[date.getMonth()];
   const quality = evalSurfQuality(data.olas, data.periodo);
 
   return `
@@ -642,22 +654,22 @@ function buildDayCard(date, data, isToday) {
         <div class="bcm">
           <div class="bcm-icon"><i class="fas fa-water"></i></div>
           <div class="bcm-val">${data.olas}</div>
-          <div class="bcm-lbl">Ola máx (m)</div>
+          <div class="bcm-lbl">${t('forecast.m_wave')}</div>
         </div>
         <div class="bcm">
           <div class="bcm-icon"><i class="fas fa-clock"></i></div>
           <div class="bcm-val">${data.periodo}</div>
-          <div class="bcm-lbl">Período (s)</div>
+          <div class="bcm-lbl">${t('forecast.m_period')}</div>
         </div>
         <div class="bcm">
           <div class="bcm-icon"><i class="fas fa-compass"></i></div>
           <div class="bcm-val">${degToCardinal(data.direccion)}</div>
-          <div class="bcm-lbl">Dirección</div>
+          <div class="bcm-lbl">${t('forecast.m_dir')}</div>
         </div>
         <div class="bcm">
           <div class="bcm-icon"><i class="fas fa-bolt"></i></div>
           <div class="bcm-val">${data.energia}</div>
-          <div class="bcm-lbl">Energía (kJ)</div>
+          <div class="bcm-lbl">${t('forecast.m_energy')}</div>
         </div>
       </div>
 
@@ -691,7 +703,7 @@ function loadBeachData() {
 
   const lastUpdated = document.getElementById('lastUpdated');
   if (lastUpdated) {
-    lastUpdated.textContent = now.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
+    lastUpdated.textContent = now.toLocaleTimeString(getLocale(), { hour: '2-digit', minute: '2-digit' });
   }
 }
 
@@ -731,7 +743,7 @@ function initCarousel() {
     const dot = document.createElement('button');
     dot.className = 'dot' + (i === 0 ? ' active' : '');
     dot.setAttribute('role', 'tab');
-    dot.setAttribute('aria-label', `Imagen ${i + 1} de ${total}`);
+    dot.setAttribute('aria-label', t('galeria.dotAria', { i: i + 1, total }));
     dot.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
     dot.addEventListener('click', () => goToReal(i));
     dotsContainer.appendChild(dot);
@@ -745,7 +757,7 @@ function initCarousel() {
       const btn = document.createElement('button');
       btn.className = 'gallery-thumb' + (i === 0 ? ' active' : '');
       btn.type = 'button';
-      btn.setAttribute('aria-label', `Ver ${img?.alt || 'imagen ' + (i+1)}`);
+      btn.setAttribute('aria-label', img?.alt || t('galeria.thumbAria', { i: i + 1 }));
       btn.innerHTML = `<img src="${img.src}" alt="" loading="lazy" decoding="async"/>`;
       btn.addEventListener('click', () => goToReal(i));
       thumbsWrap.appendChild(btn);
@@ -906,6 +918,7 @@ let claseIsAnimating = false;
 let claseClonesCount = 0;
 let claseTotalReal = 0;
 let clasesUIBound = false; // listeners globales (botones/drag/resize) se enlazan una sola vez
+let claseStatic = false; // true = todas las cards caben: se muestran fijas, sin carrusel
 
 function claseGetVisible() {
   const w = window.innerWidth;
@@ -937,9 +950,9 @@ function claseSyncUI(){
   }
   if (counter) counter.innerHTML = `<strong>${String(claseIdx+1).padStart(2,'0')}</strong> / ${String(pages).padStart(2,'0')}`;
   if (track){
-    const realCards = track.querySelectorAll('.clase-card:not(.is-clone)');
+    const realCards = track.querySelectorAll('.clase-card:not(.is-clone):not([hidden])');
     realCards.forEach((c,i)=>{
-      const on = i >= claseIdx && i < claseIdx + claseGetVisible();
+      const on = claseStatic || (i >= claseIdx && i < claseIdx + claseGetVisible());
       c.setAttribute('aria-hidden', on ? 'false' : 'true');
     });
   }
@@ -953,6 +966,7 @@ function claseJumpWithoutAnim(track, newPos){
   track.style.transition = '';
 }
 function claseGoToReal(n, fromAuto=false){
+  if (claseStatic) return;
   const track = document.getElementById('clasesTrack') || document.querySelector('.clases-track');
   if (!track || claseIsAnimating) return;
   const pages = claseGetPages();
@@ -1011,7 +1025,7 @@ function resetClasesTimer(){
   clearInterval(clasesTimer);
   cancelAnimationFrame(clasesRaf);
   const pages = claseGetPages();
-  if (pages <= 1){ // 3 cards en desktop = sin carrusel
+  if (claseStatic || pages <= 1){ // modo fijo: sin autoplay ni controles
     const ctr = document.getElementById('clasesCounter');
     const dots = document.getElementById('clasesDots');
     if (ctr) ctr.style.display = 'none';
@@ -1089,10 +1103,20 @@ function initClasesCarousel() {
   claseTotalReal = realCards.length;
   if (claseTotalReal === 0) return;
   const visible = claseGetVisible();
-  claseClonesCount = visible;
+
+  // — Modo fijo (decisión del cliente): las 3 cards siempre fijas, sin carrusel —
+  claseStatic = true;
+  if (carousel) carousel.classList.add('is-static');
+  track.style.transition = 'none';
+  track.style.transform = 'none';
+  claseClonesCount = visible; // mantiene el invariante con el handler de resize
+  claseIdx = 0;
+  clasePos = 0;
+  window._claseIdx = 0;
   const pages = claseGetPages();
 
-  // crea clones
+  // crea clones (solo en modo carrusel)
+  if (!claseStatic) {
   const fragStart = document.createDocumentFragment();
   const fragEnd = document.createDocumentFragment();
   for (let i = claseTotalReal - visible; i < claseTotalReal; i++){
@@ -1110,12 +1134,13 @@ function initClasesCarousel() {
   }
   track.prepend(fragStart);
   track.append(fragEnd);
+  }
 
   // — interactividad: card clic + teclado + tilt sutil (sin info nueva) —
   realCards.forEach(card=>{
     card.setAttribute('tabindex','0');
     card.setAttribute('role','button');
-    card.setAttribute('aria-label', `Reservar ${card.querySelector('h3')?.textContent?.trim() || 'clase'}`);
+    card.setAttribute('aria-label', t('clases.cardAria', { name: card.querySelector('h3')?.textContent?.trim() || '' }));
     card.addEventListener('click', e=>{
       if (e.target.closest('.btn-reservar-card')) return;
       const tipo = card.dataset.clase;
@@ -1144,7 +1169,7 @@ function initClasesCarousel() {
       b.className='dot'+(i===0?' active':'');
       b.type='button';
       b.setAttribute('role','tab');
-      b.setAttribute('aria-label',`Grupo ${i+1} de ${pages}`);
+      b.setAttribute('aria-label', t('clases.dotAria', { i: i + 1, total: pages }));
       b.setAttribute('aria-selected', i===0?'true':'false');
       b.addEventListener('click', ()=> claseGoToReal(i));
       dotsWrap.appendChild(b);
@@ -1152,13 +1177,16 @@ function initClasesCarousel() {
   }
 
   // pos inicial
-  const startIdx = typeof window._claseIdx==='number' ? Math.max(0, Math.min(pages-1, window._claseIdx)) : 0;
-  claseIdx = startIdx;
-  clasePos = claseClonesCount + startIdx;
+  claseIdx = 0;
+  clasePos = 0;
   track.style.transition='none';
-  track.style.transform=`translateX(-${clasePos * claseGetStep(track)}px)`;
-  void track.offsetHeight;
-  track.style.transition='';
+  if (!claseStatic) {
+    track.style.transform=`translateX(-${clasePos * claseGetStep(track)}px)`;
+    void track.offsetHeight;
+    track.style.transition='';
+  } else {
+    track.style.transform='none';
+  }
   claseSyncUI();
 
   if (prevBtn && !clasesUIBound) prevBtn.addEventListener('click', claseCarouselPrev);
@@ -1179,6 +1207,7 @@ function initClasesCarousel() {
   let isDown=false, startX=0, startPosPx=0, moved=false;
   const getTx = ()=> clasePos * claseGetStep(track);
   track.addEventListener('pointerdown', e=>{
+    if(claseStatic) return;
     if(e.pointerType==='touch') return;
     isDown=true; moved=false;
     track.classList.add('is-dragging');
@@ -1216,7 +1245,7 @@ function initClasesCarousel() {
 
   // touch swipe
   let tStart=0;
-  track.addEventListener('touchstart', e=>{ tStart=e.touches[0].clientX; pauseClases(); }, {passive:true});
+  track.addEventListener('touchstart', e=>{ if(claseStatic) return; tStart=e.touches[0].clientX; pauseClases(); }, {passive:true});
   track.addEventListener('touchend', e=>{
     const diff=tStart - e.changedTouches[0].clientX;
     if(Math.abs(diff)>48) claseGoToReal(diff>0?claseIdx+1:claseIdx-1);
@@ -1294,3 +1323,33 @@ document.addEventListener('DOMContentLoaded', initScrollAnimations);
 window.loadBeachData = loadBeachData;
 window.claseCarouselPrev = claseCarouselPrev;
 window.claseCarouselNext = claseCarouselNext;
+
+/* ===== CAMBIO DE IDIOMA EN VIVO ===== */
+onLangChange(() => {
+  // Tarjetas del pronóstico (días, meses, métricas)
+  loadBeachData();
+
+  // aria-labels de los dots de los carruseles
+  const gdots = document.querySelectorAll('#carouselDots .dot');
+  gdots.forEach((d, i) => d.setAttribute('aria-label', t('galeria.dotAria', { i: i + 1, total: gdots.length })));
+  const cdots = document.querySelectorAll('#clasesDots .dot');
+  cdots.forEach((d, i) => d.setAttribute('aria-label', t('clases.dotAria', { i: i + 1, total: cdots.length })));
+
+  // Etiqueta de horarios si el paso 2 del modal está abierto
+  const wrap = document.getElementById('horarios-wrap');
+  if (wrap && wrap.style.display !== 'none' && window._horarioDiaIdx != null) {
+    const label = document.getElementById('horarios-label');
+    const nombreDia = t('dias.' + window._horarioDiaIdx);
+    if (label) label.textContent = t('modal.horarios', { dia: nombreDia.charAt(0).toUpperCase() + nombreDia.slice(1) });
+  }
+
+  // Resumen si el paso 4 está abierto (reconstruye con el nuevo idioma)
+  const paso4 = document.getElementById('paso4');
+  if (paso4 && !paso4.classList.contains('hidden') && window._reservaData) buildResumen();
+
+  // Botón de WhatsApp si el modal está abierto
+  const btn = document.getElementById('btnWhatsapp');
+  if (btn && overlay && overlay.classList.contains('open')) {
+    btn.innerHTML = '<i class="fab fa-whatsapp"></i> <span data-i18n="modal.whatsapp">' + t('modal.whatsapp') + '</span>';
+  }
+});
