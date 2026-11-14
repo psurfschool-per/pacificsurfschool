@@ -41,7 +41,9 @@ es: {
     title: "Clases de Surf<br>en <span class=\"highlight-yellow\">Lima</span>",
     strong: "Surfing por primera vez?",
     desc: "Aprende con instructores capacitados. Desde cero hasta el nivel avanzado en la costa verde, Lima.",
-    langsLabel: "Clases en"
+    langsLabel: "Clases en",
+    sticker1: "★ 5.0 en Google",
+    sticker2: "+800 alumnos"
   },
   stats: {
     alumnos: "Alumnos formados",
@@ -423,7 +425,9 @@ en: {
     title: "Surf Lessons<br>in <span class=\"highlight-yellow\">Lima</span>",
     strong: "Surfing for the first time?",
     desc: "Learn with trained instructors. From zero to advanced level on Lima's Costa Verde.",
-    langsLabel: "Lessons in"
+    langsLabel: "Lessons in",
+    sticker1: "★ 5.0 on Google",
+    sticker2: "+800 students"
   },
   stats: {
     alumnos: "Students trained",
@@ -805,7 +809,9 @@ de: {
     title: "Surfkurse<br>in <span class=\"highlight-yellow\">Lima</span>",
     strong: "Zum ersten Mal surfen?",
     desc: "Lerne bei ausgebildeten Instruktoren. Von null bis zum fortgeschrittenen Niveau an Limas Costa Verde.",
-    langsLabel: "Kurse auf"
+    langsLabel: "Kurse auf",
+    sticker1: "★ 5.0 bei Google",
+    sticker2: "+800 Schüler"
   },
   stats: {
     alumnos: "Ausbildende Schüler",

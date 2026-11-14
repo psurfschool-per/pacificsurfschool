@@ -2533,3 +2533,111 @@ body {
   .mem-price b { font-size: 2.4rem; }
   .hero-image-bg { box-shadow: 5px 5px 0 var(--pink); }
 }
+
+/* ============================================================
+   ? PARIDAD EXACTA CON EL MOCKUP (valores calzados al píxel)
+   ============================================================ */
+.tag { border-radius: 99px; font-weight: 800; font-size: 0.74rem; padding: 7px 16px; letter-spacing: 0.08em; box-shadow: 4px 4px 0 var(--dark); }
+.section-head h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); }
+.clase-card { border-radius: 26px; }
+.clase-card.featured { border-color: var(--dark); }
+.clase-card.featured:hover { border-color: var(--dark); }
+.clase-body h3 { font-size: 1.3rem; font-weight: 900; }
+.clase-precio .precio { font-size: 1.9rem; font-weight: 900; color: var(--dark); letter-spacing: normal; }
+.clase-badge { background: var(--white); color: var(--dark); border: 3px solid var(--dark); border-radius: 99px; box-shadow: 3px 3px 0 var(--dark); font-weight: 800; font-size: 0.74rem; padding: 5px 13px; text-transform: uppercase; letter-spacing: normal; }
+.popular-ribbon { background: var(--pink); color: var(--white); border: 3px solid var(--dark); border-radius: 99px; padding: 6px 14px; font-weight: 900; font-size: 0.72rem; text-transform: uppercase; box-shadow: 3px 3px 0 var(--dark); }
+.stat-item { border-radius: 22px; padding: 20px 10px; }
+.reason { border-radius: 18px; box-shadow: 5px 5px 0 var(--dark); padding: 16px; }
+.team-card { border-radius: 26px; }
+.review-bubble { border-radius: 22px; }
+.day-card { border-radius: 22px; }
+.faq-item { background: var(--light); border: 2.5px solid var(--dark); border-radius: 16px; box-shadow: 4px 4px 0 var(--dark); font-size: 0.9rem; }
+.team-role { border-radius: 99px; font-size: 0.7rem; font-weight: 900; padding: 3px 12px; text-transform: uppercase; letter-spacing: normal; }
+.rb-avatar { width: 36px; height: 36px; background: var(--yellow); border: 3px solid var(--dark); box-shadow: 2px 2px 0 var(--dark); color: var(--dark); }
+.slide-caption { background: var(--white); border: 2.5px solid var(--dark); border-radius: 99px; padding: 4px 12px; font-size: 0.72rem; font-weight: 800; box-shadow: 3px 3px 0 var(--dark); letter-spacing: normal; }
+.mapa-wrap { box-shadow: 5px 5px 0 var(--ocean); }
+.camden-product { border-radius: 22px; box-shadow: 7px 7px 0 var(--yellow); }
+.hero-image-bg { border-radius: 32px; box-shadow: 10px 10px 0 var(--pink); }
+.hero-text-box h1 { font-weight: 900; }
+.hero-desc { font-size: 1.05rem; font-weight: 500; line-height: 1.6; text-shadow: 2px 2px 0 rgba(22,35,43,0.5); }
+.btn-primary-clean, .btn-reservar-nav, .btn-secondary-clean { font-size: 0.9rem; padding: 12px 24px; box-shadow: 7px 7px 0 var(--dark); }
+.mem-left h3 { letter-spacing: -0.02em; }
+.mem-cta { font-size: 0.9rem; padding: 12px 24px; box-shadow: 7px 7px 0 rgba(0,0,0,0.45); }
+.mem-sticker { font-size: 0.8rem; padding: 9px 15px; }
+
+/* --- Stickers del hero (como el mockup) --- */
+.hero-sticker {
+  position: absolute; z-index: 3; background: var(--yellow); color: var(--dark);
+  font-weight: 900; font-size: 0.8rem; border: 3px solid var(--dark);
+  border-radius: 16px; padding: 9px 15px; box-shadow: 5px 5px 0 var(--dark);
+}
+.hs1 { top: 26px; right: 26px; transform: rotate(5deg); }
+.hs2 { bottom: 26px; left: 26px; transform: rotate(-4deg); background: var(--pink); color: var(--white); }
+
+/* --- Móvil: valores EXACTOS del mockup (anulan reducciones previas) --- */
+@media (max-width: 640px) {
+  .tag { box-shadow: 4px 4px 0 var(--dark); }
+  .clase-card { border-radius: 22px; }
+  .clase-card, .team-card, .review-bubble, .stat-item, .day-card { box-shadow: 7px 7px 0 var(--dark); }
+  .clase-card.featured { box-shadow: 7px 7px 0 var(--pink); }
+  .clase-card.featured:hover { box-shadow: 7px 7px 0 var(--pink); }
+  .clase-card:hover, .team-card:hover { box-shadow: 7px 7px 0 var(--dark); }
+  .camden-product { border-radius: 22px; box-shadow: 7px 7px 0 var(--yellow); }
+  .stat-item { padding: 16px 10px; border-radius: 18px; }
+  .stat-item strong { font-size: 1.75rem; }
+  .reason { padding: 14px; }
+  .faq-item { box-shadow: 4px 4px 0 var(--dark); border-radius: 16px; }
+  .hero-image-bg { inset: 14px; border-radius: 24px; box-shadow: 7px 7px 0 var(--pink); }
+  .hero-actions-clean .btn-primary-clean, .hero-actions-clean .btn-secondary-clean { padding: 13px 20px; box-shadow: 7px 7px 0 var(--dark); }
+  .hero-sticker { display: none; }
+  .mem-panel { border-radius: 24px; box-shadow: 8px 8px 0 var(--pink); padding: 36px 22px 26px; gap: 20px; }
+  .mem-left h3 { font-size: 1.5rem; }
+  .mem-perks { gap: 8px; margin-top: 16px; }
+  .mem-perks li { font-size: 0.76rem; padding: 7px 12px; }
+  .mem-price { width: 100%; transform: none; padding: 16px; }
+  .mem-cta { width: 100%; text-align: center; box-shadow: 7px 7px 0 rgba(0,0,0,0.45); }
+  .mem-sticker { left: 16px; top: -18px; font-size: 0.75rem; padding: 7px 14px; }
+  .btn-primary-clean, .btn-reservar-nav, .btn-secondary-clean, .lang-btn { box-shadow: 7px 7px 0 var(--dark); }
+  .hamburger { box-shadow: 4px 4px 0 var(--dark); }
+  .slide-caption { box-shadow: 3px 3px 0 var(--dark); font-size: 0.72rem; padding: 4px 12px; }
+  .team-role { box-shadow: 3px 3px 0 var(--dark); }
+  .tag { font-size: 0.74rem; padding: 7px 16px; }
+}
+@media (max-width: 400px) {
+  .stat-item strong { font-size: 1.6rem; }
+  .clase-precio .precio { font-size: 1.7rem; }
+  .mem-price b { font-size: 2.4rem; }
+  .mem-panel { box-shadow: 8px 8px 0 var(--pink); border-radius: 24px; }
+  .clase-card, .team-card, .review-bubble, .stat-item, .day-card { box-shadow: 7px 7px 0 var(--dark); }
+  .clase-card.featured { box-shadow: 7px 7px 0 var(--pink); }
+  .hero-image-bg { box-shadow: 7px 7px 0 var(--pink); border-radius: 24px; }
+  .mem-sticker { font-size: 0.75rem; padding: 7px 14px; }
+}
+
+/* --- Cierre de diferencias finales (medidas) --- */
+.popular-ribbon { display: block; }
+.rb-avatar { font-weight: 900; }
+.hero-image-bg { background: #000; }
+.hero-desc { color: var(--white); }
+.faq-item { padding: 12px 14px; }
+.faq-q { padding: 10px 0; }
+.faq-a { padding: 6px 0 0; }
+@media (max-width: 640px) {
+  .section-head h2 { font-size: 1.7rem; letter-spacing: -0.02em; }
+  .hero-desc { font-size: 0.95rem; margin-top: 14px; }
+}
+
+/* --- Últimos ajustes de paridad --- */
+.clase-img .popular-ribbon { display: block; }
+.faq-q { display: block; width: 100%; text-align: start; font-weight: 700; font-size: 0.9rem; padding: 10px 0; margin: -10px 0; }
+
+/* gap normal exacto (el gap en block no afecta visualmente, pero iguala el cómputo) */
+.clase-img .popular-ribbon { gap: normal; }
+.faq-q { gap: normal; }
+
+/* --- Paridad de layout: CTA de membresía a ancho natural (como el mockup) --- */
+.mem-cta { display: inline-block; width: auto; }
+@media (max-width: 640px) {
+  .mem-cta { display: block; width: 100%; text-align: center; }
+  .membresia { padding-left: 16px; padding-right: 16px; }
+}
