@@ -144,6 +144,9 @@ es: {
     b6t: "Comunidad PSS",
     b6d: "Acceso a paseos de surf y eventos para miembros.",
     sticker: "🎉 Invitado del mes incluido",
+    planTitle: "Tu plan mensual",
+    planSub: "Todo lo que necesitas para surfear cada semana — vigencia de 30 días",
+    priceSub: "al mes · 30 días",
     cta: "Reservar por WhatsApp"
   },
   resenas: {
@@ -523,6 +526,9 @@ en: {
     b6t: "PSS community",
     b6d: "Access to surf trips and events for members.",
     sticker: "🎉 Guest of the month included",
+    planTitle: "Your monthly plan",
+    planSub: "Everything you need to surf every week — valid for 30 days",
+    priceSub: "per month · 30 days",
     cta: "Book via WhatsApp"
   },
   resenas: {
@@ -902,6 +908,9 @@ de: {
     b6t: "PSS-Community",
     b6d: "Zugang zu Surftrips und Events für Mitglieder.",
     sticker: "🎉 Gast des Monats inklusive",
+    planTitle: "Dein Monatsplan",
+    planSub: "Alles, was du brauchst, um jede Woche zu surfen — gültig 30 Tage",
+    priceSub: "pro Monat · 30 Tage",
     cta: "Per WhatsApp buchen"
   },
   resenas: {
