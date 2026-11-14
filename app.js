@@ -9,7 +9,7 @@ window.scrollTo(0, 0);
   wa.target = '_blank';
   wa.setAttribute('aria-label', t('wa.float'));
   wa.setAttribute('role', 'button');
-  wa.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:99999;width:58px;height:58px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 4px 20px rgba(37,211,102,0.5);text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;will-change:transform;transform:translateZ(0);-webkit-transform:translateZ(0);';
+  wa.style.cssText = 'position:fixed;bottom:calc(24px + env(safe-area-inset-bottom,0px));right:24px;z-index:99999;width:58px;height:58px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 4px 20px rgba(37,211,102,0.5);text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;will-change:transform;transform:translateZ(0);-webkit-transform:translateZ(0);';
   wa.innerHTML = '<i class="fab fa-whatsapp"></i>';
   wa.addEventListener('mouseenter', function(){ this.style.transform='scale(1.1)'; this.style.boxShadow='0 8px 30px rgba(37,211,102,0.6)'; });
   wa.addEventListener('mouseleave', function(){ this.style.transform='translateZ(0)'; this.style.boxShadow='0 4px 20px rgba(37,211,102,0.5)'; });
@@ -18,14 +18,14 @@ window.scrollTo(0, 0);
     wa.style.width = '52px';
     wa.style.height = '52px';
     wa.style.fontSize = '1.4rem';
-    wa.style.bottom = '16px';
+    wa.style.bottom = 'calc(16px + env(safe-area-inset-bottom,0px))';
     wa.style.right = '16px';
   }
   if (window.innerWidth <= 360) {
     wa.style.width = '48px';
     wa.style.height = '48px';
     wa.style.fontSize = '1.3rem';
-    wa.style.bottom = '14px';
+    wa.style.bottom = 'calc(14px + env(safe-area-inset-bottom,0px))';
     wa.style.right = '14px';
   }
 })();
