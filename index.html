@@ -208,43 +208,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <main>
 <!-- HERO -->
-<section class="hero" id="inicio">
-  <div class="hero-image-bg">
-    <span class="hero-sticker hs1" data-i18n="hero.sticker1">★ 5.0 en Google</span>
-    <span class="hero-sticker hs2" data-i18n="hero.sticker2">+800 alumnos</span>
-    <picture>
-      <img src="img/hero.jpeg" alt="Pacific Surf School en Playa Barranquito" class="hero-img" width="1200" height="800" fetchpriority="high" decoding="async"/>
-    </picture>
-    <div class="hero-overlay-clean"></div>
-  </div>
-  <div class="hero-content-clean">
-    <div class="hero-text-box">
-      <h1 data-i18n-html="hero.title">Clases de Surf<br/>en <span class="highlight-yellow">Lima</span></h1>
-      <p class="hero-desc"><strong data-i18n="hero.strong">Surfing por primera vez?</strong> <span data-i18n="hero.desc">Aprende con instructores capacitados. Desde cero hasta el nivel avanzado en la costa verde, Lima.</span></p>
-      <div class="hero-actions-clean">
-        <button class="btn-primary-clean" onclick="openModal()"><span data-i18n="nav.reservar">Reservar Clase</span></button>
-        <a href="https://wa.me/51915168620" target="_blank" class="btn-secondary-clean">
-          <i class="fab fa-whatsapp"></i> WhatsApp
-        </a>
+<header class="hero" id="inicio">
+  <div class="hero-box">
+    <span class="sticker s1" data-i18n="hero.sticker1">★ 5.0 en Google</span>
+    <span class="sticker s2" data-i18n="hero.sticker2">+800 alumnos</span>
+    <img class="bg" src="img/hero.jpeg" alt="Pacific Surf School" width="1200" height="800" fetchpriority="high" decoding="async"/>
+    <div class="hero-content">
+      <h1 data-i18n-html="hero.title">Clases de Surf<br/>en <u>Lima</u></h1>
+      <p class="sub"><strong data-i18n="hero.strong">¿Surfear por primera vez?</strong> <span data-i18n="hero.desc">Aprende con instructores capacitados. Desde cero hasta el nivel avanzado en la Costa Verde.</span></p>
+      <div class="cta">
+        <button class="btn btn-p" onclick="openModal()"><span data-i18n="nav.reservar">Reservar Clase</span></button>
+        <a href="https://wa.me/51915168620" target="_blank" class="btn btn-y"><i class="fab fa-whatsapp"></i> WhatsApp</a>
       </div>
-      <div class="hero-langs">
-        <span class="hero-langs-label" data-i18n="hero.langsLabel">Clases en</span>
-        <span class="lang-pill">🇪🇸 <span data-i18n="lang.es">Español</span></span>
-        <span class="lang-pill">🇬🇧 <span data-i18n="lang.en">English</span></span>
-        <span class="lang-pill">🇩🇪 <span data-i18n="lang.de">Deutsch</span></span>
+      <div class="idiomas">
+        <span class="idi">🇪🇸 <span data-i18n="lang.es">Español</span></span>
+        <span class="idi">🇬🇧 <span data-i18n="lang.en">English</span></span>
+        <span class="idi">🇩🇪 <span data-i18n="lang.de">Deutsch</span></span>
       </div>
     </div>
   </div>
-</section>
+</header>
 
 <!-- STATS -->
-<section class="stats-bar">
-  <div class="stats-inner">
-    <div class="stat-item"><strong>+800</strong><span data-i18n="stats.alumnos">Alumnos formados</span></div>
-    <div class="stat-item"><strong>5★</strong><span data-i18n="stats.google">Calificación Google</span></div>
-    <div class="stat-item"><strong>10+</strong><span data-i18n="stats.experiencia">Años de experiencia</span></div>
-  </div>
-</section>
+<div class="stats">
+  <div class="stat"><b>+800</b><span data-i18n="stats.alumnos">Alumnos formados</span></div>
+  <div class="stat"><b>5★</b><span data-i18n="stats.google">Calificación Google</span></div>
+  <div class="stat"><b>10+</b><span data-i18n="stats.experiencia">Años de experiencia</span></div>
+</div>
 
 <!-- CLASES -->
 <section class="clases" id="clases">
