@@ -262,17 +262,17 @@ es: {
   faq: {
     tag: "Preguntas frecuentes",
     q1: "¿Necesito saber nadar para tomar clases?",
-    a1: "No es obligatorio ser nadador experto. Nuestros instructores te enseñan técnicas de seguridad y siempre estamos contigo en el agua. Eso sí, debes sentirte cómodo/a en el mar.",
+    a1: "No es obligatorio. Te enseñamos técnicas de seguridad en el agua.",
     q2: "¿Qué debo llevar a la clase?",
-    a2: "Traje de baño, bloqueador solar resistente al agua, agua para hidratarte y muchas ganas. Todo el equipo de surf (tabla, neopreno, leash) está incluido en el precio.",
+    a2: "Traje de baño, bloqueador solar y ganas. El equipo de surf va incluido.",
     q3: "¿Cuáles son los horarios disponibles?",
-    a3: "Ofrecemos turnos de mañana (6am, 8am, 10am) y tarde (4pm, 6pm) de lunes a domingo. Los horarios exactos se confirman al reservar según disponibilidad y condición del mar.",
+    a3: "Mañanas (6am, 8am, 10am) y tardes (4pm, 6pm), de lunes a domingo.",
     q4: "¿Puedo cancelar o reprogramar mi clase?",
-    a4: "Sí. Puedes cancelar o reprogramar sin costo hasta 48 horas antes de tu clase. Después de ese plazo se aplica una penalidad del 50%.",
+    a4: "Sí, gratis hasta 48 horas antes. Después aplica 50%.",
     q5: "¿Qué pasa si el mar está muy picado?",
-    a5: "La seguridad es lo primero. Si las condiciones del mar no son aptas, reprogramamos tu clase sin ningún costo adicional.",
+    a5: "Si el mar no está apto, reprogramamos sin costo.",
     q6: "¿Hay clases para niños?",
-    a6: "¡Sí! Tenemos clases para niños desde los 7 años con instructores especializados en surf infantil y medidas de seguridad adicionales."
+    a6: "¡Sí! Desde 7 años con instructores especializados."
   },
   footer: {
     lugar: "Playa Barranquito, Lima, Perú",
@@ -646,17 +646,17 @@ en: {
   faq: {
     tag: "Frequently asked questions",
     q1: "Do I need to know how to swim to take lessons?",
-    a1: "You don't have to be an expert swimmer. Our instructors teach you safety techniques and we're always with you in the water. You should, however, feel comfortable in the sea.",
+    a1: "Not necessary. We teach you water safety techniques.",
     q2: "What should I bring to the lesson?",
-    a2: "Swimwear, water-resistant sunscreen, water to stay hydrated and lots of enthusiasm. All surf gear (board, wetsuit, leash) is included in the price.",
+    a2: "Swimsuit, sunscreen and good vibes. Surf gear included.",
     q3: "What time slots are available?",
-    a3: "We offer morning slots (6am, 8am, 10am) and afternoon slots (4pm, 6pm), Monday to Sunday. Exact times are confirmed when you book, depending on availability and sea conditions.",
+    a3: "Mornings (6am, 8am, 10am) and afternoons (4pm, 6pm), Monday to Sunday.",
     q4: "Can I cancel or reschedule my lesson?",
-    a4: "Yes. You can cancel or reschedule free of charge up to 48 hours before your lesson. After that, a 50% fee applies.",
+    a4: "Yes, free up to 48h before. After that, 50% fee.",
     q5: "What if the sea is too rough?",
-    a5: "Safety comes first. If sea conditions are not suitable, we reschedule your lesson at no extra cost.",
+    a5: "If the sea isn't suitable, we reschedule for free.",
     q6: "Are there lessons for kids?",
-    a6: "Yes! We have lessons for kids from 7 years old with instructors specialized in children's surf and additional safety measures."
+    a6: "Yes! From 7 years old with specialized instructors."
   },
   footer: {
     lugar: "Barranquito Beach, Lima, Peru",
@@ -1030,17 +1030,17 @@ de: {
   faq: {
     tag: "Häufige Fragen",
     q1: "Muss ich schwimmen können, um Kurse zu nehmen?",
-    a1: "Du musst kein Experte im Schwimmen sein. Unsere Instruktoren bringen dir Sicherheitstechniken bei und sind immer bei dir im Wasser. Du solltest dich im Meer jedoch wohlfühlen.",
+    a1: "Nicht nötig. Wir bringen dir Sicherheitstechniken bei.",
     q2: "Was soll ich zum Kurs mitbringen?",
-    a2: "Badekleidung, wasserfeste Sonnencreme, Wasser zum Trinken und viel Lust. Die gesamte Surfausrüstung (Brett, Neopren, Leash) ist im Preis enthalten.",
+    a2: "Badekleidung, Sonnencreme und gute Laune. Surfausrüstung inklusive.",
     q3: "Welche Zeiten gibt es?",
-    a3: "Wir bieten Vormittagstermine (6, 8, 10 Uhr) und Nachmittagstermine (16, 18 Uhr) von Montag bis Sonntag. Die genauen Zeiten werden bei der Buchung je nach Verfügbarkeit und Meeresbedingungen bestätigt.",
+    a3: "Vormittags (6, 8, 10 Uhr) und nachmittags (16, 18 Uhr), Montag bis Sonntag.",
     q4: "Kann ich meinen Kurs absagen oder verschieben?",
-    a4: "Ja. Du kannst bis 48 Stunden vor dem Kurs kostenlos absagen oder verschieben. Danach fällt eine Gebühr von 50 % an.",
+    a4: "Ja, kostenlos bis 48h vorher. Danach 50% Gebühr.",
     q5: "Was, wenn das Meer zu wild ist?",
-    a5: "Sicherheit hat Vorrang. Wenn die Meeresbedingungen ungeeignet sind, verschieben wir deinen Kurs ohne zusätzliche Kosten.",
+    a5: "Wenn das Meer ungeeignet ist, verschieben wir kostenlos.",
     q6: "Gibt es Kurse für Kinder?",
-    a6: "Ja! Wir haben Kurse für Kinder ab 7 Jahren mit auf Kinder spezialisierten Instruktoren und zusätzlichen Sicherheitsmaßnahmen."
+    a6: "Ja! Ab 7 Jahren mit spezialisierten Instruktoren."
   },
   footer: {
     lugar: "Barranquito-Strand, Lima, Peru",
